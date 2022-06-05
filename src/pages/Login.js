@@ -35,15 +35,13 @@ const Login = () =>{
 			  	setTest(result);
 			  	console.log(result);
 			  	
-				if(test[10] == 't'){
+				if(test[10] == '200'){
 			  		navigate('/account/dashboard');
 			  		}
-				if(test[10] !== 't'){
-				  		alert("Invalid User");
-				  	}
 			  })
 			  .catch(error => console.log('error', error));    
-          };  
+          }; 
+    const show = [Object.values(test[2])]; 
 
     const onChange = (e) => {    
                 e.persist();      
@@ -58,6 +56,7 @@ const Login = () =>{
 		    <div class="row justify-content-center">
 		        <div class="col-md-8">
 		            <div class="card">
+		            {show}
 		                <div class="card-header">Login</div>
 		                <div class="card-body">
 		                    <form method="POST" action="#" onSubmit={handleSubmit}>

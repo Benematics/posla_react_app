@@ -7,11 +7,10 @@ import ModalDialog from '../components/ModalDialog';
 import Container from '../components/Container';
 
 const HomePage = () => {
+	const index = "1";
 	return(
 <>
-	<Header/>
-		<ModalDialog/>
-		<Container/>
+	<Container/>
 	<Footer/>
 </>
 		)

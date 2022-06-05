@@ -84,6 +84,13 @@ import OrderRequirement from './pages/OrderRequirement';
 import OrderDeliver from './pages/OrderDeliver';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import RegistrationSuccess from "./pages/RegistrationSuccess";
+import ForgotPassword from "./pages/ForgotPassword";
+import PasswordReset from "./pages/PasswordReset";
+import PasswordResetSuccessful from "./pages/PasswordResetSuccessful";
+import ForgotPasswordSuccess from "./pages/ForgotPasswordSuccess";
+import VerifyEmail from "./pages/VerifyEmail";
+
 
 function App() {
   return (
@@ -175,133 +182,17 @@ function App() {
         <Route path="/account/orders/deliver/123456789012" element={<OrderDeliver/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="/account/registration-successful" element={<RegistrationSuccess/>}/>
+        <Route path="/account/forgot-password" element={<ForgotPassword/>} />
+        <Route path="/account/password-reset" element={<PasswordReset/>}/>
+        <Route path="/account/password-reset/successful" element={<PasswordResetSuccessful/>}/>
+        <Route path="/account/forgot-password/successful" element={<ForgotPasswordSuccess/>}/>
+        <Route path="/account/verify-email" element={<VerifyEmail/>}/>
 
-        
 
-        
-        
-        
 
 
-
-        
-
-
-        
-
-
-        
-
-
-        
-
-
-        
-
-        
-
-        
-
-
-        
-        
-        
-
-
-        
-
-        
-
-
-        
-
-
-
-        
-
-
-
-        
-
-
-        
-
-        
-
-        
-
-
-        
-
-        
-
-        
-
-
-        
-
-
-        
-
-
-
-
-
-
-
-
-
-        
-
-
-
-        
-
-
-        
-
-
-
-
-        
-
-
-
-        
-
-
-       
-
-
-
-
-
-
-
-        
-
-
-
-
-        
-
-
-
-
-
-        
-
-
-
-
-
-        
-
-
-        
-
-
-      
+    
       </Routes>
     </BrowserRouter>
   );

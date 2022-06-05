@@ -52,8 +52,6 @@ const Register = () =>{
 		  	console.log(result);
 		  	if(test[10] == 't'){
 			  		navigate('/login')
-			  	}else{
-			  		alert("invalid user")
 			  	}
 		  	})
 		  .catch(error => console.log('error', error));

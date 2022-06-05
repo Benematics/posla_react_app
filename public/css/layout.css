@@ -4111,5 +4111,19 @@ textarea.resize-none{
 #footer .social-links a:hover i{
   color: #111;
 }
+.login-cover{
+  width: 100%;
+  height: 900px;
+  position:  fixed;
+  z-index: 1;
+}
+.just-there{
+  width: 70vw;
+  background: rgba(0,0,0,0.2);
+}
+.login-pos{
+  width: 30vw;
+  background: #fff;
+}
 
 
