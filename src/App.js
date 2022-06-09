@@ -1,5 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import {useSelector} from "react-redux";
+import {selectUser} from "./features/userSlice";
 import HomePage from './pages/HomePage';
 import DealsPage from './pages/DealsPage';
 import DealInfo from './pages/DealInfo';
@@ -90,9 +92,14 @@ import PasswordReset from "./pages/PasswordReset";
 import PasswordResetSuccessful from "./pages/PasswordResetSuccessful";
 import ForgotPasswordSuccess from "./pages/ForgotPasswordSuccess";
 import VerifyEmail from "./pages/VerifyEmail";
+import DealsCreateSuccess from "./pages/DealsCreateSuccess";
+import AdminUsersList from "./pages/AdminUsersList";
+import AdminDealsList from "./pages/AdminDealsList";
+import AdminProjectList from "./pages/AdminProjectList";
 
 
 function App() {
+  const user = useSelector(selectUser);
   return (
     <BrowserRouter>
       <Routes>
@@ -102,7 +109,7 @@ function App() {
         <Route path="/account/deals/create/1234/info" element={<DealInfo/>}/>
         <Route path="/account/deals/create/1234/pricing" element={<DealPricing/>}/>
         <Route path="/account/deals/create/1234/requirement" element={<DealRequirement/>}/>
-        <Route path="/account/deals/edit/1234/publish" element={<DealPublish/>}/>
+        <Route path="/account/deals/create/1234/publish" element={<DealPublish/>}/>
         <Route path="/project/c1d00230-a423-4b84-a121-7105239ff8d8" element={<ProjectDetails/>}/>
         <Route path="/account/dashboard" element={<Dashboard/>}/>
         <Route path="/category/business/projects" element={<CatBusiness/>}/>
@@ -188,6 +195,13 @@ function App() {
         <Route path="/account/password-reset/successful" element={<PasswordResetSuccessful/>}/>
         <Route path="/account/forgot-password/successful" element={<ForgotPasswordSuccess/>}/>
         <Route path="/account/verify-email" element={<VerifyEmail/>}/>
+        <Route path="/account/deals/create/1234/success" element={<DealsCreateSuccess/>}/>
+        <Route path="/admin/users-list" element={<AdminUsersList/>}/>
+        <Route path="/admin/deals-list" element={<AdminDealsList/>}/>
+        <Route path="/admin/project-list" element={<AdminProjectList/>}/>
+
+
+         
 
 
 

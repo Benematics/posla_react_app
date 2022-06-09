@@ -2,9 +2,12 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AccountSidebar from '../components/AccountSidebar';
+import {useSelector, useDispatch} from "react-redux";
+import {register,selectUser} from "../features/userSlice";
 
 
 const AccountProfile = () =>{
+    const user = useSelector(selectUser);
 	return(
 		<>
 			<Header/>
@@ -47,7 +50,7 @@ const AccountProfile = () =>{
                                                 </div>
                                             </div>
                                             <div>
-                                                Olawale Lawal
+                                                {user.name}
                                             </div>
                                         </div>
                                         <div>
@@ -58,7 +61,7 @@ const AccountProfile = () =>{
                                                 </div>
                                             </div>
                                             <div>
-                                                username
+                                                {user.username}
                                             </div>
                                         </div>
                                         <div class="bg-eee">
@@ -69,7 +72,7 @@ const AccountProfile = () =>{
                                                 </div>
                                             </div>
                                             <div>
-                                               emailaddress@emaiw.ewfwe
+                                               {user.email}
                                             </div>
                                         </div>
                                         <div>
@@ -80,7 +83,7 @@ const AccountProfile = () =>{
                                                 </div>
                                             </div>
                                             <div>
-                                                080987676565
+                                                {user.phone}
                                             </div>
                                         </div>
                                     </div>

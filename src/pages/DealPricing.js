@@ -1,14 +1,57 @@
-import React from 'react';
-import AccountSidebar from '../components/AccountSidebar';
+import React, {useState, useEffect} from 'react';
+import AccountSidebar from '../components/AccountSidebar'; 
+import {Link} from "react-router-dom";
 import NavTabDeals from '../components/NavTabDeals';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const DealPricing = () => {
+    const [tick, setTick] = useState("hidden")
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [delivery, setDelivery] = useState("");
+    const [revision, setRevision] = useState("");
+    const [price, setPrice] = useState("");
+
+
+    const handleSubmit = (e) =>{
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", "Bearer 41|1rEpfWLienwJOQmLxPuDmRUP5DgtMt5GzThDTKpb");
+
+        var formdata = new FormData();
+        formdata.append("types[basic][name]", name);
+        formdata.append("types[basic][type]", "basic");
+        formdata.append("types[basic][description]", description);
+        formdata.append("types[basic][delivery_timeframe]", delivery);
+        formdata.append("types[basic][revision_num]", revision);
+        formdata.append("types[basic][price]", price);
+        formdata.append("types[standard][name]", "1");
+        formdata.append("types[standard][type]", "standard");
+        formdata.append("types[standard][description]", "standard description");
+        formdata.append("types[standard][delivery_timeframe]", "2");
+        formdata.append("types[standard][revision_num]", "1");
+        formdata.append("types[standard][price]", "100");
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: formdata,
+          redirect: 'follow'
+        };
+
+        fetch("https://jbuit.com/api/contact/", requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+    }
+
+
+
 	return(
 	<>
 		<Header/>
-			<div class="container">
+			<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
 		        <div class="row">
 		            <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -20,8 +63,8 @@ const DealPricing = () => {
 		                
 		                <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
 		                    <ol class="breadcrumb">
-		                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-		                        <li class="breadcrumb-item"><a href="/account/deals">Deals</a></li>
+		                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+		                        <li class="breadcrumb-item"><Link to="/account/deals">Deals</Link></li>
 		                        <li class="breadcrumb-item active" aria-current="page">Create Deal</li>
 		                    </ol>
 		                </div>
@@ -40,15 +83,15 @@ const DealPricing = () => {
                                 <form action="/account/deals/create/1234/requirements">
                                     
                                     <input type="hidden" name="stage" value="pricing"/>
-                                    <div class="b-1-ddd">
+                                    <div class="b-1-ddd" style={{padding:"20px"}}>
 
                                         <div class="p-20">
                                             
                                             <div class="table-responsive b-1-ddd">
-                                                <table class="table table-bordered table-col-padding" Style={{'min-width': '600px'}}>
+                                                <table class="table table-bordered table-col-padding" style={{minWidth:'600px'}}>
                                                     <thead>
                                                         <tr class="bg-eee">
-                                                            <th style={{'width': '120px'}}></th>
+                                                            <th style={{width: '120px'}}></th>
                                                             <th>
                                                                 <label class="checkbox-inline">
                                                                     <input type="checkbox" name="type[basic][status]" class="deal-pricing-toggle" id="basic" value="1" checked required/>
@@ -77,26 +120,26 @@ const DealPricing = () => {
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td rowspan="2" style={{'width': '120px'}}></td>
+                                                            <td rowspan="2" style={{width: '120px'}}></td>
                                                             <td>
-                                                                <textarea name="type[basic][name]" id="" class="form-control resize-none mt-15 pricing_basic_action" Style={{'height': '45px'}} placeholder="Name"></textarea>
+                                                                <textarea name="type[basic][name]" id="" class="form-control resize-none mt-15 pricing_basic_action" style={{height: '45px'}} placeholder="Name" onChange={(e)=>{setName(e.target.value)}}></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea name="type[standard][name]" id="" class="form-control resize-none mt-15 pricing_standard_action" Style={{'height': '45px'}} placeholder="Name"></textarea>
+                                                                <textarea name="type[standard][name]" id="" class="form-control resize-none mt-15 pricing_standard_action" style={{height: '45px'}} placeholder="Name" onChange={(e)=>{setName(e.target.value)}}></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea name="type[premium][name]" id="" class="form-control resize-none mt-15 pricing_premium_action" Style={{'height': '45px'}} placeholder="Name"></textarea>
+                                                                <textarea name="type[premium][name]" id="" class="form-control resize-none mt-15 pricing_premium_action" style={{height: '45px'}} placeholder="Name" onChange={(e)=>{setName(e.target.value)}}></textarea>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <textarea name="type[basic][description]" id="" class="form-control resize-none pricing_basic_action" Style={{'height': '85px'}} placeholder="Short Description"></textarea>
+                                                                <textarea name="type[basic][description]" id="" class="form-control resize-none pricing_basic_action" style={{height: '85px'}} placeholder="Short Description" onChange={(e)=>{setDescription(e.target.value)}}></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea name="type[standard][description]" id="" class="form-control resize-none pricing_standard_action" Style={{'height': '85px'}} placeholder="Short Description"></textarea>
+                                                                <textarea name="type[standard][description]" id="" class="form-control resize-none pricing_standard_action" style={{height: '85px'}} placeholder="Short Description" onChange={(e)=>{setDescription(e.target.value)}}></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea name="type[premium][description]" id="" class="form-control resize-none pricing_premium_action" Style={{'height': '85px'}} placeholder="Short Description"></textarea>
+                                                                <textarea name="type[premium][description]" id="" class="form-control resize-none pricing_premium_action" style={{height: '85px'}} placeholder="Short Description" onChange={(e)=>{setDescription(e.target.value)}}></textarea>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -104,16 +147,16 @@ const DealPricing = () => {
                                                 
                                                 <hr class="mt-20 mb-20"/>
 
-                                                <table class="table table-bordered table-col-padding" Style={{'height': '600px'}}>
+                                                <table class="table table-bordered table-col-padding" >
                                                     <tbody>
                                                         <tr>
-                                                            <td Style={{'height': '120px'}}>
+                                                            <td style={{height: '120px'}}>
                                                                 <span>
                                                                     Delivery Timeframe
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <select name="type[basic][delivery_timeframe]" id="" class="pricing_basic_action">
+                                                                <select name="type[basic][delivery_timeframe]" id="" class="pricing_basic_action" onChange={(e)=>{setDelivery(e.target.value)}}>
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1 day</option>
                                                                     <option value="2">2 days</option>
@@ -129,7 +172,7 @@ const DealPricing = () => {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select id="" name="type[standard][delivery_timeframe]" class="pricing_standard_action">
+                                                                <select id="" name="type[standard][delivery_timeframe]" class="pricing_standard_action" onChange={(e)=>{setDelivery(e.target.value)}}>
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1 day</option>
                                                                     <option value="2">2 days</option>
@@ -145,7 +188,7 @@ const DealPricing = () => {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select id="" name="type[premium][delivery_timeframe]" class="pricing_premium_action">
+                                                                <select id="" name="type[premium][delivery_timeframe]" class="pricing_premium_action" onChange={(e)=>{setDelivery(e.target.value)}}>
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1 day</option>
                                                                     <option value="2">2 days</option>
@@ -162,13 +205,13 @@ const DealPricing = () => {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td Style={{'height': '120px'}}>
+                                                            <td style={{height: '120px'}}>
                                                                 <span>
                                                                     Revision
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <select name="type[basic][revision_num]" id="" class="pricing_basic_action">
+                                                                <select name="type[basic][revision_num]" id="" class="pricing_basic_action" onChange={(e)=>{setRevision(e.target.value)}}>
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1</option>
                                                                     <option value="2">2</option>
@@ -179,7 +222,7 @@ const DealPricing = () => {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select name="type[standard][revision_num]" id="" class="pricing_standard_action">
+                                                                <select name="type[standard][revision_num]" id="" class="pricing_standard_action" onChange={(e)=>{setRevision(e.target.value)}}>
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1</option>
                                                                     <option value="2">2</option>
@@ -190,7 +233,7 @@ const DealPricing = () => {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select name="type[premium][revision_num]" id="" class="pricing_premium_action">
+                                                                <select name="type[premium][revision_num]" id="" class="pricing_premium_action" onChange={(e)=>{setRevision(e.target.value)}}>
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1</option>
                                                                     <option value="2">2</option>
@@ -202,7 +245,7 @@ const DealPricing = () => {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td Style={{'height': '120px'}}>
+                                                            <td style={{height: '120px'}}>
                                                                 <span>
                                                                     Price
                                                                 </span>
@@ -214,7 +257,7 @@ const DealPricing = () => {
                                                                             <span class="font-18">$</span>
                                                                         </button>
                                                                     </div>
-                                                                    <input type="number" name="type[basic][price]" class="form-control pricing_basic_action"/>
+                                                                    <input type="number" name="type[basic][price]" class="form-control pricing_basic_action" onChange={(e)=>{setPrice(e.target.value)}}/>
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -224,7 +267,7 @@ const DealPricing = () => {
                                                                             <span class="font-18">$</span>
                                                                         </button>
                                                                     </div>
-                                                                    <input type="number" name="type[standard][price]" class="form-control pricing_standard_action"/>
+                                                                    <input type="number" name="type[standard][price]" class="form-control pricing_standard_action" onChange={(e)=>{setPrice(e.target.value)}}/>
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -234,7 +277,7 @@ const DealPricing = () => {
                                                                             <span class="font-18">$</span>
                                                                         </button>
                                                                     </div>
-                                                                    <input type="number" name="type[premium][price]" class="form-control pricing_premium_action"/>
+                                                                    <input type="number" name="type[premium][price]" class="form-control pricing_premium_action" onChange={(e)=>{setPrice(e.target.value)}}/>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -246,14 +289,16 @@ const DealPricing = () => {
 
                                         <div class="p-15 mt-15 bt-1-ddd floated-content">
                                             <div class="pull-right">
-                                                <a href="/account/deals/create/1234/info" class="btn btn-transparent-black btn-sm icon-left">
+                                                <Link to="/account/deals/create/1234/info" class="btn btn-transparent-black btn-sm icon-left" style={{marginTop: "10px"}}>
                                                     <span class="fa fa-angle-left"></span>
                                                     Back
-                                                </a>
-                                                <button type="submit" class="btn btn-blue btn-sm icon-right">
-                                                    Proceed
-                                                    <span class="fa fa-angle-right"></span>
-                                                </button>
+                                                </Link>
+                                                <Link to="/account/deals/create/1234/requirement" onClick={handleSubmit}>
+                                                    <button type="submit" class="btn btn-blue btn-sm icon-right"  style={{marginTop: "10px", marginLeft:"10px"}}>
+                                                            Proceed
+                                                            <span class="fa fa-angle-right"></span>
+                                                    </button>
+                                                </Link>
                                             </div>
                                         </div>
 

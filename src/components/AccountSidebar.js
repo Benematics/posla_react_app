@@ -1,6 +1,17 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
+import {register,selectUser} from "../features/userSlice";
 
 const AccountSidebar = () => {
+
+    const user = useSelector(selectUser);
+    const navigate = useNavigate();
+    const handleLogout = (e) => {
+        e.preventDefault();
+        navigate("/");
+        localStorage.clear();
+    }
     const rating = 4.5;
    
 	return(
@@ -12,7 +23,7 @@ const AccountSidebar = () => {
             <img src="/images/user.png"alt="User name" class="dp-cover" />
         </div>
         <div class="font-bold">
-            Olawale Lawal
+            {user.name}
         </div>
         <div class="text-fade">
             short description short description short description short description
@@ -119,7 +130,7 @@ end if
         </a>
     </div>
     <div>
-        <a href="/">
+        <a href="/" onClick={handleLogout}>
             Logout
         </a>
     </div>

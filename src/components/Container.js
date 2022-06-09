@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import {useNavigate, Link} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
+import {login,logout,selectUser} from "../features/userSlice";
 import ProjectList from './ProjectList';
-import {Link, useNavigate} from 'react-router-dom';
+import LoadingSpinner from "./LoadingSpinner";
 
 const Container = () =>{
 	const [category, setCategory] = useState([]);
@@ -14,6 +17,14 @@ const Container = () =>{
     const [show, setShow] = useState("visible");
     const [errMsg, setErrMsg] = useState("none");
     const navigate = useNavigate();
+
+
+    const user = useSelector(selectUser);
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatch(logout());
+
+    }
 	
 	{/*fetch api*/}
 	useEffect(()=>{
@@ -28,9 +39,16 @@ const Container = () =>{
 	}, []);
 
 	{/*login api*/}
+	const dispatch = useDispatch();
 	const handleSubmit = (e) => {    
             e.preventDefault();    
-
+            setIsLoading(true);
+            dispatch(
+            	login({
+            		email: email,
+            		password: password,
+            		loggedIn: true,
+            	}));
 
 			var myHeaders = new Headers();
 			myHeaders.append("Content-Type", "application/json");
@@ -73,10 +91,21 @@ const Container = () =>{
 	const [pwd1, setPwd1] = useState("")
 	const [confirmPwd,setConfirmPwd] = useState("")
 	const [test1, setTest1] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
 
 	const handleSubmit1 = (e) =>{
 		e.preventDefault()
+		setIsLoading(true);
+        dispatch(
+            login({
+                    name: name1,
+                    username: username1,
+                    phone: phone1,
+                    email: email1,
+                    password: password,
+                    loggedIn: true,
+                }));
 		var myHeaders = new Headers();
 		myHeaders.append("Content-Type", "application/json");
 
@@ -101,6 +130,7 @@ const Container = () =>{
 		  .then((result) => {
 		  		if (result.message === "successful") {
 		  			navigate("/account/registration-successful")
+		  			setIsLoading(false)
 		  		} else {
 		  			alert("invalid user")
 		  		}
@@ -159,6 +189,7 @@ const handleSubmit2 = (e) =>{
 	  .then((result) => {
 	  	if (result.status == true) {
 	  		navigate("/account/forgot-password/successful")
+	  		setIsLoading(false)
 	  	} else {
 	  		alert("invalid data entry")
 	  	}
@@ -168,9 +199,8 @@ const handleSubmit2 = (e) =>{
 }
 
 
-	return(
+const renderUser = (
 <>
-{/*-- login box --*/}
 <div class="login-cover" style={{display: display}}>
     <div class="just-there"></div>
     <div class="login-pos" style={{backgroundImage: `url(/images/auth-bg-1.png)`, backgroundRepeat:"no-repeat", backgroundPosition:"right bottom"}}>
@@ -214,7 +244,7 @@ const handleSubmit2 = (e) =>{
                 </a>
             </div>
             <div class="mt-20">
-                <button type="submit" class="btn btn-blue btn-block">
+                <button type="submit" class="btn btn-blue btn-block" disabled={isLoading}>
                     Login
                 </button>
             </div>
@@ -301,7 +331,7 @@ const handleSubmit2 = (e) =>{
                 </div>
 
                 <div class="mt-20">
-                    <button type="submit" class="btn btn-blue btn-block" style={{marginTop: "20px"}}>
+                    <button type="submit" class="btn btn-blue btn-block" style={{marginTop: "20px"}} disabled={isLoading}>
                       Create New Account
                     </button>
                 </div>
@@ -443,17 +473,8 @@ const handleSubmit2 = (e) =>{
             </ul>
 
             <ul class="navbar-nav navbar-nav-links-auth ml-auto">
-                      
-                    <li class="nav-item" onClick={()=>{setDisplay("flex"); setIndex("-1");}} style={{visibility: show}}>
-                        <a class="nav-link btn-login cursor-pointer" href="#">
-                            Login
-                        </a>
-                    </li>
-                    <li class="nav-item" onClick={()=>{setDisplay1("flex"); setIndex("-1");}} style={{visibility: show}}>
-                        <a class="nav-link btn-register cursor-pointer" href="#">
-                            Register
-                        </a>
-                    </li>
+                      {user ? 
+                    <>
                     <li class="nav-item dropdown" style={{visibility:test}}>
                         <a id="navbarDropdown" class="nav-link dropdown-toggle no-after nowrap floated-content" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             <span class="fa fa-caret-down icon-16 pull-right ml-5"></span>
@@ -501,6 +522,22 @@ const handleSubmit2 = (e) =>{
                             </a>
                         </div>
                     </li>    
+                    </>
+                      	: 
+                    <>
+                    <li class="nav-item" onClick={()=>{setDisplay("flex"); setIndex("-1");}} style={{visibility: show}}>
+                        <a class="nav-link btn-login cursor-pointer" href="#">
+                            Login
+                        </a>
+                    </li>
+                    <li class="nav-item" onClick={()=>{setDisplay1("flex"); setIndex("-1");}} style={{visibility: show}}>
+                        <a class="nav-link btn-register cursor-pointer" href="#">
+                            Register
+                        </a>
+                    </li>
+                    </>
+
+                      }
             </ul>
 
 
@@ -756,6 +793,15 @@ const handleSubmit2 = (e) =>{
         </div> 
 
     </div>
+
+</>
+	);
+	return(
+<>
+
+{isLoading ? <LoadingSpinner /> : renderUser}
+{/*-- login box --*/}
+
     </>
 		)
 }

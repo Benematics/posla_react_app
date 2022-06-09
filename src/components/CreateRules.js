@@ -56,7 +56,7 @@ const CreateRules = () => {
                                                     </label>
                                                 </div>
                                                 <div class="col-sm-4 col-md-12 col-lg-4">
-                                                    <div class="d-block d-sm-none d-md-block d-lg-none" Style={{'height': '10px'}}></div>
+                                                    <div class="d-block d-sm-none d-md-block d-lg-none" style={{height: '10px'}}></div>
                                                     <a href="/account/deals/create/1234/info" class="btn btn-blue btn-sm icon-right pull-right">
                                                         Proceed
                                                         <span class="fa fa-angle-right"></span>

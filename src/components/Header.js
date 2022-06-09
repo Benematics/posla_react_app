@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from "react-router-dom";
-
+import {useSelector, useDispatch} from "react-redux";
+import {register,selectUser} from "../features/userSlice";
 
 
 const Header = () => {
+    
     const [category, setCategory] = useState([]);
     const [index, setIndex] = useState("1");
     const [display, setDisplay] = useState("none");
@@ -15,23 +17,46 @@ const Header = () => {
     const [show, setShow] = useState("hidden");
     const [errMsg, setErrMsg] = useState("none");
     const navigate = useNavigate();
+    const [profile, setProfile] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    {/*handle logout*/}
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser)
+    const handleLogout = (e) => {
+        e.preventDefault();
+        navigate("/");
+        localStorage.clear();
+
+    }
     
+     useEffect(() => {
+    const loggedInUser = localStorage.getItem("profile");
+    if (loggedInUser) {
+      setProfile(loggedInUser);
+      console.log(loggedInUser);
+    }
+  }, []);
+
     {/*fetch api*/}
     useEffect(()=>{
         fetch("https://jsonplaceholder.typicode.com/users")
             .then(res => res.json())
             .then(res => {
                 setCategory(res);
+                setIsLoading(false)
             })
             .catch((error) => {
                 console.log(error);
+                setIsLoading(false)
             })
     }, []);
 
     {/*login api*/}
     const handleSubmit = (e) => {    
             e.preventDefault();    
-
+            setIsLoading(true);
 
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
@@ -55,6 +80,7 @@ const Header = () => {
                     setTest("visible");
                     setShow("hidden")
                     navigate("/account/dashboard");
+                    setIsLoading(false)
                 }else{
 
                 }
@@ -78,6 +104,17 @@ const Header = () => {
 
     const handleSubmit1 = (e) =>{
         e.preventDefault()
+
+        setIsLoading(true);
+        dispatch(
+            register({
+                    name: name1,
+                    username: username1,
+                    phone: phone1,
+                    email: email1,
+                    password: password,
+                    loggedIn: true,
+                }));
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -101,7 +138,8 @@ const Header = () => {
           .then((response) => response.json())
           .then((result) => {
                 if (result.message === "successful") {
-                    navigate("/account/registration-successful")
+                    navigate("/account/registration-successful");
+                    setIsLoading(false);
                 } else {
                     alert("invalid user")
                 }
@@ -182,7 +220,7 @@ const Header = () => {
                 </a>
             </div>
             <div class="mt-20">
-                <button type="submit" class="btn btn-blue btn-block">
+                <button type="submit" class="btn btn-blue btn-block" disabled={isLoading}>
                     Login
                 </button>
             </div>
@@ -263,7 +301,7 @@ const Header = () => {
                     </label>
                     <div class="input-group input-group-password">
                         <input type="password" name="password_confirmation" id="password" class="form-control" value={confirmPwd} onChange={(e)=>{setConfirmPwd(e.target.value)}}/>
-                        <button type="button" class="input-group-btn password-toggle">
+                        <button type="button" class="input-group-btn password-toggle" disabled={isLoading}>
                             <span class="fa fa-eye icon-17"></span>
                         </button>
                     </div>
@@ -328,7 +366,7 @@ const Header = () => {
                 </div>
                 <div class="mt-20">
                     <button type="submit" class="btn btn-blue btn-block">
-                        Reset Paasword
+                        Reset Password
                     </button>
                 </div>
                 <div class="mt-20 text-center">
@@ -412,23 +450,14 @@ const Header = () => {
             </ul>
 
             <ul class="navbar-nav navbar-nav-links-auth ml-auto">
-                      
-                    <li class="nav-item" onClick={()=>{setDisplay("flex"); setIndex("-1");}} style={{visibility: show}}>
-                        <a class="nav-link btn-login cursor-pointer" href="#">
-                            Login
-                        </a>
-                    </li>
-                    <li class="nav-item" onClick={()=>{setDisplay1("flex"); setIndex("-1");}} style={{visibility: show}}>
-                        <a class="nav-link btn-register cursor-pointer" href="#">
-                            Register
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown" style={{visibility:test}}>
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle no-after nowrap floated-content" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style={{display:test}}>
+                { user ?
+                <>
+                    <li class="nav-item dropdown1" style={{visibility:test}}>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle no-after nowrap floated-content dropdown-btn1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style={{display:test}}>
                             <span class="fa fa-caret-down icon-16 pull-right ml-5"></span>
-                            Username
+                            {user.name}
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-right dropdown-content1" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/account/dashboard">
                                 Dashboard
                             </a>
@@ -465,11 +494,26 @@ const Header = () => {
                             <a class="dropdown-item" href="/account/settings">
                                 Account Settings
                             </a>
-                            <a class="dropdown-item" href="">
+                            <a class="dropdown-item" href="" onClick={handleLogout}>
                                 Logout
                             </a>
                         </div>
-                    </li>    
+                    </li>
+                  </>
+                :
+                  <>
+                    <li class="nav-item" onClick={()=>{setDisplay("flex"); setIndex("-1");}} >
+                        <a class="nav-link btn-login cursor-pointer" href="#">
+                            Login
+                        </a>
+                    </li>
+                    <li class="nav-item" onClick={()=>{setDisplay1("flex"); setIndex("-1");}} >
+                        <a class="nav-link btn-register cursor-pointer" href="#">
+                            Register
+                        </a>
+                    </li>
+                </>
+                } 
             </ul>
 
 

@@ -3,31 +3,66 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AccountSidebar from '../components/AccountSidebar';
 import NavTabDeals from '../components/NavTabDeals';
+import {Link} from "react-router-dom";
 
 const DealInfo = () => {
 
     const [display, setDisplay]= useState("None")
     const [errors, setErrors] = useState("");
     const [title, setTitle] = useState("");
-    const [category_id, setCategory_Id] = useState("");
+    const [category, setCategory] = useState([]);
     const [subcategory_id, setSubcategory_Id] = useState("");
-    const [picture_1, setPicture_1] = useState("");
-    const [picture_2, setPicture_2] = useState("");
-    const [picture_3, setPicture_3] = useState("");
-    const [picture_4, setPicture_4] = useState("");
-    const [picture_5, setPicture_5] = useState("");
-    const [picture_6, setPicture_6] = useState("");
+    const [pictures, setPictures] = useState({
+        picture_1:"",
+        picture_2:"",
+        picture_3:"",
+        picture_4:"",
+        picture_5:"",
+        picture_6:""
+    });
     const [description, setDescription] = useState("");
-    const [status, setStatus] = useState("");
+    const [status, setStatus] = useState(0);
     const [tags, setTags]= useState([]);
     const [stage, setStage] = useState("");
 
     
-    {/*const handleChange = (e) =>{
-        setDealsInfo({...dealsInfo, [e.target.name]:[e.target.value]});
-        console.log(dealsInfo);
+    const handleChange = (e) =>{
+        setPictures({...pictures, [e.target.name]:[e.target.value]});
+        console.log(pictures);
     }
-*/}
+
+
+
+    {/*Category Id*/}
+    useEffect(()=>{
+                var myHeaders = new Headers();
+                myHeaders.append("Accept", "application/json");
+                myHeaders.append("Authorization", "Bearer 41|1rEpfWLienwJOQmLxPuDmRUP5DgtMt5GzThDTKpb");
+
+                var requestOptions = {
+                  method: 'GET',
+                  headers: myHeaders,
+                  redirect: 'follow'
+                };
+
+                fetch("https://posla-api.herokuapp.com/api/category/main-categories", requestOptions)
+                  .then(response => response.json())
+                  .then(result => {
+                    const res = result.data;
+                    setCategory(res);
+                    console.log(res);
+                  })
+                  .catch(error => console.log('error', error));
+    }, []);
+
+
+
+
+
+    {/*Sub Category Id*/}
+
+
+
 
     const handleSubmit =(e)=>{
         e.preventDefault()
@@ -70,12 +105,12 @@ const DealInfo = () => {
 
         var formdata = new FormData();
         formdata.append("title", title);
-        formdata.append("category_id", "{{main_category}}");
-        formdata.append("subcategory_id", "{{sub_category}}");
-        formdata.append("description", "lowt project");
-        formdata.append("status", "1");
-        formdata.append("tags", "english, mathis, po, kjsdjks");
-        formdata.append("pictures[]", "favicon.ico");
+        formdata.append("category_id", category);
+        formdata.append("subcategory_id", subcategory_id);
+        formdata.append("description", description);
+        formdata.append("status", status);
+        formdata.append("tags", tags);
+        formdata.append("pictures[]", pictures);
 
         var requestOptions = {
           method: 'POST',
@@ -105,8 +140,8 @@ const DealInfo = () => {
                 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/deals">Deals</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+                        <li class="breadcrumb-item"><Link to="/account/deals">Deals</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Create Deal</li>
                     </ol>
                 </div>
@@ -115,17 +150,16 @@ const DealInfo = () => {
                     <div class="section-title">
                         Create Deal
                     </div>
-                       £
                     <div>
                         
                         <NavTabDeals/>
                         
                         <div class="tab-content">
-                            <div class="tab-pane active">
+                            <div class="tab-pane active" >
 
                                   <form action="/account/deals/create/1234/pricing" enctype="multipart/form-data">
                                     
-                                    <div class="b-1-ddd">
+                                    <div class="b-1-ddd" style={{padding:"20px"}}>
 
                                         <div class="p-20">
                                             
@@ -143,13 +177,11 @@ const DealInfo = () => {
                                                         <label for="category" class="control-label">
                                                             Category:
                                                         </label>
-                                                        <select name="category_id" id="category"  onChange={(e)=>{setCategory_Id(e.target.value)}} required>
+                                                        <select name="category_id" id="category"  onChange={(e)=>{setCategory(e.target.value)}} required>
                                                             <option value="" selected disabled>- Select -</option>
-                                                            <option value="">Category 1</option>
-                                                            <option value="">Category 1</option>
-                                                            <option value="">Category 1</option>
-                                                            <option value="">Category 1</option>
-                                                            <option value="">Category 1</option>
+                                                        {category & category.map((item)=>{ return(
+                                                            <option value="">{item.name}</option>
+                                                            )})}
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
@@ -190,7 +222,7 @@ const DealInfo = () => {
                                                             Delete
                                                         </button>
                                                     </label>
-                                                    <input type="file" name="£" id="picture_1" accept="image/*" onChange={(e)=>{setPicture_1(e.target.value)}} />
+                                                    <input type="file" name="picture_1" id="picture_1" accept="image/*" value={pictures.picture_1} onChange={handleChange} />
                                                 </div>
 
                                                 <div class="file-upload-box">
@@ -208,7 +240,7 @@ const DealInfo = () => {
                                                             Delete
                                                         </button>
                                                     </label>
-                                                    <input type="file" name="£" id="picture_2" accept="image/*" onChange={(e)=>{setPicture_2(e.target.value)}} />
+                                                    <input type="file" name="picture_2" id="picture_2" accept="image/*" value={pictures.picture_2} onChange={handleChange} />
                                                 </div>
 
                                                 <div class="file-upload-box">
@@ -226,7 +258,7 @@ const DealInfo = () => {
                                                             Delete
                                                         </button>
                                                     </label>
-                                                    <input type="file" name="£" id="picture_3" accept="image/*" onChange={(e)=>{setPicture_3(e.target.value)}} />
+                                                    <input type="file" name="picture_3" id="picture_3" accept="image/*" value={pictures.picture_3} onChange={handleChange} />
                                                 </div>
 
 
@@ -245,7 +277,7 @@ const DealInfo = () => {
                                                             Delete
                                                         </button>
                                                     </label>
-                                                    <input type="file" name="£" id="picture_4" accept="image/*" onChange={(e)=>{setPicture_4(e.target.value)}} />
+                                                    <input type="file" name="picture_4" id="picture_4" accept="image/*" value={pictures.picture_4} onChange={handleChange} />
                                                 </div>
                                                 
                                                 <div class="file-upload-box">
@@ -263,7 +295,7 @@ const DealInfo = () => {
                                                             Delete
                                                         </button>
                                                     </label>
-                                                    <input type="file" name="£" id="picture_5" accept="image/*" onChange={(e)=>{setPicture_5(e.target.value)}} />
+                                                    <input type="file" name="picture_5" id="picture_5" accept="image/*" value={pictures.picture_5} onChange={handleChange} />
                                                 </div>
 
 
@@ -282,7 +314,7 @@ const DealInfo = () => {
                                                             Delete
                                                         </button>
                                                     </label>
-                                                    <input type="file" name="£" id="picture_6" accept="image/*" onChange={(e)=>{setPicture_6(e.target.value)}} />
+                                                    <input type="file" name="picture_6" id="picture_6" accept="image/*" value={pictures.picture_6} onChange={handleChange} />
                                                 </div>
 
                                               </div>
@@ -290,67 +322,66 @@ const DealInfo = () => {
 
                                             <hr/>
 
-                                     <div class="col-sm-6">
-                                                <div class="form-group">
-       
                                             <div class="row">
-                                                    <label for="description" class="control-label">
-                                                        Deal Description:
-                                                    </label>
-                                                    <textarea name="description" id="description" class="form-control resize-none" Style={{'height': '99px'}} ></textarea>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="description" class="control-label">
+                                                            Deal Description:
+                                                        </label>
+                                                        <textarea name="description" id="description" class="form-control resize-none" style={{height: "99px"}}></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="visibility" class="control-label">
+                                                            Visiblility:
+                                                        </label>
+                                                        <select name="status" id="visibility" onChange={(e)=>{setStatus(e.target.value)}}>
+                                                            <option value="">- Select -</option>
+                                                            <option value="1">Public</option>
+                                                            <option value="0">Private</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="visibility" class="control-label">
-                                                        Visiblility:
-                                                    </label>
-                                                    <select name="status" id="visibility" onChange={(e)=>{setStatus(e.target.value)}} >
-                                                        <option value="">- Select -</option>
-                                                        <option value="1">Public</option>
-                                                        <option value="0">Private</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-sm-6">
+                                                <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label for="tags" class="control-label">
                                                             Tags:
                                                         </label>
-                                                        let's do comman separated value for now.. onsave, explode input with comma 
+   
                                                         <input type="search" name="tags" class="form-control" placeholder="Search" value={tags}/>
                                                     </div>
                                                     <div>
-                                                        <div class="item-labels item-labels-tags-all" Style={{'margin-left': '-2px'}}>
-                                                            <div class="item-labels-tags cursor-pointer" onClick ={()=>{setTags("mobile")}}>
+                                                        <div class="item-labels item-labels-tags-all" style={{marginLeft: "-2px"}}>
+                                                            <div class="item-labels-tags cursor-pointer" onClick={()=>{setTags("mobile")}}>
                                                                 Mobile App
                                                             </div>
-                                                            <div class="item-labels-tags cursor-pointer" onClick ={()=>{setTags("dat")}}>
+                                                            <div class="item-labels-tags cursor-pointer" onClick={()=>{setTags("mobile")}}>
                                                                 Mobile App
                                                             </div>
-                                                            <div class="item-labels-tags cursor-pointer" onClick ={()=>{
+                                                            <div class="item-labels-tags cursor-pointer" onClick={()=>{
                                                                 {tags.push("web")}
                                                             }}>
                                                                 Mobile App
                                                             </div>
-                                                            <div class="item-labels-tags cursor-pointer" onClick ={()=>{setTags("real")}}>
+                                                            <div class="item-labels-tags cursor-pointer" onClick={()=>{setTags("real")}}>
                                                                 Mobile App
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                        	</div>
+                                            </div>
                                         </div>
+
+
 
 
                                         <div class="p-15 mt-15 bt-1-ddd floated-content">
                                             <div class="pull-right">
-                                                <a href="/account/deals/create" class="btn btn-transparent-black btn-sm icon-left">
+                                                <Link to="/account/deals/create" class="btn btn-transparent-black btn-sm icon-left" style={{marginTop: "10px"}}>
                                                     <span class="fa fa-angle-left"></span>
                                                     Back
-                                                </a>
+                                                </Link>
                                                 <input type="hidden" name="stage" value="info" onChange={(e)=>{setStage(e.target.value)}} />
-                                                <button type="submit" class="btn btn-blue btn-sm icon-right" onClick={handleSubmit}>
+                                                <button type="submit" class="btn btn-blue btn-sm icon-right" onClick={handleSubmit} style={{marginTop: "10px", marginLeft:"10px"}}>
                                                     Proceed
                                                     <span class="fa fa-angle-right"></span>
                                                 </button>

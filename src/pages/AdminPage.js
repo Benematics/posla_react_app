@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 import AdminHeader from '../components/AdminHeader';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminFooter from '../components/AdminFooter';
@@ -8,15 +9,15 @@ const AdminPage = () =>{
 		<>
 <div class="wrapper">
 	<AdminSidebar/>
-            <header class="main-header">
-            <a href="" class="logo">
+            <header class="main-header" style={{zIndex:"1"}}>
+            <Link to="" class="logo">
               <span class="logo-mini"><b>Posla</b></span>
               <span class="logo-lg"><b>Posla</b></span>
-            </a>
+            </Link>
             <nav class="navbar navbar-static-top">
-              <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+              <Link to="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>
-              </a>
+              </Link>
 
               <div class="layout-mobile-title d-block d-md-none">
                 Admin Panel
@@ -25,12 +26,12 @@ const AdminPage = () =>{
               <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                   <li class="dropdown user user-menu" style={{minHeight: "50px"}}>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style={{height: "50px"}}>
+                    <Link to="#" class="dropdown-toggle" data-toggle="dropdown" style={{height: "50px"}}>
                       <img src='/images/user.png' class="user-image" alt="User Image"/>
                       
                       <span class="hidden-xs" style={{position: "relative", top: "2px"}}>Fname Lname</span>
                       <span class="fa fa-angle-down" style={{position:"relative", top: "3px", marginLeft: "5px"}}></span>
-                    </a>
+                    </Link>
                     <ul class="dropdown-menu">
                       
                       <li class="user-header" style={{textAlign: "center !important", paddingTop: "15px !important"}}>
@@ -45,10 +46,10 @@ const AdminPage = () =>{
                       
                       <li class="user-footer">
                         <div class="pull-left">
-                          <a href="" class="btn btn-blue">Profile</a>
+                          <Link to="" class="btn btn-blue">Profile</Link>
                         </div>
                         <div class="pull-right">
-                          <a href="" class="btn btn-danger">Logout</a>
+                          <Link to="" class="btn btn-danger">Logout</Link>
                         </div>
                       </li>
                       
@@ -87,7 +88,7 @@ const AdminPage = () =>{
                     <div class="row">
 
                         <div class="col-6 col-md-3">
-                            <a href="" class="inner_border slow_speed">
+                            <Link to="/admin/users-list" class="inner_border slow_speed">
                                 <div>
                                     <div>
                                         45
@@ -97,11 +98,11 @@ const AdminPage = () =>{
                                     </div>
                                 </div>
                                 <div class="fa fa-users"></div>
-                            </a>
+                            </Link>
                         </div>
                         
                         <div class="col-6 col-md-3">
-                            <a href="" class="inner_border slow_speed">
+                            <Link to="/admin/deals-list" class="inner_border slow_speed">
                                 <div>
                                     <div>
                                         213
@@ -111,11 +112,11 @@ const AdminPage = () =>{
                                     </div>
                                 </div>
                                 <div class="fa fa-user-tie"></div>
-                            </a>
+                            </Link>
                         </div>
                         
                         <div class="col-6 col-md-3">
-                            <a href="" class="inner_border slow_speed">
+                            <Link to="/admin/project-list" class="inner_border slow_speed">
                                 <div>
                                     <div>
                                         67
@@ -125,11 +126,11 @@ const AdminPage = () =>{
                                     </div>
                                 </div>
                                 <div class="fa fa-user-alt-slash"></div>
-                            </a>
+                            </Link>
                         </div>
                         
                         <div class="col-6 col-md-3">
-                            <a href="" class="inner_border slow_speed">
+                            <Link to="" class="inner_border slow_speed">
                                 <div>
                                     <div class="">
                                         32
@@ -139,11 +140,11 @@ const AdminPage = () =>{
                                     </div>
                                 </div>
                                 <div class="fa fa-clock"></div>
-                            </a>
+                            </Link>
                         </div>
                         
                         <div class="col-6 col-md-3">
-                            <a href="" class="inner_border slow_speed">
+                            <Link to="" class="inner_border slow_speed">
                                 <div>
                                     <div>
                                         $45,235
@@ -153,11 +154,11 @@ const AdminPage = () =>{
                                     </div>
                                 </div>
                                 <div class="fa fa-check-circle"></div>
-                            </a>
+                            </Link>
                         </div>
 
                         <div class="col-6 col-md-3">
-                            <a href="" class="inner_border slow_speed">
+                            <Link to="" class="inner_border slow_speed">
                                 <div>
                                     <div>
                                         $31,235
@@ -167,11 +168,11 @@ const AdminPage = () =>{
                                     </div>
                                 </div>
                                 <div class="fa fa-exclamation-circle"></div>
-                            </a>
+                            </Link>
                         </div>
                         
                         <div class="col-6 col-md-3">
-                            <a href="" class="inner_border slow_speed">
+                            <Link to="" class="inner_border slow_speed">
                                 <div>
                                     <div>
                                         $3,000
@@ -181,11 +182,11 @@ const AdminPage = () =>{
                                     </div>
                                 </div>
                                 <div class="fa fa-envelope"></div>
-                            </a>
+                            </Link>
                         </div>
                         
                         <div class="col-6 col-md-3">
-                            <a href="" class="inner_border slow_speed">
+                            <Link to="" class="inner_border slow_speed">
                                 <div>
                                     <div>
                                         $11,000
@@ -195,7 +196,7 @@ const AdminPage = () =>{
                                     </div>
                                 </div>
                                 <div class="fa fa-credit-card"></div>
-                            </a>
+                            </Link>
                         </div>
                         
                     </div>

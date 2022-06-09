@@ -3,21 +3,38 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AccountSidebar from '../components/AccountSidebar';
 import Deal from '../components/Deal';
+import {useSelector, useDispatch} from "react-redux";
+import {register,selectUser} from "../features/userSlice";
 
 
 const AccountDeals = () => {
     const [result, setResult] = useState("");
     const [error, setError] = useState("");
+    const user = useSelector(selectUser);
 
-    useEffect (()=>{
-        fetch("https://jsonplaceholder.typicode.com/posts")
-  .then(response => response.json())
-  .then(response=>{
-    setResult(response)
-  })
-  .catch(error => console.log(error));
 
-    })
+    useEffect(()=>{
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer 41|1rEpfWLienwJOQmLxPuDmRUP5DgtMt5GzThDTKpb");
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    fetch("https://posla-api.herokuapp.com/api/front/deals", requestOptions)
+      .then(response => response.json())
+      .then(res => {
+        const deals = res.data;
+        setResult(deals);
+        console.log(deals);
+      })
+      .catch(error => console.log('error', error));
+
+    },[]);
+
+
     return(
         <>
         <Header/>
@@ -62,10 +79,10 @@ const AccountDeals = () => {
                     
 
                         <div class="deal-list deal-list-mini mt-20 row">
-                            {result && result.map((item)=>(
+                            {result && result["Programming & Tech 3"].map((item)=>(
 
                             <div class="col-sm-6 col-lg-4 deal-mgmt">
-                               <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal">
+                               <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"280px"}}>
                                           
                                           <div class="deal-info-top">
                                               <div>
@@ -76,11 +93,11 @@ const AccountDeals = () => {
                                                       <img src='/images/user.png' alt="Olawale Lawal" class="dp-contain" />
                                                   </div>
                                                   <div class="text-fade font-13 ellipsis">
-                                                      {item.title}
+                                                      {item.category_name}
                                                   </div>
                                               </div>
                                               <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px"}}>
-                                                  {item.body}
+                                                  {item.description}
                                               </div>
                                           </div>
                               
@@ -99,39 +116,29 @@ const AccountDeals = () => {
                                               </div>
                                           </div>
                               
-                                          <div class="pt-5 bt-1-ddd" style={{marginTop: "-3px"}}>
+                                          <div class="pt-5 bt-1-ddd" style={{marginTop: "-3px", height:"300px"}}>
                                               <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
                                                   <div class="item-labels-prefix">
                                                       Tags & Skills:
                                                   </div>
-                                                  <div class="item-labels-tags">
-                                                      Mobile App
-                                                  </div>
-                                                  <div class="item-labels-tags">
-                                                      iOS App
-                                                  </div>
-                                                  <div class="item-labels-tags">
-                                                      App Store
-                                                  </div>
-                                                  <div class="item-labels-tags">
-                                                      Swift Language
-                                                  </div>
-                                                  <div class="item-labels-tags">
-                                                      Objective C
-                                                  </div>
+                                                      {item.tags.map((item)=>(
+                                                        <div class="item-labels-tags">
+                                                        {item}
+                                                         </div>
+                                                        ))}
                                               </div>
                                           </div>
                                           
                                       </a>
 
-                                <div class="dropdown">
-                                    <label class="label label-fff label-sm mr-5 pull-right" Style={{"margin-top":"7px"}}>
+                                <div class="dropdown dropdown1">
+                                    <label class="label label-fff label-sm mr-5 pull-right" style={{marginTop:"7px"}}>
                                        {/* Pending Approval -- Active --*/}
                                     </label>
-                                    <div id="navbarDropdown" class="nav-link bg-blue dropdown-toggle b-1-blue text-fff" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div id="navbarDropdown" class="nav-link bg-blue dropdown-toggle b-1-blue text-fff dropbtn1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Manage
                                     </div>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" Style={{"margin-top":"-20px"}}>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-content1" aria-labelledby="navbarDropdown" style={{marginTop:"-20px"}}>
                                         <a class="dropdown-item" href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f">
                                             Preview
                                         </a>

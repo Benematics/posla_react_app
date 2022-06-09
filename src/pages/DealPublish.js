@@ -1,15 +1,40 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import AccountSidebar from '../components/AccountSidebar';
+import {Link, useNavigate} from "react-router-dom";
 import NavTabDeals from '../components/NavTabDeals';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 
 const DealPublish = () => {
+
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer 41|1rEpfWLienwJOQmLxPuDmRUP5DgtMt5GzThDTKpb");
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+
+        fetch("https://jbuit.com/api/contact/", requestOptions)
+          .then(response => response.text())
+          .then(result => {
+            navigate("/account/deals/create/1234/success")
+            console.log(result);
+          })
+          .catch(error => console.log('error', error));
+    }
+
+
 	return(
 	<>
 		<Header/>
-			<div class="container">
+			<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
 		        <div class="row">
 		            <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -21,8 +46,8 @@ const DealPublish = () => {
 		                
 		                <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
 		                    <ol class="breadcrumb">
-		                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-		                        <li class="breadcrumb-item"><a href="/account/deals">Deals</a></li>
+		                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+		                        <li class="breadcrumb-item"><Link to="/account/deals">Deals</Link></li>
 		                        <li class="breadcrumb-item active" aria-current="page">Create Deal</li>
 		                    </ol>
 		                </div>
@@ -42,11 +67,11 @@ const DealPublish = () => {
                                 <form action="/account/deals/create/1234/success">
                                     
                                     <input type="hidden" name="stage" value="publish"/>
-                                    <div class="b-1-ddd">
+                                    <div class="b-1-ddd" style={{padding:"20px"}}>
 
                                         <div class="p-20">
                                             
-                                            <div class="mx-auto mw-600 p-20 b-1-ddd">
+                                            <div class="mx-auto mw-600 p-20 b-1-ddd" style={{padding:"20px"}}>
                                                 
                                                 <div>
                                                     <div class="font-bold">
@@ -121,16 +146,18 @@ const DealPublish = () => {
                                         </div>
                                         
                                         
-                                        <div class="p-15 mt-15 bt-1-ddd floated-content">
+                                        <div class="p-15 mt-15 bt-1-ddd floated-content" style={{marginTop:"20px"}}>
                                             <div class="pull-right">
-                                                <a href="/account/deals/create/1234/requirements" class="btn btn-transparent-black btn-sm icon-left">
+                                                <Link to="/account/deals/create/1234/requirements" class="btn btn-transparent-black btn-sm icon-left" style={{marginTop: "10px"}}>
                                                     <span class="fa fa-angle-left"></span>
                                                     Back
-                                                </a>
-                                                <button type="submit" class="btn btn-blue btn-sm icon-right">
-                                                    Publish
-                                                    <span class="fa fa-check-circle"></span>
-                                                </button>
+                                                </Link>
+                                                <Link to="/account/deals/create/1234/success" onClick={handleSubmit}>
+                                                    <button type="submit" class="btn btn-blue btn-sm icon-right" style={{marginTop: "10px", marginLeft:"10px"}}>
+                                                        Publish
+                                                        <span class="fa fa-check-circle"></span>
+                                                    </button>
+                                                </Link>
                                             </div>
                                         </div>
 

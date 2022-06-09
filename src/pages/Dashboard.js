@@ -27,7 +27,7 @@ const Dashboard = () => {
 	return(
 <>
 <Header/>
-	<div class="container" style={{marginTop:"20px", height:"auto", marginBottom:"20px"}}>
+	<div class="container" style={{marginTop:"20px", height:"auto", marginBottom:"20px", zIndex: "-1"}}>
         <div class="row">
             <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -56,11 +56,11 @@ const Dashboard = () => {
                     <div class="deal-list deal-list-mini row">
                          {deals && deals.products.map((item)=>(
                                 <div class="col-sm-6 col-lg-4">
-                                    <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"auto"}}>
+                                    <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"auto", zIndex:"-1"}}>
             
                                         <div class="deal-info-top">
                                             <div>
-                                                <img src='/images/deal-1.png' alt="Olawale Lawal" class="dp-cover" />
+                                                <img src='/images/deal-1.png' alt="Olawale Lawal" class="dp-cover" style={{zIndex:"-1"}}/>
                                             </div>
                                             <div class="">
                                                 <div>

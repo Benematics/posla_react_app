@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {Link} from "react-router-dom";
 import AccountSidebar from '../components/AccountSidebar';
 import NavTabDeals from '../components/NavTabDeals';
 import Header from '../components/Header';
@@ -6,48 +7,83 @@ import Footer from '../components/Footer';
 
 
 
+
+
+
+
 const DealRequirement = () => {
+
+	const [display, setDisplay] = useState("none");
+
+	const handleSubmit = (e) =>{
+	e.preventDefault()
+	var myHeaders = new Headers();
+	myHeaders.append("Accept", "application/json");
+	myHeaders.append("Authorization", "Bearer 41|1rEpfWLienwJOQmLxPuDmRUP5DgtMt5GzThDTKpb");
+
+	var formdata = new FormData();
+	formdata.append("questions[0][input_type]", "text");
+	formdata.append("questions[0][question]", "how are you");
+	formdata.append("questions[1][input_type]", "text");
+	formdata.append("questions[1][question]", "i'm fin");
+	formdata.append("types[basic][price]", "rtv");
+
+	var requestOptions = {
+	  method: 'POST',
+	  headers: myHeaders,
+	  body: formdata,
+	  redirect: 'follow'
+	};
+
+	fetch("https://posla-api.herokuapp.com/api/deals/create/stage-four-requirements/{{deal_id}}?", requestOptions)
+	  .then(response => response.text())
+	  .then(result => {
+	  	console.log(result);
+	  })
+	  .catch(error => console.log('error', error));
+
+}
+
 	return(
 <>
 	<Header/>
-		<div class="modal" id="addQuestion">
+		<div class="modal" id="addQuestion" class="question-cover" style={{display:display}}>
 	        <div class="modal-dialog">
 	            <div class="modal-content">
 	                <div class="modal-header">
 	                    <h4 class="modal-title">Add Question</h4>
-	                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+	                    <button type="button" class="close" data-dismiss="modal" onClick={()=>{setDisplay("none")}}>&times;</button>
 	                </div>
 	                <div class="modal-body">
 	                    <div class="p-10">
 	                        
 	                        <div class="form-group">
 	                            <label>Question:</label>
-	                            <input type="text" class="form-control add-question-text" />
+	                            <input type="text" class="form-control add-question-text" name=""/>
 	                        </div>
 
 	                        <div class="form-group">
 	                            <label>Response Type:</label>
 	                            <div class="form-group mt-5">
-	                                <label class="checkbox-inline b-1-ddd pt-5 pb-5 mt-10 mr-10 pr-10 d-inline">
-	                                    <input type="radio" checked class="ml-10"/>
+	                            	<input type="radio" checked class="ml-10"/> 
+	                                <label class="checkbox-inline b-1-ddd pt-5 pb-5 mt-10 mr-10 pr-10 d-inline" style={{border:"0"}}> 
 	                                    Free Text
 	                                </label>
-
-	                                 for V1, let's do only free text 
 	                                
-	                                <label class="checkbox-inline b-1-ddd pt-5 pb-5 mt-10 mr-10 pr-10 d-inline">
-	                                    <input type="radio" name="" class="ml-10"/>
-	                                    Dropdown Options
-	                                </label>
-	                                
-
+	                              {/** <!--
+  	                                <input type="radio" name="" class="ml-10"/> 
+  	                                <label class="checkbox-inline b-1-ddd pt-5 pb-5 mt-10 mr-10 pr-10 d-inline">
+  	                                    Dropdown Options
+  	                                </label>
+	                              -->**/}
+	                                 
 	                            </div>
 	                        </div>
 
 	                    </div>
 	                </div>
 	                <div class="modal-footer">
-	                    <button type="button" class="close btn btn-transparent-black btn-sm" data-dismiss="modal">
+	                    <button type="button" class="close btn btn-transparent-black btn-sm" data-dismiss="modal" onClick={()=>{setDisplay("none")}}>
 	                        <span class="fa fa-times"></span>
 	                        Cancel
 	                    </button>
@@ -61,7 +97,7 @@ const DealRequirement = () => {
 	    </div>
 
 
-		<div class="container">
+		<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
 	        <div class="row">
 	            <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -73,8 +109,8 @@ const DealRequirement = () => {
 	                
 	                <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
 	                    <ol class="breadcrumb">
-	                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-	                        <li class="breadcrumb-item"><a href="/account/deals">Deals</a></li>
+	                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+	                        <li class="breadcrumb-item"><Link to="/account/deals">Deals</Link></li>
 	                        <li class="breadcrumb-item active" aria-current="page">Create Deal</li>
 	                    </ol>
 	                </div>
@@ -92,11 +128,11 @@ const DealRequirement = () => {
 
 	                                <form action="/account/deals/create/1234/publish">
 	                                    
-	                                    <div class="b-1-ddd">
+	                                    <div class="b-1-ddd" style={{padding:"20px"}}>
 
 	                                        <div class="p-20">
 	                                            
-	                                            <div class="mx-auto mw-600 p-20 b-1-ddd">
+	                                            <div class="mx-auto mw-600 p-20 b-1-ddd" style={{padding:"20px"}}>
 	                                                
 	                                                <div>
 	                                                    <div class="font-bold">
@@ -161,14 +197,12 @@ const DealRequirement = () => {
 	                                                            <div>
 	                                                                What color variations would you like?
 	                                                            </div>
-	                                                            <input type="hidden" name=""/>
+	                                                            <input type="text" name=""/>
 	                                                        </div>
-	                                                    end: foreach loop 
-
 	                                                </div>
 
 	                                                <div>
-	                                                    <button type="button" class="btn btn-transparent-black btn-sm icon-left" data-toggle="modal" data-target="#addQuestion">
+	                                                    <button type="button" class="btn btn-transparent-black btn-sm icon-left" data-toggle="modal" data-target="#addQuestion" onClick={(e)=>{setDisplay("block")}}>
 	                                                        <span class="fa fa-plus"></span>
 	                                                        Add Another Question
 	                                                    </button>
@@ -181,14 +215,16 @@ const DealRequirement = () => {
 	                                        
 	                                        <div class="p-15 mt-15 bt-1-ddd floated-content">
 	                                            <div class="pull-right">
-	                                                <a href="/account/deals/create/1234/pricing" class="btn btn-transparent-black btn-sm icon-left">
+	                                                <Link to="/account/deals/create/1234/pricing" class="btn btn-transparent-black btn-sm icon-left" style={{marginTop: "10px"}}>
 	                                                    <span class="fa fa-angle-left"></span>
 	                                                    Back
-	                                                </a>
-	                                                <button type="submit" class="btn btn-blue btn-sm icon-right">
-	                                                    Proceed
-	                                                    <span class="fa fa-angle-right"></span>
-	                                                </button>
+	                                                </Link>
+	                                                <Link to="/account/deals/create/1234/publish" >
+	                                                    <button type="submit" class="btn btn-blue btn-sm icon-right"  style={{marginTop: "10px", marginLeft:"10px"}}>
+	                                                            Proceed
+	                                                            <span class="fa fa-angle-right"></span>
+	                                                    </button>
+	                                                </Link>
 	                                            </div>
 	                                        </div>
 
