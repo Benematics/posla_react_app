@@ -4,10 +4,15 @@ import Footer from '../components/Footer';
 import ShareModal from '../components/ShareModal';
 import ProjectList from '../components/ProjectList';
 import {Link} from 'react-router-dom';
+import {useSelector, useDispatch} from "react-redux";
+import {register,selectUser} from "../features/userSlice";
 
 const ProjectDetails = () => {
 
     const [project, setProject] = useState([]);
+    const [pro,setPro] = useState("");
+    const [buyer, setBuyer] = useState("");
+    const user = useSelector(selectUser);
     useEffect(()=>{
     fetch("https://jsonplaceholder.typicode.com/users")
         .then(res => res.json())
@@ -18,6 +23,25 @@ const ProjectDetails = () => {
             console.log(error);
         })
     });
+
+    useEffect(()=>{
+        fetch('https://dummyjson.com/products')
+        .then(res => res.json())
+        .then((res)=>{
+            setPro(res);
+            console.log(res);
+        })
+    },[]);
+
+
+    useEffect(()=>{
+        fetch('https://dummyjson.com/users/1')
+        .then(res => res.json())
+        .then((res)=>{
+            setBuyer(res);
+            console.log(res);
+        });
+    },[])
 
 
 	return(
@@ -31,24 +55,24 @@ const ProjectDetails = () => {
 	                <div class="col-lg-6">
 	                    <ul class="ul-inline details-page-top">
 	                        <li>
-	                            <a href="#overview">
+	                            <Link to="#overview">
 	                                Overview
-	                            </a>
+	                            </Link>
 	                        </li>
 	                        <li>
-	                            <a href="#description">
+	                            <Link to="#description">
 	                                Description
-	                            </a>
+	                            </Link>
 	                        </li>
 	                        <li>
-	                            <a href="#about">
+	                            <Link to="#about">
 	                                About This Buyer
-	                            </a>
+	                            </Link>
 	                        </li>
 	                        <li>
-	                            <a href="#proposals">
+	                            <Link to="#proposals">
 	                                Proposals
-	                            </a>
+	                            </Link>
 	                        </li>
 	                    </ul>
 	                </div>
@@ -57,7 +81,7 @@ const ProjectDetails = () => {
 	                        <ul class="ul-inline pull-right mt-1">
 	                            <li>
 	                                <button type="submit" class="btn btn-transparent-black btn-xs hover-bg-orange" title="Favourite" data-widget="collapse" data-toggle="tooltip">
-	                                    <span class="fa fa-heart" Style={{"position": "relative", "top": "1px"}}></span>
+	                                    <span class="fa fa-heart" style={{position: "relative", top: "1px"}}></span>
 	                                </button>
 	                            </li>
 	                            <li>
@@ -85,8 +109,8 @@ const ProjectDetails = () => {
 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/category/projects/category1">Category</a></li>
-                        <li class="breadcrumb-item"><a href="/category/projects/category1">SubCategory</a></li>
+                        <li class="breadcrumb-item"><Link to="/category/projects/category1">Category</Link></li>
+                        <li class="breadcrumb-item"><Link to="/category/projects/category1">SubCategory</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">12345678</li>
                     </ol>
                 </div>
@@ -99,14 +123,14 @@ const ProjectDetails = () => {
                     </div>
                     <div class="details-title-sub floated-content mt-10">
                         <div class="pull-left">
-                            <a href="/user/abcde12345" class="user-img-text">
+                            <Link to="/user/abcde12345" class="user-img-text">
                                 <div>
                                     <img src="/images/user.png" alt="Firstname lastname" class="dp-contain" />
                                 </div>
                                 <div class="hover-underline">
-                                    Olawale Lawal
+                                    {user.name}
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                         <div class="pull-left">|</div>
                         <div class="pull-left">
@@ -213,7 +237,7 @@ const ProjectDetails = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    Firstname lastname
+                                    {buyer.firstName} {buyer.lastName}
                                 </div>
                             </div>
                             <div>
@@ -275,16 +299,16 @@ const ProjectDetails = () => {
                                 <div class="copy-link mt-5">
                                     <div class="input-group">
                                         <input type="search" name="q" class="form-control"  id="direct-share-link-1" value="$share_link" readonly />
-                                        <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-blue btn-md"  Style={{"border-radius": "0", "height": "35px"}}>
+                                        <div class="input-group-btn" >
+                                            <button type="submit" class="btn btn-blue btn-md"  style={{borderRadius: "0", height: "35px", marginLeft:"5px"}}>
                                                 <span class="fa fa-copy"></span>
                                                 <span>Copy</span>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-center mt-10">
-                                    <button type="button" class="btn btn-transparent-black btn-sm" data-toggle="modal" data-target="#shareModal">
+                                <div class="text-center mt-10" >
+                                    <button type="button" class="btn btn-transparent-black btn-sm" data-toggle="modal" data-target="#shareModal" style={{marginTop:"5px"}}>
                                         <span class="fa fa-share-alt"></span>
                                         Share this Deal
                                     </button>
@@ -294,24 +318,25 @@ const ProjectDetails = () => {
                     </div>
                 </div>
 
-                 <div class="section" id="about">
+
+                <div class="section" id="about">
                     <div class="section-title">
                         About this Buyer
                     </div>
                     <div>
-                        <a href="/user/abcde12345" class="user-img-text user-img-text-md">
+                        <Link to="/user/abcde12345" class="user-img-text user-img-text-md">
                             <div>
-                                <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
+                                <img src={buyer.image} alt="Firstname lastname" class="dp-contain" />
                             </div>
                             <div class="pt-5 underline-none">
-                                Firstname lastname
+                                {buyer.firstName} {buyer.lastName}
                                 <div class="pt-1">
                                     <button class="btn btn-transparent-black btn-xs hover-bg-black">
                                         View buyer's profile
                                     </button>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
                     <div class="bt-1-ddd pt-10 mt-10">
                         <div class="row">
@@ -328,7 +353,7 @@ const ProjectDetails = () => {
                                     Gender
                                 </div>
                                 <div>
-                                    Female
+                                    {buyer.gender}
                                 </div>
                             </div>
                             <div class="col-sm-6 mb-20">
@@ -353,6 +378,9 @@ const ProjectDetails = () => {
                         Hi, I am a project manager working for a startup here in Ireland. I also help clients (individuals and businesses) to manage their online platforms (be it Web, Mobile, or Desktop Applications). I can manage projects both at development stage and maintenance stage.
                     </div>
                 </div>
+
+                
+
 
                 <div class="section mb-0" id="proposals">
                     <div class="section-title">
@@ -414,15 +442,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -438,9 +466,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -455,7 +483,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div> put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -473,15 +501,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -497,9 +525,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -514,7 +542,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div> put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -537,15 +565,15 @@ const ProjectDetails = () => {
                                 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -561,9 +589,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -578,7 +606,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -597,15 +625,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div> put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -621,9 +649,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -638,7 +666,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                          <span class="fa fa-star"></span> 
@@ -657,15 +685,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -681,9 +709,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -698,7 +726,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div> put product rating here (in percentage)
+                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage)
                                                     </div>
                                                     <div>
                                                          <span class="fa fa-star"></span>
@@ -721,15 +749,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                          <span class="fa fa-star"></span> 
@@ -745,9 +773,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -762,7 +790,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -781,15 +809,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div> put product rating here (in percentage)
+                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage)
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -805,9 +833,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -822,7 +850,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div> put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -841,15 +869,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -865,9 +893,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -882,7 +910,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div> put product rating here (in percentage)
+                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage)
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -905,15 +933,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div> put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -929,9 +957,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -946,7 +974,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -965,15 +993,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -989,9 +1017,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -1006,7 +1034,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span>
@@ -1025,15 +1053,15 @@ const ProjectDetails = () => {
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
-                                        <a href="" class="pull-left">
+                                        <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                        </a>
+                                        </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -1049,9 +1077,9 @@ const ProjectDetails = () => {
                                             </div>
                                         </div>
                                         <div class="overflow-hidden">
-                                            <a href="" class="font-bold hover-underline">
+                                            <Link to="" class="font-bold hover-underline">
                                                 John Clifford
-                                            </a>
+                                            </Link>
                                             <div class="text-fade">
                                                 <span class="fa fa-flag text-fade"></span>
                                                 Nigeria
@@ -1066,7 +1094,7 @@ const ProjectDetails = () => {
                                                 <div class="rating-box">
                                                     <div>
                                                         <div></div>
-                                                        <div Style={{"width": "75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
                                                     </div>
                                                     <div>
                                                         <span class="fa fa-star"></span> 
@@ -1109,7 +1137,7 @@ const ProjectDetails = () => {
                                                     My Proposal:
                                                     <span class="required">*</span>
                                                 </label>
-                                                <textarea class="form-control resize-none" Style={{"height": "85px"}} placeholder="Type a message or use a template..."></textarea>
+                                                <textarea class="form-control resize-none" style={{height:"85px"}} placeholder="Type a message or use a template..."></textarea>
                                             </div>
                                         </div>
 
@@ -1167,13 +1195,13 @@ const ProjectDetails = () => {
                                             Proposal Templates:
                                         </div>
                                         <div class="">
-                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" Style={{"height": "90px"}}>
+                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" style={{height:"90px"}}>
                                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                                             </div>
-                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" Style={{"height": "90px"}}>
+                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" style={{height:"90px"}}>
                                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                                             </div>
-                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" Style={{"height": "90px"}}>
+                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" style={{height:"90px"}}>
                                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                                             </div>
                                         </div>
@@ -1218,7 +1246,7 @@ const ProjectDetails = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    Firstname lastname
+                                    {buyer.firstName} {buyer.lastName}
                                 </div>
                             </div>
                             <div>
@@ -1280,7 +1308,7 @@ const ProjectDetails = () => {
                                     <div class="input-group">
                                         <input type="search" name="q" class="form-control"  id="direct-share-link-2" value="share_link" readonly />
                                         <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-blue btn-md"  Style={{"border-radius":"0", "height": "35px"}}>
+                                            <button type="submit" class="btn btn-blue btn-md"  style={{borderRadius:"0", height: "35px"}}>
                                                 <span class="fa fa-copy"></span>
                                                 <span>Copy</span>
                                             </button>
@@ -1304,7 +1332,7 @@ const ProjectDetails = () => {
                         <ul class="ul-inline">
                             <li>
                                 <button type="submit" class="btn btn-transparent-black btn-xs hover-bg-orange" title="Favourite" data-widget="collapse" data-toggle="tooltip">
-                                    <span class="fas fa-heart" Style="position: relative; top: 1px;"></span>
+                                    <span class="fas fa-heart" style={{position: "relative", top: "1px"}}></span>
                                 </button>
                             </li>
                             <li>
@@ -1406,7 +1434,7 @@ const ProjectDetails = () => {
                                     <div class="input-group">
                                         <input type="search" name="q" class="form-control"  id="direct-share-link-3" value="share_link" readonly />
                                         <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-blue btn-md"  Style={{"border-radius": "0 ", "height": "35px"}}>
+                                            <button type="submit" class="btn btn-blue btn-md"  style={{borderRadius: "0 ", height: "35px"}}>
                                                 <span class="fa fa-copy"></span>
                                                 <span>Copy</span>
                                             </button>
@@ -1447,7 +1475,7 @@ const ProjectDetails = () => {
                                     </div>
                                     <div className="">
                                         <div className="font-bold">
-                                          jbvjjbvj {project.name}
+                                          {project.username}
                                         </div>
 
                                         <div className="text-fade ellipsis-2-lines mt-5">

@@ -14,7 +14,13 @@ const CatBusiness = () => {
         .then(res => res.json())
         .then(res => {setProject(res)})
         .catch((error) => {console.log(error)})
-    });
+    },[]);
+
+    useEffect(()=>{
+        fetch('https://dummyjson.com/products/category/smartphones')
+        .then(res => res.json())
+        .then(console.log);
+    },[])
 
 
     return(
@@ -26,7 +32,93 @@ const CatBusiness = () => {
             <div class="col-md-4 col-lg-3 d-none d-md-block">
 
                 <div class="section sticky-top">
-                    <CommonFilter/>
+            <form action="" method="get">
+                <div class="filter-section">
+                    <div class="filter-title">
+                        Select Category
+                    </div>
+                    <div class="filter-body pr-0 pl-0">
+                        <div class="mh-150 list-icon-text filter-body-list">
+                            <Link to="/category/projects/category1">
+                                <div>
+                                    <span class="fa fa-angle-right"></span>
+                                </div>
+                                <div>
+                                    Smart Phones
+                                </div>
+                            </Link>
+                            <Link to="/category/projects/category1" class="active">
+                                <div>
+                                    <span class="fa fa-angle-right"></span>
+                                </div>
+                                <div>
+                                    Sub Category 1
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-title">
+                        Budget ($)
+                    </div>
+                    <div class="filter-body">
+
+                        <div class="posla-price-slider p-10 pt-20 pb-20">
+                            <div class="posla-price-slider-slide">
+                                <div id="slider-range" class="price-filter-range posla-slider-range" name="rangeInput">
+                                    price range
+                                </div>
+                            </div>
+                            <div class="posla-price-slider-input">
+                                <input type="number" min="0" max="9900"  id="min_price" class="posla-slider-min-input price-range-field" />
+                                <input type="number" min="0" max="10000" id="max_price" class="posla-slider-max-input price-range-field" />
+                            </div>
+                            <button class="price-range-search" id="price-range-submit">Search</button> 
+                            <div id="searchResults" class="search-results-block"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-title">
+                        Proposals
+                    </div>
+                    <div class="filter-body pt-10 pb-10">
+                        <label class="checkbox-inline mb-5">
+                            <input type="checkbox" name="check" id=""/>
+                            No Proposals Yet
+                        </label>
+                        <label class="checkbox-inline mb-5">
+                            <input type="checkbox" name="check" id=""/>
+                            1-5 Proposals
+                        </label>
+                        <label class="checkbox-inline mb-5">
+                            <input type="checkbox" name="check" id=""/>
+                            6-10 Proposals
+                        </label>
+                        <label class="checkbox-inline mb-5">
+                            <input type="checkbox" name="check" id=""/>
+                            10-20 Proposals
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="check" id=""/>
+                            20 & Above Proposals
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-orange btn-sm mr-5 mb-5">
+                        Apply filter
+                    </button>
+                    <button class="btn btn-transparent-black btn-sm mb-5">
+                        Clear filter
+                    </button>
+                </div>
+            </form>
                 </div>
 
             </div>
@@ -43,7 +135,93 @@ const CatBusiness = () => {
                             </div>
                             <div class="modal-body">
                                 <div class="p-10">
-                                   <CommonFilter/>
+                                               <form action="" method="get">
+                <div class="filter-section">
+                    <div class="filter-title">
+                        Select Category
+                    </div>
+                    <div class="filter-body pr-0 pl-0">
+                        <div class="mh-150 list-icon-text filter-body-list">
+                            <Link to="/category/projects/category1">
+                                <div>
+                                    <span class="fa fa-angle-right"></span>
+                                </div>
+                                <div>
+                                    Main Category
+                                </div>
+                            </Link>
+                            <Link to="/category/projects/category1" class="active">
+                                <div>
+                                    <span class="fa fa-angle-right"></span>
+                                </div>
+                                <div>
+                                    Sub Category 1
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-title">
+                        Budget ($)
+                    </div>
+                    <div class="filter-body">
+
+                        <div class="posla-price-slider p-10 pt-20 pb-20">
+                            <div class="posla-price-slider-slide">
+                                <div id="slider-range" class="price-filter-range posla-slider-range" name="rangeInput">
+                                    price range
+                                </div>
+                            </div>
+                            <div class="posla-price-slider-input">
+                                <input type="number" min="0" max="9900"  id="min_price" class="posla-slider-min-input price-range-field" />
+                                <input type="number" min="0" max="10000" id="max_price" class="posla-slider-max-input price-range-field" />
+                            </div>
+                            <button class="price-range-search" id="price-range-submit">Search</button> 
+                            <div id="searchResults" class="search-results-block"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-title">
+                        Proposals
+                    </div>
+                    <div class="filter-body pt-10 pb-10">
+                        <label class="checkbox-inline mb-5">
+                            <input type="checkbox" name="check" id=""/>
+                            No Proposals Yet
+                        </label>
+                        <label class="checkbox-inline mb-5">
+                            <input type="checkbox" name="check" id=""/>
+                            1-5 Proposals
+                        </label>
+                        <label class="checkbox-inline mb-5">
+                            <input type="checkbox" name="check" id=""/>
+                            6-10 Proposals
+                        </label>
+                        <label class="checkbox-inline mb-5">
+                            <input type="checkbox" name="check" id=""/>
+                            10-20 Proposals
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="check" id=""/>
+                            20 & Above Proposals
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-orange btn-sm mr-5 mb-5">
+                        Apply filter
+                    </button>
+                    <button class="btn btn-transparent-black btn-sm mb-5">
+                        Clear filter
+                    </button>
+                </div>
+            </form>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +232,7 @@ const CatBusiness = () => {
                 <div class="mb-20">
                     <div class="text-center">
                         <div class="font-20 font-bold">
-                            Category name
+                            Smart Phones
                         </div>
                         <div class="font-12 text-fade">
                             (30 active projects)
@@ -144,9 +322,9 @@ const CatBusiness = () => {
             
             <div class="col-lg-3 d-none d-lg-block">
                 
-                <a href="" class="posla-ad-space">
+                <Link to="" class="posla-ad-space">
                     <img src='/images/ad-400-200-1.jpg' class="dp-contain" alt="Ad"/>
-                </a>
+                </Link>
 
                 <div class="section pl-10 pr-10 sticky-top">
                     <div class="section-title">

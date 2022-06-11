@@ -96,6 +96,9 @@ import DealsCreateSuccess from "./pages/DealsCreateSuccess";
 import AdminUsersList from "./pages/AdminUsersList";
 import AdminDealsList from "./pages/AdminDealsList";
 import AdminProjectList from "./pages/AdminProjectList";
+import HomeDeals from "./pages/HomeDeals";
+import DealDetails from "./pages/DealDetails";
+import DealsCat from "./pages/DealsCat";
 
 
 function App() {
@@ -111,9 +114,10 @@ function App() {
         <Route path="/account/deals/create/1234/requirement" element={<DealRequirement/>}/>
         <Route path="/account/deals/create/1234/publish" element={<DealPublish/>}/>
         <Route path="/project/c1d00230-a423-4b84-a121-7105239ff8d8" element={<ProjectDetails/>}/>
+        <Route path="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" element={<DealDetails/>}/>
         <Route path="/account/dashboard" element={<Dashboard/>}/>
         <Route path="/category/business/projects" element={<CatBusiness/>}/>
-        <Route path="/deals" element={<SearchDeals/>}/>
+        <Route path="/deals" element={<HomeDeals/>}/>
         <Route path="/account" element={<Account/>}/>
         <Route path="/account/profile" element={<AccountProfile/>}/>
         <Route path="/account/orders" element={<AccountOrders/>}/>
@@ -199,6 +203,7 @@ function App() {
         <Route path="/admin/users-list" element={<AdminUsersList/>}/>
         <Route path="/admin/deals-list" element={<AdminDealsList/>}/>
         <Route path="/admin/project-list" element={<AdminProjectList/>}/>
+        <Route path="/category/music-audio/deals" element={<DealsCat/>}/>
 
 
          
