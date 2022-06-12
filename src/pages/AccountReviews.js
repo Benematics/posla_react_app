@@ -2,11 +2,16 @@ import React, {useState, useEffect} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AccountSidebar from '../components/AccountSidebar';
+import {Link} from "react-router-dom";
 
 
 const AccountReviews = () =>{
     const [result, setResult] = useState("");
     const [error, setError] = useState("");
+    const rating = 2;
+
+
+
 
     useEffect (()=>{
         fetch("https://jsonplaceholder.typicode.com/posts")
@@ -32,7 +37,7 @@ const AccountReviews = () =>{
 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Reviews</li>
                     </ol>
                 </div>
@@ -45,26 +50,52 @@ const AccountReviews = () =>{
                         
                         <ul class="nav nav-tabs posla-tabs posla-tabs-2">
                             <li class="nav-item">
-                                <a href="/account/reviews/received" class="nav-link active">
+                                <Link to="/account/reviews" class="nav-link active">
                                     <div class="text-center">
                                         Received (6)
                                     </div>
-                                </a>
+                                </Link>
                             </li>
                             <li class="nav-item">
-                                <a href="/account/reviews/sent" class="nav-link">
+                                <Link to="/account/reviews/sent" class="nav-link">
                                     <div class="text-center">
                                         Sent (13)
                                     </div>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
+
+
+
+
+
+
+
+
+                    { 
+                        rating < 2  ? 
+                                <>
+                                    <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
+                                    <i class="fa fa-star-half-o fa-1x" style={{color:"blue"}}></i>
+                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                </>       
+                                :
+                                <>
+                                    <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
+                                    <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
+                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                </>                                      
+                        }
                     
                         <div class="b-1-ddd p-20-10-responsive">
                             
                              {result && result.map((item)=>(
                             <div class="mb-20">
-                                <a href="" class="p-20-10-responsive d-block b-1-ddd bb-none pt-10 pb-10 hover-bg-ddd">
+                                <Link to="" class="p-20-10-responsive d-block b-1-ddd bb-none pt-10 pb-10 hover-bg-ddd">
                                     <div class="user-msg-img pull-left">
                                         <img src='/images/deal-1.png' alt="Olawale Lawal" class="dp-cover" />
                                     </div>
@@ -80,7 +111,7 @@ const AccountReviews = () =>{
                                             </button>
                                         </div>
                                     </div>
-                                </a>
+                                </Link>
 
                                 <div class="user-msg b-1-ddd">
                                     <div class="overflow-hidden">
@@ -89,12 +120,31 @@ const AccountReviews = () =>{
                                         </div>
                                         <div class="pull-right d-none d-sm-block">
                                             <div class="rating-box mt-5">
-                                                <div>
-                                                    <div></div>
-                                                    <div style={{width: "75%"}}></div> -- put product rating here (in percentage) --
-                                                </div>
+                                           
+                         
+                                                    {   
+                                                        rating < 1  ? 
+                                                                    <>
+                                                                        <i class="fa fa-star-half-o fa-1x" style={{color:"blue"}}></i>
+                                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                                    </>       
+                                                                    :
+                                                                    <>
+                                                                        <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
+                                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                                    </>   
+
+                                                    }
+                
+                                            
                                                 <div class="font-bold text-orange">
-                                                    5.0
+                                                    {rating}
                                                 </div>
                                             </div>
                                         </div>
@@ -108,7 +158,7 @@ const AccountReviews = () =>{
                                             <div class="rating-box d-block d-sm-none">
                                                 <div>
                                                     <div></div>
-                                                    <div style={{width: "75%"}}></div> -- put product rating here (in percentage) --
+                                                    <div style={{width: "75%"}}></div>
                                                 </div>
                                                 <div class="font-bold text-orange">
                                                     5.0

@@ -512,16 +512,70 @@ const renderUser = (
             </ul>
 
             <ul class="navbar-nav navbar-nav-links-auth ml-auto">
-                    <li class="nav-item" onClick={()=>{setDisplay("flex"); setIndex("-1");}} style={{visibility: show}}>
+                { user ?
+                  <>
+                    <li class="nav-item" onClick={()=>{setDisplay("flex"); setIndex("-1");}} >
                         <a class="nav-link btn-login cursor-pointer" href="#">
                             Login
                         </a>
                     </li>
-                    <li class="nav-item" onClick={()=>{setDisplay1("flex"); setIndex("-1");}} style={{visibility: show}}>
+                    <li class="nav-item" onClick={()=>{setDisplay1("flex"); setIndex("-1");}} >
                         <a class="nav-link btn-register cursor-pointer" href="#">
                             Register
                         </a>
                     </li>
+                </>
+                :
+                <>
+                    <li class="nav-item dropdown1" style={{visibility:test}}>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle no-after nowrap floated-content dropdown-btn1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style={{display:test}}>
+                            <span class="fa fa-caret-down icon-16 pull-right ml-5"></span>
+                            {user.name}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-content1" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/account/dashboard">
+                                Dashboard
+                            </a>
+                            <a class="dropdown-item" href="/account/profile">
+                                Profile
+                            </a>
+                            <a class="dropdown-item" href="/account/orders">
+                                My Orders
+                            </a>
+                            <a class="dropdown-item" href="/account/deals">
+                                My Deals
+                            </a>
+                            <a class="dropdown-item" href="/account/projects">
+                                My Projects
+                            </a>
+                            <a class="dropdown-item" href="/account/project-bids">
+                                My Project Bids
+                            </a>
+                            <a class="dropdown-item" href="/account/favourites">
+                                Favourites
+                            </a>
+                            <a class="dropdown-item" href="/messages">
+                                Messages
+                            </a>
+                            <a class="dropdown-item" href="/account/earnings-withdrawals/">
+                                Earnings & Withdrawals
+                            </a>
+                            <a class="dropdown-item" href="/account/wallet">
+                                My Wallet
+                            </a>
+                            <a class="dropdown-item" href="/account/reviews">
+                                My Reviews
+                            </a>
+                            <a class="dropdown-item" href="/account/settings">
+                                Account Settings
+                            </a>
+                            <a class="dropdown-item" href="" onClick={handleLogout}>
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+                  </>
+                } 
             </ul>
 
 

@@ -8,6 +8,7 @@ import {Link}  from 'react-router-dom';
 const Dashboard = () => {
     const [deals, setDeals] = useState("");
     const [project, setProject] = useState("");
+    const rating = 2;
     useEffect(()=>{
         fetch("https://dummyjson.com/products")
         .then(res => res.json())
@@ -39,7 +40,7 @@ const Dashboard = () => {
 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                     </ol>
                 </div>
@@ -49,14 +50,14 @@ const Dashboard = () => {
                 <div class="section">
                     <div class="section-title">
                         Active Deals ()
-                        <a href="/account/deals" class="btn btn-transparent-black btn-xs pull-right hover-bg-orange">View All</a>
+                        <Link to="/account/deals" class="btn btn-transparent-black btn-xs pull-right hover-bg-orange">View All</Link>
                     </div>
                     <div>
-                         maximum of 3 deals where status == active 
+
                     <div class="deal-list deal-list-mini row">
                          {deals && deals.products.map((item)=>(
                                 <div class="col-sm-6 col-lg-4">
-                                    <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"auto", zIndex:"-1"}}>
+                                    <Link to="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"auto", zIndex:"-1"}}>
             
                                         <div class="deal-info-top">
                                             <div>
@@ -113,15 +114,15 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div>      
-                                    </a>
+                                    </Link>
                             </div>
                             ))}   
                         </div>
                         <div>
-                            <a href="/account/deals" class="d-block text-center pt-10 pb-10 b-1-ddd bg-eee hover-bg-orange">
+                            <Link to="/account/deals" class="d-block text-center pt-10 pb-10 b-1-ddd bg-eee hover-bg-orange">
                                 View All Deals
                                 <span class="fa fa-angle-right"></span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -130,11 +131,10 @@ const Dashboard = () => {
                 <div class="section">
                     <div class="section-title">
                         Active Projects ()
-                        <a href="/account/projects" class="btn btn-transparent-black btn-xs pull-right hover-bg-orange">View All</a>
+                        <Link to="/account/projects" class="btn btn-transparent-black btn-xs pull-right hover-bg-orange">View All</Link>
                     </div>
                     <div>
                         <div class="project-list project-list-wide">
-                             maximum of 3 projects where status == active 
                              {project && project.posts.map((item)=>(
                                 <Link to="/project/c1d00230-a423-4b84-a121-7105239ff8d8" className="project" id="projectlist" >
                                         <div>
@@ -200,10 +200,10 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div>
-                        <a href="/account/projects" class="d-block text-center pt-10 pb-10 b-1-ddd bg-eee hover-bg-orange">
+                        <Link to="/account/projects" class="d-block text-center pt-10 pb-10 b-1-ddd bg-eee hover-bg-orange">
                             View All Projects
                             <span class="fa fa-angle-right"></span>
-                        </a>
+                        </Link>
                     </div>
                 </div>
 
@@ -310,16 +310,31 @@ const Dashboard = () => {
                     </div>
                     <div>
                         <div class="rating-box rating-box-lg mt-5">
-                            <div>
-                                <div></div>
-                                <div style={{width: "75%"}}></div>  put product rating here (in percentage) 
-                            </div>
+                        {   
+                            rating < 1  ? 
+                                        <>
+                                            <i class="fa fa-star-half-o fa-1x" style={{color:"blue"}}></i>
+                                            <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                            <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                            <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                            <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                        </>       
+                                        :
+                                        <>
+                                            <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
+                                            <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                            <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                            <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                            <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                        </>   
+
+                        }
                             <div class="font-bold text-orange">
-                                5.0
+                                {rating}
                             </div>
                         </div>
                     </div>
-                    <div class="p-20 pb-0 mb-20 b-1-ddd">
+                    <div class="p-20 pb-0 mb-20 b-1-ddd" style={{padding:"20px"}}>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="reviews-summary">
@@ -380,7 +395,7 @@ const Dashboard = () => {
                     </div>
                     <div class="section-title" style={{marginTop:"10px"}}>
                         1809 Reviews
-                        <a href="/account/reviews" class="btn btn-transparent-black btn-xs pull-right hover-bg-orange">View All</a>
+                        <Link to="/account/reviews" class="btn btn-transparent-black btn-xs pull-right hover-bg-orange">View All</Link>
                     </div>
                     <div>
                         
@@ -391,12 +406,27 @@ const Dashboard = () => {
                                 </div>
                                 <div class="pull-right d-none d-sm-block">
                                     <div class="rating-box mt-5">
-                                        <div>
-                                            <div></div>
-                                            <div style={{width: "75%"}}></div>  put product rating here (in percentage) 
-                                        </div>
+                                {   
+                                    rating < 1  ? 
+                                                <>
+                                                    <i class="fa fa-star-half-o fa-1x" style={{color:"blue"}}></i>
+                                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                </>       
+                                                :
+                                                <>
+                                                    <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
+                                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                </>   
+
+                                }
                                         <div class="font-bold text-orange">
-                                            5.0
+                                           {rating}
                                         </div>
                                     </div>
                                 </div>
@@ -408,12 +438,29 @@ const Dashboard = () => {
                                         Published: Jan 12, 2019
                                     </div>
                                     <div class="rating-box d-block d-sm-none">
-                                        <div>
-                                            <div></div>
-                                            <div style={{width: "75%"}}></div>  put product rating here (in percentage) 
-                                        </div>
+
+
+                                                                            {   
+                                        rating < 1  ? 
+                                                    <>
+                                                        <i class="fa fa-star-half-o fa-1x" style={{color:"blue"}}></i>
+                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                    </>       
+                                                    :
+                                                    <>
+                                                        <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
+                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                        <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+                                                    </>   
+
+                                    }
                                         <div class="font-bold text-orange">
-                                            5.0
+                                            {rating}
                                         </div>
                                     </div>
                                 </div>
@@ -423,10 +470,10 @@ const Dashboard = () => {
                             </div>
                         </div>
 
-                        <a href="/account/reviews" class="d-block text-center pt-10 pb-10 b-1-ddd bg-eee hover-bg-orange">
+                        <Link to="/account/reviews" class="d-block text-center pt-10 pb-10 b-1-ddd bg-eee hover-bg-orange">
                             View All Reviews
                             <span class="fa fa-angle-right"></span>
-                        </a>
+                        </Link>
                         
                     </div>
                 </div>
