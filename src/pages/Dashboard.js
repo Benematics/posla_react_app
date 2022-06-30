@@ -8,7 +8,10 @@ import {Link}  from 'react-router-dom';
 const Dashboard = () => {
     const [deals, setDeals] = useState("");
     const [project, setProject] = useState("");
+    const [token, setToken] = useState("");
+    const [detail, setDetail] = useState("");
     const rating = 2;
+
     useEffect(()=>{
         fetch("https://dummyjson.com/products")
         .then(res => res.json())
@@ -17,6 +20,7 @@ const Dashboard = () => {
         })
         .catch((error)=>console.log(error))
     },[])
+
     useEffect(()=>{
     fetch("https://dummyjson.com/posts")
     .then(res1 => res1.json())
@@ -25,6 +29,40 @@ const Dashboard = () => {
     })
     .catch((error1)=>console.log(error1))
 },[deals])
+
+
+
+    useEffect(() => {
+    const access = localStorage.getItem("token");
+    if (access) {
+      setToken(access);
+      console.log(access);
+    }
+  }, []);
+
+
+    useEffect(()=>{
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+
+        fetch("https://posla-api.herokuapp.com/api/account/dashboard", requestOptions)
+          .then(response => response.json())
+          .then((result) => {
+                      const info = result.data[0];
+                      setDetail(info);
+                      console.log(info);
+                  })
+          .catch(error => console.log('error', error));
+    },[token])
+
+
 	return(
 <>
 <Header/>
@@ -49,7 +87,7 @@ const Dashboard = () => {
 
                 <div class="section">
                     <div class="section-title">
-                        Active Deals ()
+                        Active Deals ({detail.rating})
                         <Link to="/account/deals" class="btn btn-transparent-black btn-xs pull-right hover-bg-orange">View All</Link>
                     </div>
                     <div>

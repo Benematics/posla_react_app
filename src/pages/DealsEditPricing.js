@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Link} from "react-router-dom";
 import AccountSidebar from '../components/AccountSidebar';
 import NavTabDealsMgt from '../components/NavTabDealsMgt';
 import Header from '../components/Header';
@@ -87,8 +88,8 @@ const DealsEditPricing = () =>{
                 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/deals">Deals</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+                        <li class="breadcrumb-item"><Link to="/account/deals">Deals</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit Deal</li>
                     </ol>
                 </div>
@@ -106,7 +107,7 @@ const DealsEditPricing = () =>{
 
                                 <form action="/account/deals/edit/1234/requirements">
                                     
-                                    <div class="b-1-ddd">
+                                    <div class="b-1-ddd" style={{padding:"20px"}}>
 
                                         <div class="p-20">
                                             
@@ -117,19 +118,19 @@ const DealsEditPricing = () =>{
                                                             <th style={{width: "120px"}}></th>
                                                             <th>
                                                                 <label class="checkbox-inline">
-                                                                    <input type="checkbox" name="" class="deal-pricing-toggle" value="pricing_standard" onChange={handleChange}/>
+                                                                    <input type="checkbox" name="level" class="deal-pricing-toggle" value="pricing_standard" onChange={handleChange}/>
                                                                     Basic
                                                                 </label>
                                                             </th>
                                                             <th>
                                                                 <label class="checkbox-inline">
-                                                                    <input type="checkbox" name="" class="deal-pricing-toggle" value="pricing_standard" onChange={handleChange} />
+                                                                    <input type="checkbox" name="level" class="deal-pricing-toggle" value="pricing_standard" onChange={handleChange} />
                                                                     Standard
                                                                 </label>
                                                             </th>
                                                             <th>
                                                                 <label class="checkbox-inline">
-                                                                    <input type="checkbox" name="" class="deal-pricing-toggle" value="pricing_standard" onChange={handleChange}/>
+                                                                    <input type="checkbox" name="level" class="deal-pricing-toggle" value="pricing_standard" onChange={handleChange}/>
                                                                     Premium
                                                                 </label>
                                                             </th>
@@ -306,11 +307,11 @@ const DealsEditPricing = () =>{
 
                                         <div class="p-15 mt-15 bt-1-ddd floated-content">
                                             <div class="pull-right">
-                                                <a href="/account/deals/edit/1234/info" class="btn btn-transparent-black btn-sm icon-left">
+                                                <Link to="/account/deals/edit/1234/info" class="btn btn-transparent-black btn-sm icon-left">
                                                     <span class="fa fa-angle-left"></span>
                                                     Back
-                                                </a>
-                                                <button type="submit" class="btn btn-blue btn-sm icon-right" onClick= {handleSubmit}>
+                                                </Link>
+                                                <button type="submit" class="btn btn-blue btn-sm icon-right" onClick={handleSubmit}>
                                                     Proceed
                                                     <span class="fa fa-angle-right"></span>
                                                 </button>

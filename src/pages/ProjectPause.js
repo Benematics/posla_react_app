@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import AccountSidebar from '../components/AccountSidebar';
 import ProjectList from '../components/ProjectList';
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import {Link} from "react-router-dom";
 
 const ProjectPause = () =>{
 	return(
 		<>
-			<div class="container">
+        <Header/>
+			<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
         <div class="row">
             <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -17,8 +21,8 @@ const ProjectPause = () =>{
 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/projects">Projects</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+                        <li class="breadcrumb-item"><Link to="/account/projects">Projects</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Pause Project</li>
                     </ol>
                 </div>
@@ -52,7 +56,7 @@ const ProjectPause = () =>{
                                         Paused projects will no longer be active and visible to users on this platform.
                                     </li>
                                     <li class="mt-5">
-                                        To keep the project active but private, please <a href="/account/projects/edit/1234/info" class="underline">edit the visibility</a> status of this project.
+                                        To keep the project active but private, please <Link to="/account/projects/edit/1234/info" class="underline">edit the visibility</Link> status of this project.
                                     </li>
                                     <li class="mt-5">
                                         Orders already attached to this project will not be affected.
@@ -76,9 +80,9 @@ const ProjectPause = () =>{
                                 <button type="submit" class="btn btn-blue btn-sm pull-right ml-10">
                                     Pause Project
                                 </button>
-                                <a href="/account/projects" class="btn btn-transparent-black btn-sm pull-right">
+                                <Link to="/account/projects" class="btn btn-transparent-black btn-sm pull-right">
                                     Cancel
-                                </a>
+                                </Link>
                             </form>
 
                         </div>
@@ -92,6 +96,7 @@ const ProjectPause = () =>{
             </div>
         </div>
     </div>
+    <Footer/>
 		</>
 		)
 }

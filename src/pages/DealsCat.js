@@ -25,106 +25,192 @@ const DealsCat = () => {
     return(
 <>
 <Header/>
-    <div class="container" style={{marginTop:"20px"}}>
+    <div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
         <div class="row">
             
             <div class="col-md-4 col-lg-3 d-none d-md-block">
-
                 <div class="section sticky-top">
-            <form action="" method="get">
-                <div class="filter-section">
-                    <div class="filter-title">
-                        Select Category
-                    </div>
-                    <div class="filter-body pr-0 pl-0">
-                        <div class="mh-150 list-icon-text filter-body-list">
-                            <Link to="/category/deals/category1">
-                                <div>
-                                    <span class="fa fa-angle-right"></span>
+                        <form action="" method="get">
+                            <div class="filter-section">
+                                <div class="filter-title">
+                                    Select Category
                                 </div>
-                                <div>
-                                    Smart Phones
-                                </div>
-                            </Link>
-                            <Link to="/category/deals/category1" class="active">
-                                <div>
-                                    <span class="fa fa-angle-right"></span>
-                                </div>
-                                <div>
-                                    Sub Category 1
-                                </div>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="filter-section">
-                    <div class="filter-title">
-                        Budget ($)
-                    </div>
-                    <div class="filter-body">
-
-                        <div class="posla-price-slider p-10 pt-20 pb-20">
-                            <div class="posla-price-slider-slide">
-                                <div id="slider-range" class="price-filter-range posla-slider-range" name="rangeInput">
-                                    price range
+                                <div class="filter-body pr-0 pl-0">
+                                    <div class="mh-150 list-icon-text filter-body-list">
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Main Category
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1" class="active">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                        <Link to="/category/deals/category1">
+                                            <div>
+                                                <span class="fa fa-angle-right"></span>
+                                            </div>
+                                            <div>
+                                                Sub Category 1
+                                            </div>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="posla-price-slider-input">
-                                <input type="number" min="0" max="9900"  id="min_price" class="posla-slider-min-input price-range-field" />
-                                <input type="number" min="0" max="10000" id="max_price" class="posla-slider-max-input price-range-field" />
+
+                            <div class="filter-section">
+                                <div class="filter-title">
+                                    Budget ($)
+                                </div>
+                                <div class="filter-body">
+                                
+                                    <div class="posla-price-slider p-10 pt-20 pb-20">
+                                        <div class="posla-price-slider-slide">
+                                            <div id="slider-range" class="price-filter-range posla-slider-range" name="rangeInput"></div>
+                                        </div>
+                                        <div class="posla-price-slider-input">
+                                            <input type="number" min="0" max="9900"  id="min_price" class="posla-slider-min-input price-range-field" />
+                                            <input type="number" min="0" max="10000" id="max_price" class="posla-slider-max-input price-range-field" />
+                                        </div>
+                                        <button class="price-range-search" id="price-range-submit">Search</button> 
+                                        <div id="searchResults" class="search-results-block"></div>
+                                    </div>
+
+                                </div>
                             </div>
-                            <button class="price-range-search" id="price-range-submit">Search</button> 
-                            <div id="searchResults" class="search-results-block"></div>
-                        </div>
 
-                    </div>
-                </div>
+                            <div class="filter-section">
+                                <div class="filter-title">
+                                    Ratings
+                                </div>
+                                <div class="filter-body pt-10 pb-10">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="" id=""/>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="" id=""/>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star-o"></span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="" id=""/>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star-o"></span>
+                                        <span class="fa fa-star-o"></span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="" id=""/>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star-o"></span>
+                                        <span class="fa fa-star-o"></span>
+                                        <span class="fa fa-star-o"></span>
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="" id=""/>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star-o"></span>
+                                        <span class="fa fa-star-o"></span>
+                                        <span class="fa fa-star-o"></span>
+                                        <span class="fa fa-star-o"></span>
+                                    </label>
+                                </div>
+                            </div>
 
-                <div class="filter-section">
-                    <div class="filter-title">
-                        Proposals
-                    </div>
-                    <div class="filter-body pt-10 pb-10">
-                        <label class="checkbox-inline mb-5">
-                            <input type="checkbox" name="check" id=""/>
-                            No Proposals Yet
-                        </label>
-                        <label class="checkbox-inline mb-5">
-                            <input type="checkbox" name="check" id=""/>
-                            1-5 Proposals
-                        </label>
-                        <label class="checkbox-inline mb-5">
-                            <input type="checkbox" name="check" id=""/>
-                            6-10 Proposals
-                        </label>
-                        <label class="checkbox-inline mb-5">
-                            <input type="checkbox" name="check" id=""/>
-                            10-20 Proposals
-                        </label>
-                        <label class="checkbox-inline">
-                            <input type="checkbox" name="check" id=""/>
-                            20 & Above Proposals
-                        </label>
-                    </div>
-                </div>
-
-                <div>
-                    <button class="btn btn-orange btn-sm mr-5 mb-5">
-                        Apply filter
-                    </button>
-                    <button class="btn btn-transparent-black btn-sm mb-5">
-                        Clear filter
-                    </button>
-                </div>
-            </form>
+                            <div>
+                                <button class="btn btn-orange btn-sm mr-5 mb-5">
+                                    Apply filter
+                                </button>
+                                <button class="btn btn-transparent-black btn-sm mb-5">
+                                    Clear filter
+                                </button>
+                            </div>
+                        </form>
                 </div>
 
             </div>
-
             <div class="col-md-8 col-lg-6">
-
-
                 <div class="modal" id="filter">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -134,93 +220,183 @@ const DealsCat = () => {
                             </div>
                             <div class="modal-body">
                                 <div class="p-10">
-                                               <form action="" method="get">
-                <div class="filter-section">
-                    <div class="filter-title">
-                        Select Category
-                    </div>
-                    <div class="filter-body pr-0 pl-0">
-                        <div class="mh-150 list-icon-text filter-body-list">
-                            <Link to="/category/deals/category1">
-                                <div>
-                                    <span class="fa fa-angle-right"></span>
-                                </div>
-                                <div>
-                                    Main Category
-                                </div>
-                            </Link>
-                            <Link to="/category/deals/category1" class="active">
-                                <div>
-                                    <span class="fa fa-angle-right"></span>
-                                </div>
-                                <div>
-                                    Sub Category 1
-                                </div>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
+                                    <form action="" method="get">
+                                        <div class="filter-section">
+                                            <div class="filter-title">
+                                                Select Category
+                                            </div>
+                                            <div class="filter-body pr-0 pl-0">
+                                                <div class="mh-150 list-icon-text filter-body-list">
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Main Category
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1" class="active">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                    <Link to="/category/deals/category1">
+                                                        <div>
+                                                            <span class="fa fa-angle-right"></span>
+                                                        </div>
+                                                        <div>
+                                                            Sub Category 1
+                                                        </div>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                <div class="filter-section">
-                    <div class="filter-title">
-                        Budget ($)
-                    </div>
-                    <div class="filter-body">
+                                        <div class="filter-section">
+                                            <div class="filter-title">
+                                                Budget ($)
+                                            </div>
+                                            <div class="filter-body">
+                                            
+                                                <div class="posla-price-slider p-10 pt-20 pb-20">
+                                                    <div class="posla-price-slider-slide">
+                                                        <div id="slider-range" class="price-filter-range posla-slider-range" name="rangeInput"></div>
+                                                    </div>
+                                                    <div class="posla-price-slider-input">
+                                                        <input type="number" min="0" max="9900"  id="min_price" class="posla-slider-min-input price-range-field" />
+                                                        <input type="number" min="0" max="10000" id="max_price" class="posla-slider-max-input price-range-field" />
+                                                    </div>
+                                                    <button class="price-range-search" id="price-range-submit">Search</button> 
+                                                    <div id="searchResults" class="search-results-block"></div>
+                                                </div>
 
-                        <div class="posla-price-slider p-10 pt-20 pb-20">
-                            <div class="posla-price-slider-slide">
-                                <div id="slider-range" class="price-filter-range posla-slider-range" name="rangeInput">
-                                    price range
-                                </div>
-                            </div>
-                            <div class="posla-price-slider-input">
-                                <input type="number" min="0" max="9900"  id="min_price" class="posla-slider-min-input price-range-field" />
-                                <input type="number" min="0" max="10000" id="max_price" class="posla-slider-max-input price-range-field" />
-                            </div>
-                            <button class="price-range-search" id="price-range-submit">Search</button> 
-                            <div id="searchResults" class="search-results-block"></div>
-                        </div>
+                                            </div>
+                                        </div>
 
-                    </div>
-                </div>
+                                        <div class="filter-section">
+                                            <div class="filter-title">
+                                                Ratings
+                                            </div>
+                                            <div class="filter-body pt-10 pb-10">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="" id=""/>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="" id=""/>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="" id=""/>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="" id=""/>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="" id=""/>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                    <span class="fa fa-star-o"></span>
+                                                </label>
+                                            </div>
+                                        </div>
 
-                <div class="filter-section">
-                    <div class="filter-title">
-                        Proposals
-                    </div>
-                    <div class="filter-body pt-10 pb-10">
-                        <label class="checkbox-inline mb-5">
-                            <input type="checkbox" name="check" id=""/>
-                            No Proposals Yet
-                        </label>
-                        <label class="checkbox-inline mb-5">
-                            <input type="checkbox" name="check" id=""/>
-                            1-5 Proposals
-                        </label>
-                        <label class="checkbox-inline mb-5">
-                            <input type="checkbox" name="check" id=""/>
-                            6-10 Proposals
-                        </label>
-                        <label class="checkbox-inline mb-5">
-                            <input type="checkbox" name="check" id=""/>
-                            10-20 Proposals
-                        </label>
-                        <label class="checkbox-inline">
-                            <input type="checkbox" name="check" id=""/>
-                            20 & Above Proposals
-                        </label>
-                    </div>
-                </div>
-
-                <div>
-                    <button class="btn btn-orange btn-sm mr-5 mb-5">
-                        Apply filter
-                    </button>
-                    <button class="btn btn-transparent-black btn-sm mb-5">
-                        Clear filter
-                    </button>
-                </div>
-            </form>
+                                        <div>
+                                            <button class="btn btn-orange btn-sm mr-5 mb-5">
+                                                Apply filter
+                                            </button>
+                                            <button class="btn btn-transparent-black btn-sm mb-5">
+                                                Clear filter
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +407,7 @@ const DealsCat = () => {
                 <div class="mb-20">
                     <div class="text-center">
                         <div class="font-20 font-bold">
-                            Smart Phones
+                            Category name
                         </div>
                         <div class="font-12 text-fade">
                             (30 active deals)
@@ -239,7 +415,7 @@ const DealsCat = () => {
                     </div>
                 </div>
 
-                <div class="section mb-5">
+                <div class="section mb-5 pb-5">
                     <div class="section-title floated-content">
 
                         <button class="btn btn-transparent-black d-block d-md-none pull-left btn-sm" data-toggle="modal" data-target="#filter">
@@ -252,65 +428,122 @@ const DealsCat = () => {
                         </div>
 
                         <form method="get" action="" class="pull-right">
-                            <select class="form-control-md" Style={{"width": "100px", "padding": "0px"}}>
+                            <select class="form-control-md" onchange="this.form.submit()" style={{width: "100px", padding: "0px !important"}}>
                                 
-                                    <option value="new" selected >Newest First</option>
-                                    <option value="old"  selected >Oldest First</option>
-                                    <option value="budget_high_low"  selected >Budget - High to Low</option>
-                                    <option value="budget_low_high"  selected >Budget - Low to High</option>
-                                    <option value="proposals_high_low" selected >Proposals - High to Low</option>
-                                    <option value="proposals_low_high" selected >Proposals - Low to High</option>
-                                
+                                    <option value="new" >Newest First</option>
+                                    <option value="old" >Oldest First</option>
+                                    <option value="budget_high_low" >Budget - High to Low</option>
+                                    <option value="budget_low_high" >Budget - Low to High</option>
+                                    <option value="ratings_high_low" >Ratings - High to Low</option>
+                                    <option value="ratings_low_high" >Ratings - Low to High</option>
+                               
+                                    <option value="new" selected>Newest First</option>
+                                    <option value="old">Oldest First</option>
+                                    <option value="budget_high_low">Budget - High to Low</option>
+                                    <option value="budget_low_high">Budget - Low to High</option>
+                                    <option value="ratings_high_low">Ratings - High to Low</option>
+                                    <option value="ratings_low_high">Ratings - Low to High</option>
+                              
                             </select>
                         </form>
 
                     </div>
-                    {deal.map((item)=>(
-                    <div class="deal-list deal-list-wide" style={{marginTop:"10px"}}>
-                        <Link to="/deal/c1d00230-a423-4b84-a121-7105239ff8d8" className="deal" id="deallist">
-                            <div>
+
+                    <div class="deal-list deal-list-double">
+
+                        <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"270px"}}>
+                            
+                            <div class="deal-info-top">
                                 <div>
-                                    <span className="fa fa-angle-right icon-50"></span>
+                                    <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
                                 </div>
-                                <div className="">
-                                    <div className="font-bold">
-                                       {item.name}
+                                <div class="">
+                                    <div>
+                                        <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
                                     </div>
+                                    <div class="text-fade font-13 ellipsis">
+                                        Olawale Lawal
+                                    </div>
+                                </div>
+                                <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px"}}>
+                                    I can abc build a beautiful bespoke logo for your company using the style and color combination you prefer.
+                                </div>
+                            </div>
 
-                                    <div className="text-fade ellipsis-2-lines mt-5">
-                                       {item.email}
+                            <div class="mt-10 mr-10 ml-10 ellipsis">
+                                <div class="project-price">
+                                    <span class="font-size-10 text-fade">Starting At</span>
+                                    $400
+                                </div>
+                                <div class="item-labels">
+                                    <div class="item-labels-new">
+                                        New
+                                    </div>
+                                    <div class="item-labels-featured">
+                                        Featured
                                     </div>
                                 </div>
                             </div>
-                        <div className="mt-5 ellipsis">
-                            <div className="deal-price">
-                                $150
-                            </div>
-                            <div className="item-labels">
-                                <div className="item-labels-new">
-                                    New
-                                </div>
-                                <div className="item-labels-featured">
-                                    Featured
-                                </div>
-                                <div className="item-labels-proposals">
-                                    18 proposals
-                                </div>
-                            </div>
-                        </div>
 
-                        <div className="item-labels item-labels-tags-all ellipsis">
-                            <div className="item-labels-prefix">
-                                Tags & Skills:
+                            <div class="pt-5 bt-1-ddd" style={{marginTop: "-3px"}}>
+                                <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
+                                    <div class="item-labels-prefix">
+                                        Tags & Skills:
+                                    </div>
+                                    <div>UI</div>
+
+                                </div>
                             </div>
-                            <div className="item-labels-tags">
-                                {item.website}
+                        </a>
+
+
+
+
+                        <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"270px"}}>
+                            
+                            <div class="deal-info-top">
+                                <div>
+                                    <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
+                                </div>
+                                <div class="">
+                                    <div>
+                                        <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
+                                    </div>
+                                    <div class="text-fade font-13 ellipsis">
+                                        Olawale Lawal
+                                    </div>
+                                </div>
+                                <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px"}}>
+                                    I can abc build a beautiful bespoke logo for your company using the style and color combination you prefer.
+                                </div>
                             </div>
-                        </div>
-                        </Link>
+
+                            <div class="mt-10 mr-10 ml-10 ellipsis">
+                                <div class="project-price">
+                                    <span class="font-size-10 text-fade">Starting At</span>
+                                    $400
+                                </div>
+                                <div class="item-labels">
+                                    <div class="item-labels-new">
+                                        New
+                                    </div>
+                                    <div class="item-labels-featured">
+                                        Featured
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-5 bt-1-ddd" style={{marginTop: "-3px"}}>
+                                <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
+                                    <div class="item-labels-prefix">
+                                        Tags & Skills:
+                                    </div>
+                                    <div>UI</div>
+
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                        ))}
-
                 </div>
 
                 <div class="section">
@@ -321,56 +554,60 @@ const DealsCat = () => {
             
             <div class="col-lg-3 d-none d-lg-block">
                 
-                <Link to="" class="posla-ad-space">
-                    <img src='/images/ad-400-200-1.jpg' class="dp-contain" alt="Ad"/>
-                </Link>
+                <a href="" class="posla-ad-space">
+                    <img src="/images/ad-400-200-1.jpg" class="dp-contain" alt="Ad"/>
+                </a>
 
                 <div class="section pl-10 pr-10 sticky-top">
                     <div class="section-title">
-                        Featured deals
+                        Featured Deals
                     </div>
-                    <div class="deal-list deal-list-mini">
-                               <Link to="/deal/c1d00230-a423-4b84-a121-7105239ff8d8" className="deal" id="deallist">
+                    <div class="deal-list deal-list-single">
+                        
+                        <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"270px"}}>
+                            
+                            <div class="deal-info-top">
+                                <div>
+                                    <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
+                                </div>
+                                <div class="">
                                     <div>
-                                        <div>
-                                            <span className="fa fa-angle-right icon-50"></span>
-                                        </div>
-                                        <div className="">
-                                            <div className="font-bold">
-                                               ggffh
-                                            </div>
-
-                                            <div className="text-fade ellipsis-2-lines mt-5">
-                                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                                            </div>
-                                        </div>
+                                        <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
                                     </div>
-                                <div className="mt-5 ellipsis">
-                                    <div className="deal-price">
-                                        $150
-                                    </div>
-                                    <div className="item-labels">
-                                        <div className="item-labels-new">
-                                            New
-                                        </div>
-                                        <div className="item-labels-featured">
-                                            Featured
-                                        </div>
-                                        <div className="item-labels-proposals">
-                                            18 proposals
-                                        </div>
+                                    <div class="text-fade font-13 ellipsis">
+                                        Olawale Lawal
                                     </div>
                                 </div>
+                                <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px"}}>
+                                    I can abc build a beautiful bespoke logo for your company using the style and color combination you prefer.
+                                </div>
+                            </div>
 
-                                <div className="item-labels item-labels-tags-all ellipsis">
-                                    <div className="item-labels-prefix">
+                            <div class="mt-10 mr-10 ml-10 ellipsis">
+                                <div class="project-price">
+                                    <span class="font-size-10 text-fade">Starting At</span>
+                                    $400
+                                </div>
+                                <div class="item-labels">
+                                    <div class="item-labels-new">
+                                        New
+                                    </div>
+                                    <div class="item-labels-featured">
+                                        Featured
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-5 bt-1-ddd" style={{marginTop: "-3px"}}>
+                                <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
+                                    <div class="item-labels-prefix">
                                         Tags & Skills:
                                     </div>
-                                    <div className="item-labels-tags">
-                                        Tag name
-                                    </div>
+                                    <div>UI</div>
+
                                 </div>
-                                </Link>
+                            </div>
+                        </a>
                     </div>
                 </div>
 

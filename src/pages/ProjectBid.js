@@ -11,16 +11,38 @@ const ProjectBid = () => {
      const [result, setResult] = useState("");
     const [error, setError] = useState("");
     const [display, setDisplay] = useState("none");
+    const [token, setToken] = useState("");
 
-    useEffect (()=>{
-        fetch("https://dummyjson.com/posts")
-  .then(response => response.json())
-  .then((response)=>{
-    setResult(response);
-    console.log(response);
+
+    useEffect(() => {
+    const access = localStorage.getItem("token");
+    if (access) {
+      setToken(access);
+      console.log(access);
+    }
+  }, [token]);
+
+
+    useEffect(()=>{
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+
+        fetch("https://posla-api.herokuapp.com/api/account/project-bids", requestOptions)
+          .then(response => response.json())
+            .then((response)=>{
+                const res = response.data;
+            setResult(res);
+            console.log(res);
   })
-  .catch(error => console.log(error));
-    },[])
+          .catch(error => console.log('error', error));
+    },[token])
     return(
         <>
             <Header/>
@@ -88,7 +110,7 @@ const ProjectBid = () => {
 
 
                             
-                                {result && result.posts.map((item)=>(
+                                {result && result.map((item)=>(
                                     <div class="col-sm-6 col-md-12 col-lg-6 project-mgmt" style={{marginTop:"20px"}}>
                                         <a href="/project/c1d00230-a423-4b84-a121-7105239ff8d8" class="project">
                                             

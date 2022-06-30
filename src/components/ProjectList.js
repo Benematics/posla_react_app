@@ -12,7 +12,7 @@ const ProjectList = () =>{
         .catch((error) => {
             console.log(error);
         })
-    });
+    },[]);
 
 
  	return(

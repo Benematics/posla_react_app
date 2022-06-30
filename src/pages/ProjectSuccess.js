@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import AccountSidebar from '../components/AccountSidebar';
+import ProjectList from '../components/ProjectList';
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import {Link} from "react-router-dom";
 import NavTabProjectMgt from '../components/NavTabProjectMgt';
 
 const ProjectSuccess = () =>{
 	return(
 		<>
-<div class="container">
+<Header/>
+<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
         <div class="row">
             <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -17,8 +22,8 @@ const ProjectSuccess = () =>{
                 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/projects">Projects</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+                        <li class="breadcrumb-item"><Link to="/account/projects">Projects</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Create Project</li>
                     </ol>
                 </div>
@@ -48,9 +53,9 @@ const ProjectSuccess = () =>{
                                     <div class="mt-10">
                                         <div class="mw-300 mx-auto text-center">
                                             <div>
-                                                <a href="/account/projects" class="btn btn-blue">
+                                                <Link to="/account/projects" class="btn btn-blue">
                                                     My Projects
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -66,6 +71,7 @@ const ProjectSuccess = () =>{
             </div>
         </div>
     </div>
+<Footer/>
 		</>
 		)
 }

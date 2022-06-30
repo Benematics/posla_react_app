@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 
 const CommonFilter = () => {
@@ -10,94 +11,94 @@ const CommonFilter = () => {
                     </div>
                     <div class="filter-body pr-0 pl-0">
                         <div class="mh-150 list-icon-text filter-body-list">
-                            <a href="/category/projects/category1">
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Main Category
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1" class="active">
+                            </Link>
+                            <Link to="/category/projects/category1" class="active">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1">
+                            </Link>
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1">
+                            </Link>
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1">
+                            </Link>
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1">
+                            </Link>
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1">
+                            </Link>
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1">
+                            </Link>
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1">
+                            </Link>
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1">
+                            </Link>
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
-                            <a href="/category/projects/category1">
+                            </Link>
+                            <Link to="/category/projects/category1">
                                 <div>
                                     <span class="fa fa-angle-right"></span>
                                 </div>
                                 <div>
                                     Sub Category 1
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -108,7 +109,7 @@ const CommonFilter = () => {
                     </div>
                     <div class="filter-body">
 
-                        <div class="posla-price-slider p-10 pt-20 pb-20">
+                        <div class="posla-price-slider p-10 pt-20 pb-20" style={{paddingTop:"20px", paddingTop:"20px", paddingBottom:"20px"}}>
                             <div class="posla-price-slider-slide">
                                 <div id="slider-range" class="price-filter-range posla-slider-range" name="rangeInput">
                                     price range

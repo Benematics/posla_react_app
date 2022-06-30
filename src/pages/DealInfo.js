@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AccountSidebar from '../components/AccountSidebar';
 import NavTabDeals from '../components/NavTabDeals';
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 const DealInfo = () => {
 
@@ -24,6 +24,8 @@ const DealInfo = () => {
     const [status, setStatus] = useState(0);
     const [tags, setTags]= useState([]);
     const [stage, setStage] = useState("");
+    const params = useParams();
+    console.log(params);
 
     
     const handleChange = (e) =>{
@@ -32,12 +34,22 @@ const DealInfo = () => {
     }
 
 
+    const [token, setToken] = useState("");
+
+    useEffect(() => {
+    const access = localStorage.getItem("token");
+    if (access) {
+      setToken(access);
+      console.log(access);
+    }
+}, [token]);
+
 
     {/*Category Id*/}
     useEffect(()=>{
                 var myHeaders = new Headers();
                 myHeaders.append("Accept", "application/json");
-                myHeaders.append("Authorization", "Bearer 41|1rEpfWLienwJOQmLxPuDmRUP5DgtMt5GzThDTKpb");
+                myHeaders.append("Authorization", `Bearer ${token}`);
 
                 var requestOptions = {
                   method: 'GET',
@@ -47,19 +59,40 @@ const DealInfo = () => {
 
                 fetch("https://posla-api.herokuapp.com/api/category/main-categories", requestOptions)
                   .then(response => response.json())
-                  .then(result => {
+                  .then((result) => {
                     const res = result.data;
                     setCategory(res);
                     console.log(res);
                   })
                   .catch(error => console.log('error', error));
-    }, []);
+    }, [token]);
 
 
 
 
 
     {/*Sub Category Id*/}
+
+    useEffect(()=>{
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+
+        fetch(`https://posla-api.herokuapp.com/api/category/main-categories/${category}`, requestOptions)
+          .then(response => response.json())
+          .then((result) => {
+            const res = result.data;
+            setSubcategory_Id(res);
+            console.log(res);
+        })
+          .catch(error => console.log('error', error));
+    },[token, category])
 
 
 
@@ -101,7 +134,7 @@ const DealInfo = () => {
     {/*New Code*/}
         var myHeaders = new Headers();
         myHeaders.append("Accept", "application/json");
-        myHeaders.append("Authorization", "Bearer 32|eErM5O7mDTyPLqezAvMuF7m234Iy659hjdJRVLM5");
+        myHeaders.append("Authorization", `Bearer ${token}`)
 
         var formdata = new FormData();
         formdata.append("title", title);
@@ -119,7 +152,7 @@ const DealInfo = () => {
           redirect: 'follow'
         };
 
-        fetch("https://jbuit.com/api/contact/", requestOptions)
+        fetch("https://posla-api.herokuapp.com/api/deals/create/stage-two-info", requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
@@ -128,7 +161,7 @@ const DealInfo = () => {
 	return(
 <>
 <Header/>
-	<div class="container">
+	<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
         <div class="row">
             <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -169,7 +202,7 @@ const DealInfo = () => {
                                                         <label for="title" class="control-label">
                                                             Deal Title:
                                                         </label>
-                                                        <textarea name="title" id="title" class="form-control resize-none" Style={{'height': '99px'}} onChange={(e)=>{setTitle(e.target.value)}} placeholder="I will..."></textarea>
+                                                        <textarea name="title" id="title" class="form-control resize-none" style={{height: '99px'}} onChange={(e)=>{setTitle(e.target.value)}} placeholder="I will..."></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
@@ -177,33 +210,27 @@ const DealInfo = () => {
                                                         <label for="category" class="control-label">
                                                             Category:
                                                         </label>
-                                                        <select name="category_id" id="category"  onChange={(e)=>{setCategory(e.target.value)}} required>
-                                                            <option value="" selected disabled>- Select -</option>
-                                                        {category & category.map((item)=>{ return(
-                                                            <option value="">{item.name}</option>
-                                                            )})}
+                                                        <select name="category_id" id="category" required>
+                                                                <option value="" > {params.userId} </option>
+                                                            {category && category.map((item)=>(
+                                                                <option value={item.id} onChange={(e)=>{setCategory(e.target.value)}}>{item.name}</option>
+                                                                ))}
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="subcategory" class="control-label">
                                                             Sub Category:
                                                         </label>
-                                                        <select name="subcategory_id" id="subCategory" onChange={(e)=>{setSubcategory_Id(e.target.value)}} required>
-                                                            <option value="" > Select </option>
-                                                            <option value="" >Sub category 1</option>
-                                                            <option value="" >Sub category 1</option>
-                                                            <option value="" >Sub category 1</option>
-                                                            <option value="" >Sub category 1</option>
-                                                            <option value="" >Sub category 1</option>
-                                                            <option value="" >Sub category 1</option>
+                                                        <select name="subcategory_id" id="subCategory" required>
+                                                                <option value="" > Select </option>
+                                                            {subcategory_id && subcategory_id.map((item)=>(
+                                                                <option value={item.id} onChange={(e)=>{setSubcategory_Id(e.target.value)}}>{item.name}</option>
+                                                                ))}
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
-
-
                                              <hr/>
-
                                         <div class="row">
                                             <div class="col-sm-12 file-upload-box-container">
                                             
@@ -328,7 +355,7 @@ const DealInfo = () => {
                                                         <label for="description" class="control-label">
                                                             Deal Description:
                                                         </label>
-                                                        <textarea name="description" id="description" class="form-control resize-none" style={{height: "99px"}}></textarea>
+                                                        <textarea name="description" id="description" class="form-control resize-none" style={{height: "99px"}} onChange={(e)=>{setDescription(e.target.value)}}></textarea>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="visibility" class="control-label">
@@ -370,9 +397,6 @@ const DealInfo = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-
-
 
                                         <div class="p-15 mt-15 bt-1-ddd floated-content">
                                             <div class="pull-right">

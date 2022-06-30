@@ -122,24 +122,24 @@ const DealPricing = () => {
                                                         <tr>
                                                             <td rowspan="2" style={{width: '120px'}}></td>
                                                             <td>
-                                                                <textarea name="type[basic][name]" id="" class="form-control resize-none mt-15 pricing_basic_action" style={{height: '45px'}} placeholder="Name" onChange={(e)=>{setName(e.target.value)}}></textarea>
+                                                                <textarea name="type[basic][name]" id="" class="form-control resize-none mt-15 pricing_basic_action" style={{height: '45px'}} placeholder="Name" onChange={(e)=>{setName(e.target.value)}} disabled="enabled"></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea name="type[standard][name]" id="" class="form-control resize-none mt-15 pricing_standard_action" style={{height: '45px'}} placeholder="Name" onChange={(e)=>{setName(e.target.value)}}></textarea>
+                                                                <textarea name="type[standard][name]" id="" class="form-control resize-none mt-15 pricing_standard_action" style={{height: '45px'}} placeholder="Name" onChange={(e)=>{setName(e.target.value)}} disabled="true"></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea name="type[premium][name]" id="" class="form-control resize-none mt-15 pricing_premium_action" style={{height: '45px'}} placeholder="Name" onChange={(e)=>{setName(e.target.value)}}></textarea>
+                                                                <textarea name="type[premium][name]" id="" class="form-control resize-none mt-15 pricing_premium_action" style={{height: '45px'}} placeholder="Name" onChange={(e)=>{setName(e.target.value)}} disabled="true"></textarea>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <textarea name="type[basic][description]" id="" class="form-control resize-none pricing_basic_action" style={{height: '85px'}} placeholder="Short Description" onChange={(e)=>{setDescription(e.target.value)}}></textarea>
+                                                                <textarea name="type[basic][description]" id="" class="form-control resize-none pricing_basic_action" style={{height: '85px'}} placeholder="Short Description" onChange={(e)=>{setDescription(e.target.value)}} disabled="true"></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea name="type[standard][description]" id="" class="form-control resize-none pricing_standard_action" style={{height: '85px'}} placeholder="Short Description" onChange={(e)=>{setDescription(e.target.value)}}></textarea>
+                                                                <textarea name="type[standard][description]" id="" class="form-control resize-none pricing_standard_action" style={{height: '85px'}} placeholder="Short Description" onChange={(e)=>{setDescription(e.target.value)}} disabled="true"></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea name="type[premium][description]" id="" class="form-control resize-none pricing_premium_action" style={{height: '85px'}} placeholder="Short Description" onChange={(e)=>{setDescription(e.target.value)}}></textarea>
+                                                                <textarea name="type[premium][description]" id="" class="form-control resize-none pricing_premium_action" style={{height: '85px'}} placeholder="Short Description" onChange={(e)=>{setDescription(e.target.value)}} disabled="true"></textarea>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -156,7 +156,7 @@ const DealPricing = () => {
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <select name="type[basic][delivery_timeframe]" id="" class="pricing_basic_action" onChange={(e)=>{setDelivery(e.target.value)}}>
+                                                                <select name="type[basic][delivery_timeframe]" id="" class="pricing_basic_action" onChange={(e)=>{setDelivery(e.target.value)}} disabled="true">
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1 day</option>
                                                                     <option value="2">2 days</option>
@@ -172,7 +172,7 @@ const DealPricing = () => {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select id="" name="type[standard][delivery_timeframe]" class="pricing_standard_action" onChange={(e)=>{setDelivery(e.target.value)}}>
+                                                                <select id="" name="type[standard][delivery_timeframe]" class="pricing_standard_action" onChange={(e)=>{setDelivery(e.target.value)}} disabled="true">
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1 day</option>
                                                                     <option value="2">2 days</option>
@@ -188,7 +188,7 @@ const DealPricing = () => {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select id="" name="type[premium][delivery_timeframe]" class="pricing_premium_action" onChange={(e)=>{setDelivery(e.target.value)}}>
+                                                                <select id="" name="type[premium][delivery_timeframe]" class="pricing_premium_action" onChange={(e)=>{setDelivery(e.target.value)}} disabled="true">
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1 day</option>
                                                                     <option value="2">2 days</option>
@@ -211,7 +211,7 @@ const DealPricing = () => {
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <select name="type[basic][revision_num]" id="" class="pricing_basic_action" onChange={(e)=>{setRevision(e.target.value)}}>
+                                                                <select name="type[basic][revision_num]" id="" class="pricing_basic_action" onChange={(e)=>{setRevision(e.target.value)}} disabled="true">
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1</option>
                                                                     <option value="2">2</option>
@@ -222,7 +222,7 @@ const DealPricing = () => {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select name="type[standard][revision_num]" id="" class="pricing_standard_action" onChange={(e)=>{setRevision(e.target.value)}}>
+                                                                <select name="type[standard][revision_num]" id="" class="pricing_standard_action" onChange={(e)=>{setRevision(e.target.value)}} disabled="true">
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1</option>
                                                                     <option value="2">2</option>
@@ -233,7 +233,7 @@ const DealPricing = () => {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select name="type[premium][revision_num]" id="" class="pricing_premium_action" onChange={(e)=>{setRevision(e.target.value)}}>
+                                                                <select name="type[premium][revision_num]" id="" class="pricing_premium_action" onChange={(e)=>{setRevision(e.target.value)}} disabled="true">
                                                                     <option value="">- Select -</option>
                                                                     <option value="1">1</option>
                                                                     <option value="2">2</option>
@@ -251,13 +251,13 @@ const DealPricing = () => {
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <div class="input-group input-group-attach input-group-attach-transparent input-group-attach-transparent-left">
+                                                                <div class="input-group input-group-attach input-group-attach-transparent input-group-attach-transparent-left" disabled="true">
                                                                     <div class="input-group-btn">
                                                                         <button type="button" class="btn btn-md">
                                                                             <span class="font-18">$</span>
                                                                         </button>
                                                                     </div>
-                                                                    <input type="number" name="type[basic][price]" class="form-control pricing_basic_action" onChange={(e)=>{setPrice(e.target.value)}}/>
+                                                                    <input type="number" name="type[basic][price]" class="form-control pricing_basic_action" onChange={(e)=>{setPrice(e.target.value)}} disabled="true"/>
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -267,7 +267,7 @@ const DealPricing = () => {
                                                                             <span class="font-18">$</span>
                                                                         </button>
                                                                     </div>
-                                                                    <input type="number" name="type[standard][price]" class="form-control pricing_standard_action" onChange={(e)=>{setPrice(e.target.value)}}/>
+                                                                    <input type="number" name="type[standard][price]" class="form-control pricing_standard_action" onChange={(e)=>{setPrice(e.target.value)}} disabled="true" disabled="true"/>
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -277,7 +277,7 @@ const DealPricing = () => {
                                                                             <span class="font-18">$</span>
                                                                         </button>
                                                                     </div>
-                                                                    <input type="number" name="type[premium][price]" class="form-control pricing_premium_action" onChange={(e)=>{setPrice(e.target.value)}}/>
+                                                                    <input type="number" name="type[premium][price]" class="form-control pricing_premium_action" onChange={(e)=>{setPrice(e.target.value)}} disabled="true"/>
                                                                 </div>
                                                             </td>
                                                         </tr>

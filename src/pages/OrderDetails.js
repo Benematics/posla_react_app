@@ -1,20 +1,23 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {Link} from "react-router-dom";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const OrderDetails = () =>{
+    const status = "not started";
+    const type = "image";
 	return(
-			<>
+<>
 	<Header/>
-	<div class="container">
+	<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
         <div class="row">
 
             <div class="col-12 col-md-8 col-lg-9">
 
-                <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
+                <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10" style={{marginBottom:"10px"}}>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/orders">Orders</a></li>
+                        <li class="breadcrumb-item"><a to="/account">Account</a></li>
+                        <li class="breadcrumb-item"><a to="/account/orders">Orders</a></li>
                         <li class="breadcrumb-item active" aria-current="page">123456789012</li>
                     </ol>
                 </div>
@@ -24,47 +27,53 @@ const OrderDetails = () =>{
                         My Orders - #123456789012
                     </div>
 
-                    
-                     order-status-not-started --
+                     {status == "not started" && 
+
+                     (
+                        <div class="order-status order-status-not-started">
+                            <div class="pull-right">
+                                $45
+                            </div>
+                            <div class="overflow-hidden">
+                                <span class="fa fa-check-circle"></span>
+                                Order Not Started
+                            </div>
+                        </div>
+                        )
+                    }
                                          
-                    <div class="order-status order-status-not-started">
-                        <div class="pull-right">
-                            $45
+ 
+                     {status == "in progress" && (
+                        <div class="order-status order-status-in-progress">
+                            <div class="pull-right">
+                                $45
+                            </div>
+                            <div class="overflow-hidden">
+                                <span class="fa fa-check-circle"></span>
+                                Order In Progress
+                            </div>
                         </div>
-                        <div class="overflow-hidden">
-                            <span class="fa fa-check-circle"></span>
-                            Order Not Started
-                        </div>
-                    </div>
-                    
+                        )}
 
-                     order-status-in-progress 
-                    <div class="order-status order-status-in-progress">
-                        <div class="pull-right">
-                            $45
-                        </div>
-                        <div class="overflow-hidden">
-                            <span class="fa fa-check-circle"></span>
-                            Order In Progress
-                        </div>
-                    </div>
                     
-                     order-status-completed 
+                     {status == "completed" && (
+                        <div class="order-status order-status-completed">
+                            <div class="pull-right">
+                                $45
+                            </div>
+                            <div class="overflow-hidden">
+                                <span class="fa fa-check-circle"></span>
+                                Order Completed
+                            </div>
+                        </div>
+                        )}
                                          
-                    <div class="order-status order-status-completed">
-                        <div class="pull-right">
-                            $45
-                        </div>
-                        <div class="overflow-hidden">
-                            <span class="fa fa-check-circle"></span>
-                            Order Completed
-                        </div>
-                    </div>
+
                     
 
 
-                    <div class="mt-0">
-                        <div class="bg-ddd p-10">
+                    <div class="mt-0" style={{marginTop:"0px"}}>
+                        <div class="bg-ddd p-10" style={{padding:"10px"}}>
                             Anthony's Order
                         </div>
                         <div>
@@ -74,29 +83,29 @@ const OrderDetails = () =>{
                                         <tr>
                                             <td>
                                                 <div class="overflow-hidden">
-                                                    <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="pull-left m-10 mr-15 d-none d-sm-block overflow-hidden" style={{maxWidth: "200px", maxHeight: "200px"}}>
+                                                    <a to="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="pull-left mt-10 mr-15 d-none d-sm-block overflow-hidden" style={{maxWidth: "200px", maxHeight: "200px", marginTop:"10px", marginRight:"15px"}}>
                                                         <img src='/images/posla-admin.jpg' alt="" class="dp-contain" />
                                                     </a>
-                                                    <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="pull-left mt-10 mr-15 d-block d-sm-none overflow-hidden" style={{maxWidth: "100px", maxHeight: "100px"}}>
+                                                    <a to="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="pull-left mt-10 mr-15 d-block d-sm-none overflow-hidden" style={{maxWidth: "100px", maxHeight: "100px", marginTop:"10px", marginRight:"15px"}}>
                                                         <img src='/images/posla-admin.jpg' alt="" class="dp-contain" />
                                                     </a>
                                                     <div class="overflow-hidden">
-                                                        <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="font-bold mt-10 d-inline-block hover-underline">
+                                                        <a to="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="font-bold mt-10 d-inline-block hover-underline" style={{marginTop:"10px"}}>
                                                             I will design a beautiful logo for your business
                                                         </a>
-                                                        <div class="text-fade mt-10">
+                                                        <div class="text-fade mt-10" style={{marginTop:"5px"}}>
                                                             <div>
                                                                 Category (Subcategory)
                                                             </div>
-                                                            <div class="mt-5">
+                                                            <div class="mt-5" style={{marginTop:"2px"}}>
                                                                 Package: Basic Designs
                                                             </div>
-                                                            <div class="mt-5" data-toggle="collapse" data-target="#package-details">
+                                                            <div class="mt-5" data-toggle="collapse" data-target="#package-details" style={{marginTop:"2px"}}>
                                                                 Package Details
                                                                 <span class="fa fa-angle-down icon-333"></span>
                                                             </div>
                                                             <div id="package-details" class="collapse">
-                                                                <div class="p-10 pl-15 pr-15 mt-5 b-1-ddd d-inline-block">
+                                                                <div class="p-10 pl-15 pr-15 mt-5 b-1-ddd d-inline-block" style={{paddingTop:"10px", paddingLeft:"15px", paddingRight:"15px"}}>
                                                                     <ul class="list-style">
                                                                         <li>
                                                                             1-day delivery
@@ -113,13 +122,13 @@ const OrderDetails = () =>{
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="d-block d-sm-none d-md-block d-lg-none bt-1-ddd mt-10 pt-10">
-                                                    <div class="mt-10 pull-right">
+                                                <div class="d-block d-sm-none d-md-block d-lg-none bt-1-ddd mt-10 pt-10" style={{marginTop:"10px", paddingTop:"10px"}}>
+                                                    <div class="mt-10 pull-right" style={{marginTop:"10px"}}>
                                                         Price:
                                                         $100
                                                     </div>
                                                     <form action="">
-                                                        <div class="input-group input-group-attach mt-2" style={{width: "100px"}}>
+                                                        <div class="input-group input-group-attach mt-2" style={{marginTop:"2px", alignItems:"center"}}>
                                                             <div class="input-group-btn b-1-ddd">
                                                                 <button type="button" class="bg-eee btn-md">
                                                                     <span>Qty</span>
@@ -131,9 +140,9 @@ const OrderDetails = () =>{
                                                 </div>
                                             </td>
                                             <td class="d-none d-sm-table-cell d-md-none d-lg-table-cell">
-                                                <div class="d-none d-sm-block d-md-none mt-10"></div>
+                                                <div class="d-none d-sm-block d-md-none mt-10" style={{marginTop:"10px"}}></div>
                                                 <form action="">
-                                                    <div class="input-group input-group-attach mt-2" style={{width: "100px"}}>
+                                                    <div class="input-group input-group-attach mt-2" style={{width: "100px", marginTop:"10px"}}>
                                                         <div class="input-group-btn b-1-ddd">
                                                             <button type="button" class="bg-eee btn-md">
                                                                 <span>Qty</span>
@@ -142,13 +151,13 @@ const OrderDetails = () =>{
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <div class="d-block d-md-none d-lg-block d-xl-none mt-10 text-left">
+                                                <div class="d-block d-md-none d-lg-block d-xl-none mt-10 text-left" style={{marginTop:"10px"}}>
                                                     Price:
                                                     $100
                                                 </div>
                                             </td>
                                             <td class="d-none d-xl-table-cell">
-                                                <div class="text-center mt-10">
+                                                <div class="text-center mt-10" style={{marginTop:"10px"}}>
                                                     $100
                                                 </div>
                                             </td>
@@ -159,7 +168,7 @@ const OrderDetails = () =>{
                         </div>
                     </div>
 
-                    <div class="d-block d-md-none icon-right mt-10">
+                    <div class="d-block d-md-none icon-right mt-10" style={{marginTop:"10px"}}>
                         <button class="btn btn-transparent-black btn-xs" data-toggle="collapse" data-target="#project-details">
                             View Project Details
                             <span class="fa fa-angle-right"></span>
@@ -180,7 +189,7 @@ const OrderDetails = () =>{
                                         Project Status
                                     </div>
                                     <div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Project Started
                                             </div>
@@ -188,7 +197,7 @@ const OrderDetails = () =>{
                                                 Jan 25, 2020 at 10:05pm
                                             </div>
                                         </div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Current Delivery Date
                                             </div>
@@ -196,7 +205,7 @@ const OrderDetails = () =>{
                                                 Jan 25, 2020 at 10:05pm
                                             </div>
                                         </div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Revisions Remaining
                                             </div>
@@ -204,7 +213,7 @@ const OrderDetails = () =>{
                                                 3 Revisions
                                             </div>
                                         </div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Delivery Format
                                             </div>
@@ -213,52 +222,52 @@ const OrderDetails = () =>{
                                             </div>
                                         </div>
                                         <div>
-                                            <a href="/project/c1d00230-a423-4b84-a121-7105239ff8d8" class="btn btn-transparent-black btn-sm">
+                                            <a to="/project/c1d00230-a423-4b84-a121-7105239ff8d8" class="btn btn-transparent-black btn-sm">
                                                 View project details
                                             </a>
                                         </div>
                                     </div>
 
-                                     order tracking 
-                                    <div class="bt-1-ddd mt-20">
-                                        <div class="pt-15 pb-15 font-bold">
+                                 
+                                    <div class="bt-1-ddd mt-20" style={{marginTop:"20px"}}>
+                                        <div class="pt-15 pb-15 font-bold" style={{paddingTop:"15px", paddingBottom:"15px"}}>
                                             Order Tracking
                                         </div>
-                                        <div class="floated-content mb-10">
-                                            <div class="bg-green pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                                <span class="fa fa-check mt-4 icon-fff"></span>
+                                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                                            <div class="bg-green pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px", marginRight:"2px", borderRadius:"50%"}}>
+                                                <span class="fa fa-check icon-fff"></span>
                                             </div>
                                             <div class="overflow-hidden">
                                                 Order Placed
                                             </div>
                                         </div>
-                                        <div class="floated-content mb-10">
-                                            <div class="bg-green pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                                <span class="fa fa-check mt-4 icon-fff"></span>
+                                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                                            <div class="bg-green pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px", marginRight:"10px", borderRadius:"50%"}}>
+                                                <span class="fa fa-check icon-fff"></span>
                                             </div>
                                             <div class="overflow-hidden">
                                                 Requirements Submitted
                                             </div>
                                         </div>
-                                        <div class="floated-content mb-10">
-                                            <div class="bg-orange pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                                <span class="fa fa-spinner fa-spin mt-4 icon-fff"></span>
+                                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                                            <div class="bg-orange pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px", marginRight:"10px", borderRadius:"50%"}}>
+                                                <span class="fa fa-spinner fa-spin icon-fff"></span>
                                             </div>
                                             <div class="overflow-hidden">
                                                 Order In progress
                                             </div>
                                         </div>
-                                        <div class="floated-content mb-10">
-                                            <div class="bg-ccc pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                                <span class="fa fa-ellipsis-h mt-4 icon-fff"></span>
+                                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                                            <div class="bg-ccc pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px", marginRight:"10px", borderRadius:"50%"}}>
+                                                <span class="fa fa-ellipsis-h icon-fff"></span>
                                             </div>
                                             <div class="overflow-hidden">
                                                 Order Delivery
                                             </div>
                                         </div>
-                                        <div class="floated-content mb-10">
-                                            <div class="bg-ccc pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                                <span class="fa fa-ellipsis-h mt-4 icon-fff"></span>
+                                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                                            <div class="bg-ccc pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px", marginRight:"10px", borderRadius:"50%"}}>
+                                                <span class="fa fa-ellipsis-h icon-fff"></span>
                                             </div>
                                             <div class="overflow-hidden">
                                                 Order Completed
@@ -266,8 +275,8 @@ const OrderDetails = () =>{
                                         </div>
                                     </div>
 
-                                    <div class="bt-1-ddd mt-20">
-                                        <div class="pt-15 pb-15 font-bold">
+                                    <div class="bt-1-ddd mt-20" style={{marginTop:"20px"}}>
+                                        <div class="pt-15 pb-15 font-bold" style={{paddingTop:"15px", paddingBottom:"15px"}}>
                                             Order Resolution
                                         </div>
                                         <div>
@@ -275,7 +284,7 @@ const OrderDetails = () =>{
                                             <br/>
                                             Visit the resoultion center.
                                             <br/>
-                                            <a href="/account/resolution/orders/123456789012" class="btn btn-transparent-black btn-sm mt-5">
+                                            <a to="/account/resolution/orders/123456789012" class="btn btn-transparent-black btn-sm mt-5" style={{marginTop:"5px"}}>
                                                 Resoultion Center
                                             </a>
                                         </div>
@@ -291,7 +300,7 @@ const OrderDetails = () =>{
                                         Buyer Information
                                     </div>
                                     <div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Name
                                             </div>
@@ -299,7 +308,7 @@ const OrderDetails = () =>{
                                                 Olawale Lawal
                                             </div>
                                         </div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Country
                                             </div>
@@ -307,7 +316,7 @@ const OrderDetails = () =>{
                                                 Nigeria
                                             </div>
                                         </div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Gender
                                             </div>
@@ -316,7 +325,7 @@ const OrderDetails = () =>{
                                             </div>
                                         </div>
                                         <div>
-                                            <a href="/user/abcde12345" class="btn btn-transparent-black btn-sm">
+                                            <a to="/user/abcde12345" class="btn btn-transparent-black btn-sm">
                                                 View buyer's profile
                                             </a>
                                         </div>
@@ -328,7 +337,7 @@ const OrderDetails = () =>{
                                         Seller Information
                                     </div>
                                     <div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Name
                                             </div>
@@ -336,7 +345,7 @@ const OrderDetails = () =>{
                                                 Olawale Lawal
                                             </div>
                                         </div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Country
                                             </div>
@@ -344,7 +353,7 @@ const OrderDetails = () =>{
                                                 Nigeria
                                             </div>
                                         </div>
-                                        <div class="mb-15">
+                                        <div class="mb-15" style={{marginBottom:"15px"}}>
                                             <div class="text-small text-color-fade">
                                                 Gender
                                             </div>
@@ -353,7 +362,7 @@ const OrderDetails = () =>{
                                             </div>
                                         </div>
                                         <div>
-                                            <a href="/user/abcde12345" class="btn btn-transparent-black btn-sm">
+                                            <a to="/user/abcde12345" class="btn btn-transparent-black btn-sm">
                                                 View seller's profile
                                             </a>
                                         </div>
@@ -367,29 +376,25 @@ const OrderDetails = () =>{
 
 
 
-                <div class="text-center mb-0 d-block d-md-none">
-                    <hr class="mt-0 mb-0"/>
-                    <div class="d-inline-block bg-eee pr-15 pl-15" style={{position: "relative", top: "-12px", zIndex: "5"}}>
+                <div class="text-center mb-0 d-block d-md-none" style={{marginBottom:"0"}}>
+                    <hr class="mt-0 mb-0"  style={{marginBottom:"0", marginTop:"0"}}/>
+                    <div class="d-inline-block bg-eee pr-15 pl-15" style={{position: "relative",top: "-12px",zIndex:"5", paddingLeft:"15px",paddingRight:"15px"}}>
                         Project Timeline
                     </div>
                 </div>
                 
                 <div class="section">
                     <div>
-                    
-
-
-                         countdown 
-                         
-                            if deal,
-                                if there are requirement (questions)
-                                start countdown only after requirement is submitted
-                            if project,
-                                start countdown after payment of deposit
-                        
-                         visible to both seller & buyer 
-                        <div class="mb-10 text-center">
-                            <div class="text-center font-bold bg-f00 text-fff d-inline-block mx-auto pr-10 pl-10">
+                         {/*countdown                                             
+                         if deal,
+                             if there are requirement (questions)
+                             start countdown only after requirement is submitted
+                         if project,
+                             start countdown after payment of deposit
+                     
+                      visible to both seller & buyer */}
+                        <div class="mb-10 text-center" style={{marginBottom:"10px"}}>
+                            <div class="text-center font-bold bg-f00 text-fff d-inline-block mx-auto pr-10 pl-10" style={{paddingRight:"10px", paddingLeft:"10px"}}>
                                 Project Deadline
                             </div>
                             <div class="text-center">
@@ -398,21 +403,21 @@ const OrderDetails = () =>{
                         </div>
                         
 
-                         conversation 
-                         from me (seller) 
+                         {/*conversation 
+                            from me (seller)*/}
                         <div class="user-msg b-1-ddd">
                             <div class="overflow-hidden">
-                                <a href="/user/abcde12345" class="user-msg-img pull-left">
+                                <a to="/user/abcde12345" class="user-msg-img pull-left">
                                     <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                 </a>
-                                <div class="pull-right mt-10 text-fade d-none d-sm-block">
+                                <div class="pull-right mt-10 text-fade d-none d-sm-block" style={{marginTop:"10px"}}>
                                     Jan 12, 2019 at 9:05pm
                                 </div>
                                 <div class="overflow-hidden">
-                                    <a href="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline">
+                                    <a to="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline" style={{marginTop:"10px"}}>
                                         Firstname Lastname
                                     </a>
-                                    <a href="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
+                                    <a to="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
                                         Firstname Lastname
                                     </a>
                                     <div class="text-fade text-small d-block d-sm-none">
@@ -420,28 +425,28 @@ const OrderDetails = () =>{
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-10 font-normal text-justify">
+                            <div class="mt-10 font-normal text-justify" style={{marginTop:"10px"}}>
                                 I've worked with Kristen twice now. I have never worked with a graphic designer before and she's truly the best. Such a great lady and works really hard to make her customers satisfied. She is also really talented, open to ideas and works fast.
                             </div>
                         </div>
 
                         
 
-                         conversation 
-                         from customer (buyer) 
+                        {/*conversation 
+                        from customer (buyer) */}
                         <div class="user-msg b-1-ddd">
                             <div class="overflow-hidden">
-                                <a href="/user/abcde12345" class="user-msg-img pull-left">
+                                <a to="/user/abcde12345" class="user-msg-img pull-left">
                                     <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                 </a>
-                                <div class="pull-right mt-10 text-fade d-none d-sm-block">
+                                <div class="pull-right mt-10 text-fade d-none d-sm-block" style={{marginTop:"10px"}}>
                                     Jan 12, 2019 at 9:05pm
                                 </div>
                                 <div class="overflow-hidden">
-                                    <a href="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline">
+                                    <a to="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline" style={{marginTop:"10px"}}>
                                         Customerfname Customerlname
                                     </a>
-                                    <a href="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
+                                    <a to="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
                                         Customerfname Customerlname
                                     </a>
                                     <div class="text-fade text-small d-block d-sm-none">
@@ -449,28 +454,28 @@ const OrderDetails = () =>{
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-10 font-normal text-justify">
+                            <div class="mt-10 font-normal text-justify" style={{marginTop:"10px"}}>
                                 I've worked with Kristen twice now. I have never worked with a graphic designer before and she's truly the best. Such a great lady and works really hard to make her customers satisfied. She is also really talented, open to ideas and works fast.
                             </div>
                         </div>
 
                         
 
-                         conversation with attachment 
-                         from me (seller) 
+                         {/*conversation with attachment 
+                            from me (seller)*/}
                         <div class="user-msg b-1-ddd">
                             <div class="overflow-hidden">
-                                <a href="/user/abcde12345" class="user-msg-img pull-left">
+                                <a to="/user/abcde12345" class="user-msg-img pull-left">
                                     <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                 </a>
-                                <div class="pull-right mt-10 text-fade d-none d-sm-block">
+                                <div class="pull-right mt-10 text-fade d-none d-sm-block" style={{marginTop:"10px"}}>
                                     Jan 12, 2019 at 9:05pm
                                 </div>
                                 <div class="overflow-hidden">
-                                    <a href="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline">
+                                    <a to="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline" style={{marginTop:"10px"}}>
                                         Firstname Lastname
                                     </a>
-                                    <a href="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
+                                    <a to="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
                                         Firstname Lastname
                                     </a>
                                     <div class="text-fade text-small d-block d-sm-none">
@@ -478,20 +483,128 @@ const OrderDetails = () =>{
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-10 font-normal text-justify">
+                            <div class="mt-10 font-normal text-justify" style={{marginTop:"10px"}}>
+                                I've worked with Kristen twice now. I have never worked with a graphic designer before and she's truly the best. Such a great lady and works really hard to make her customers satisfied. She is also really talented, open to ideas and works fast.
+                            </div>
+                             {/*(with attachments)*/}
+                            <div class="floated-content mt-20" style={{marginTop:"20px"}}>
+
+                                {/*click to download*/}
+                                <a href="" class="media">
+                                    <div class="text-center">
+                                         {/*if it's an image, display it directly*/}
+                                         
+                                          <img src='/images/boxes.jpg' alt="" class="dp-contain" />  
+                                           
+                                    </div>
+                                    <div>
+                                        <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
+                                            <span class="text-fade text-small">(33kb)</span>
+                                        </div>
+                                        <div class="overflow-hidden ellipsis">
+                                            <span class="fa fa-arrow-alt-circle-down icon-blue"></span>
+                                            <span class="">12412412412.jpg</span>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                 {/*click to download*/}
+                                <a href="" class="media">
+                                    <div class="text-center">
+                                         {/*if it's a video, display this image*/}
+                                         
+                                        <img src='/images/media-video.png' alt="" class="dp-cover" />
+                                      
+                                    </div>
+                                    <div>
+                                        <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
+                                            <span class="text-fade text-small">(33kb)</span>
+                                        </div>
+                                        <div class="overflow-hidden ellipsis">
+                                            <span class="fa fa-arrow-alt-circle-down icon-blue"></span>
+                                            <span class="">12412412412.jpg</span>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                {/*click to download*/}
+                                <a href="" class="media">
+                                    <div class="text-center">
+                                         {/*if it's an audio, display this image*/}
+                                         
+                                        <img src='/images/media-audio.png' alt="" class="dp-cover" />
+                                     
+                                    </div>
+                                    <div>
+                                        <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
+                                            <span class="text-fade text-small">(33kb)</span>
+                                        </div>
+                                        <div class="overflow-hidden ellipsis">
+                                            <span class="fa fa-arrow-alt-circle-down icon-blue"></span>
+                                            <span class="">12412412412.jpg</span>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                 {/*click to download*/} 
+                                <a href="" class="media">
+                                    <div class="text-center">
+                                         {/*if it's anything else, display this image */}
+                                        
+                                        <img src='/images/media-others.png' alt="" class="dp-cover" />
+
+                                    </div>
+                                    <div>
+                                        <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
+                                            <span class="text-fade text-small">(33kb)</span>
+                                        </div>
+                                        <div class="overflow-hidden ellipsis">
+                                            <span class="fa fa-arrow-alt-circle-down icon-blue"></span>
+                                            <span class="">12412412412.jpg</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        
+
+                         {/*conversation with attachment 
+                          from customer (buyer)*/}
+                        <div class="user-msg b-1-ddd">
+                            <div class="overflow-hidden">
+                                <a to="/user/abcde12345" class="user-msg-img pull-left">
+                                    <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
+                                </a>
+                                <div class="pull-right mt-10 text-fade d-none d-sm-block" style={{marginTop:"10px"}}>
+                                    Jan 12, 2019 at 9:05pm
+                                </div>
+                                <div class="overflow-hidden">
+                                    <a to="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline" style={{marginTop:"10px"}}>
+                                        Customerfname Customerlname
+                                    </a>
+                                    <a to="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
+                                        Customerfname Customerlname
+                                    </a>
+                                    <div class="text-fade text-small d-block d-sm-none">
+                                        Jan 12, 2019 at 9:05pm
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-10 font-normal text-justify" style={{marginTop:"10px"}}>
                                 I've worked with Kristen twice now. I have never worked with a graphic designer before and she's truly the best. Such a great lady and works really hard to make her customers satisfied. She is also really talented, open to ideas and works fast.
                             </div>
                              (with attachments) 
-                            <div class="floated-content mt-20">
+                            <div class="floated-content mt-20" style={{marginTop:"20px"}}>
 
-                                 click to download 
+                                {/*click to download*/}
                                 <a href="" class="media">
                                     <div class="text-center">
-                                         if it's an image, display it directly 
+                                         {/*if it's an image, display it directly*/} 
                                         <img src='/images/boxes.jpg' alt="" class="dp-contain" />
                                     </div>
                                     <div>
-                                        <div class="pull-right ml-5 pt-4">
+                                        <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
                                             <span class="text-fade text-small">(33kb)</span>
                                         </div>
                                         <div class="overflow-hidden ellipsis">
@@ -501,14 +614,14 @@ const OrderDetails = () =>{
                                     </div>
                                 </a>
 
-                                 click to download 
+                                 {/*click to download*/} 
                                 <a href="" class="media">
                                     <div class="text-center">
-                                         if it's a video, display this image 
+                                         {/*if it's a video, display this image */} 
                                         <img src='/images/media-video.png' alt="" class="dp-cover" />
                                     </div>
                                     <div>
-                                        <div class="pull-right ml-5 pt-4">
+                                        <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
                                             <span class="text-fade text-small">(33kb)</span>
                                         </div>
                                         <div class="overflow-hidden ellipsis">
@@ -518,14 +631,14 @@ const OrderDetails = () =>{
                                     </div>
                                 </a>
 
-                                 click to download 
+                                {/*click to download*/}
                                 <a href="" class="media">
                                     <div class="text-center">
-                                         if it's an audio, display this image 
+                                         {/*if it's an audio, display this image */} 
                                         <img src='/images/media-audio.png' alt="" class="dp-cover" />
                                     </div>
                                     <div>
-                                        <div class="pull-right ml-5 pt-4">
+                                        <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
                                             <span class="text-fade text-small">(33kb)</span>
                                         </div>
                                         <div class="overflow-hidden ellipsis">
@@ -535,14 +648,14 @@ const OrderDetails = () =>{
                                     </div>
                                 </a>
 
-                                 click to download 
+                                {/*click to download*/}
                                 <a href="" class="media">
                                     <div class="text-center">
-                                         if it's anything else, display this image 
+                                         {/*if it's anything else, display this image */} 
                                         <img src='/images/media-others.png' alt="" class="dp-cover" />
                                     </div>
                                     <div>
-                                        <div class="pull-right ml-5 pt-4">
+                                        <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
                                             <span class="text-fade text-small">(33kb)</span>
                                         </div>
                                         <div class="overflow-hidden ellipsis">
@@ -556,109 +669,9 @@ const OrderDetails = () =>{
 
                         
 
-                         conversation with attachment 
-                         from customer (buyer) 
-                        <div class="user-msg b-1-ddd">
-                            <div class="overflow-hidden">
-                                <a href="/user/abcde12345" class="user-msg-img pull-left">
-                                    <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
-                                </a>
-                                <div class="pull-right mt-10 text-fade d-none d-sm-block">
-                                    Jan 12, 2019 at 9:05pm
-                                </div>
-                                <div class="overflow-hidden">
-                                    <a href="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline">
-                                        Customerfname Customerlname
-                                    </a>
-                                    <a href="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
-                                        Customerfname Customerlname
-                                    </a>
-                                    <div class="text-fade text-small d-block d-sm-none">
-                                        Jan 12, 2019 at 9:05pm
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-10 font-normal text-justify">
-                                I've worked with Kristen twice now. I have never worked with a graphic designer before and she's truly the best. Such a great lady and works really hard to make her customers satisfied. She is also really talented, open to ideas and works fast.
-                            </div>
-                             (with attachments) 
-                            <div class="floated-content mt-20">
-
-                                 click to download 
-                                <a href="" class="media">
-                                    <div class="text-center">
-                                         if it's an image, display it directly 
-                                        <img src='/images/boxes.jpg' alt="" class="dp-contain" />
-                                    </div>
-                                    <div>
-                                        <div class="pull-right ml-5 pt-4">
-                                            <span class="text-fade text-small">(33kb)</span>
-                                        </div>
-                                        <div class="overflow-hidden ellipsis">
-                                            <span class="fa fa-arrow-alt-circle-down icon-blue"></span>
-                                            <span class="">12412412412.jpg</span>
-                                        </div>
-                                    </div>
-                                </a>
-
-                                 click to download 
-                                <a href="" class="media">
-                                    <div class="text-center">
-                                         if it's a video, display this image 
-                                        <img src='/images/media-video.png' alt="" class="dp-cover" />
-                                    </div>
-                                    <div>
-                                        <div class="pull-right ml-5 pt-4">
-                                            <span class="text-fade text-small">(33kb)</span>
-                                        </div>
-                                        <div class="overflow-hidden ellipsis">
-                                            <span class="fa fa-arrow-alt-circle-down icon-blue"></span>
-                                            <span class="">12412412412.jpg</span>
-                                        </div>
-                                    </div>
-                                </a>
-
-                                 click to download 
-                                <a href="" class="media">
-                                    <div class="text-center">
-                                         if it's an audio, display this image 
-                                        <img src='/images/media-audio.png' alt="" class="dp-cover" />
-                                    </div>
-                                    <div>
-                                        <div class="pull-right ml-5 pt-4">
-                                            <span class="text-fade text-small">(33kb)</span>
-                                        </div>
-                                        <div class="overflow-hidden ellipsis">
-                                            <span class="fa fa-arrow-alt-circle-down icon-blue"></span>
-                                            <span class="">12412412412.jpg</span>
-                                        </div>
-                                    </div>
-                                </a>
-
-                                 click to download 
-                                <a href="" class="media">
-                                    <div class="text-center">
-                                         if it's anything else, display this image 
-                                        <img src='/images/media-others.png' alt="" class="dp-cover" />
-                                    </div>
-                                    <div>
-                                        <div class="pull-right ml-5 pt-4">
-                                            <span class="text-fade text-small">(33kb)</span>
-                                        </div>
-                                        <div class="overflow-hidden ellipsis">
-                                            <span class="fa fa-arrow-alt-circle-down icon-blue"></span>
-                                            <span class="">12412412412.jpg</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        
-
-                         order requirement request 
-                         system generated 
-                        <div class="order-mgmt pb-15 b-1-ddd">
+                         {/*order requirement request 
+                            system generated*/} 
+                        <div class="order-mgmt pb-15 b-1-ddd" style={{paddingBottom:"15px"}}>
                             <div>
                                 <span class="fa fa-clipboard icon-orange"></span>
                             </div>
@@ -668,21 +681,21 @@ const OrderDetails = () =>{
                             <div>
                                 Please fill in these requirements to start your order
                             </div>
-                            <div class="mt-5">
-                                <a href="/account/orders/requirements/123456789012" class="btn btn-transparent-black btn-xs hover-bg-orange">
+                            <div class="mt-5" style={{marginTop:"15px"}}>
+                                <a to="/account/orders/requirements/123456789012" class="btn btn-transparent-black btn-xs hover-bg-orange">
                                     Fill requirements
                                 </a>
                             </div>
-                            <div class="order-mgmt-date text-fade text-small mt-10">
+                            <div class="order-mgmt-date text-fade text-small mt-10" style={{marginTop:"10px"}}>
                                 December 15, 2020 at 9:54PM
                             </div>
                         </div>
 
 
 
-                         order requirement submitted 
-                         system generated 
-                        <div class="order-mgmt pb-15 b-1-ddd">
+                         {/*order requirement submitted 
+                            system generated*/} 
+                        <div class="order-mgmt pb-15 b-1-ddd" style={{paddingBottom:"15px"}}>
                             <div>
                                 <span class="fa fa-clipboard icon-blue"></span>
                             </div>
@@ -692,21 +705,21 @@ const OrderDetails = () =>{
                             <div>
                                 The requirements have been filled and submitted.
                             </div>
-                            <div class="mt-5">
-                                <a href="/account/orders/requirements/123456789012" class="btn btn-transparent-black btn-xs hover-bg-blue">
+                            <div class="mt-5" style={{marginTop:"15px"}}>
+                                <a to="/account/orders/requirements/123456789012" class="btn btn-transparent-black btn-xs hover-bg-blue">
                                     View requirements
                                 </a>
                             </div>
-                            <div class="order-mgmt-date text-fade text-small mt-10">
+                            <div class="order-mgmt-date text-fade text-small mt-10" style={{marginTop:"10px"}}>
                                 December 15, 2020 at 9:54PM
                             </div>
                         </div>
 
 
 
-                         order started 
-                         system generated 
-                        <div class="order-mgmt pb-15 b-1-ddd">
+                         {/*order started 
+                            system generated */}
+                        <div class="order-mgmt pb-15 b-1-ddd" style={{paddingBottom:"15px"}}>
                             <div>
                                 <span class="fa fa-hourglass-start icon-blue"></span>
                             </div>
@@ -718,16 +731,16 @@ const OrderDetails = () =>{
                                 <br/>
                                 Delivery Timeframe: 1 day.
                             </div>
-                            <div class="order-mgmt-date text-fade text-small mt-10">
+                            <div class="order-mgmt-date text-fade text-small mt-10" style={{marginTop:"10px"}}>
                                 December 15, 2020 at 9:54PM
                             </div>
                         </div>
 
 
-                         order download 
-                         system generated 
-                         only if "Delivery Format" != "Work & Deliver" 
-                        <div class="order-mgmt text-left b-1-ddd pt-0 pb-30">
+                         {/*order download 
+                        system generated*/}
+                         {/*only if "Delivery Format" != "Work & Deliver" */}
+                        <div class="order-mgmt text-left b-1-ddd pt-0 pb-30" style={{paddingBottom:"30px", paddingTop:"0"}}>
                             <div class="order-mgmt">
                                 <div>
                                     <span class="fa fa-file icon-orange"></span>
@@ -738,24 +751,30 @@ const OrderDetails = () =>{
                                 <div>
                                     Yours files are now available for download
                                 </div>
-                                <div class="order-mgmt-date text-fade text-small mt-10">
+                                <div class="order-mgmt-date text-fade text-small mt-10" style={{marginTop:"10px"}}>
                                     December 15, 2020 at 9:54PM
                                 </div>
                             </div>
-                            <div class="p-20-10 b-1-ddd floated-content" style={{marginTop: "-20px"}}>
+                            <div class="p-20-10 b-1-ddd floated-content" style={{marginTop: "-20px", padding:"20px 10px"}}>
 
-                                 click to download 
+                                {/*click to download*/}
                                 <a href="" class="media media-lg">
                                     <div class="text-center">
-                                         if it's an image, display it directly 
-                                        <img src='/images/boxes.jpg' alt="" class="dp-contain" />
-                                         else, display the right icon 
-                                         <img src='/images/media-audio.png' alt="" class="dp-cover" /> 
-                                         <img src='/images/media-video.png' alt="" class="dp-cover" /> 
-                                         <img src='/images/media-others.png' alt="" class="dp-cover" /> 
+                                         {/*{/*if it's an image, display it directly*/}*/}
+                                         {type == "image" ? (
+                                            <img src='/images/boxes.jpg' alt="" class="dp-contain" />
+                                            ):
+                                        ( 
+                                    <>
+                                      <img src='/images/media-audio.png' alt="" class="dp-cover" /> 
+                                      <img src='/images/media-video.png' alt="" class="dp-cover" /> 
+                                      <img src='/images/media-others.png' alt="" class="dp-cover" />
+                                    </>
+                                      ) 
+                                     }
                                     </div>
                                     <div>
-                                        <div class="pull-right ml-5 pt-4">
+                                        <div class="pull-right ml-5 pt-4" style={{paddingTop:"4px", marginLeft:"5px"}}>
                                             <span class="text-fade text-small">(33kb)</span>
                                         </div>
                                         <div class="overflow-hidden ellipsis">
@@ -765,18 +784,25 @@ const OrderDetails = () =>{
                                     </div>
                                 </a>
 
-                                 click to download 
+                                {/*click to download*/}
                                 <a href="" class="media media-lg">
                                     <div class="text-center">
-                                         if it's an image, display it directly 
-                                        <img src='/images/boxes.jpg' alt="" class="dp-contain" />
-                                         else, display the right stuff 
-                                         <img src='/images/media-audio.png' alt="" class="dp-cover" /> 
-                                         <img src='/images/media-video.png' alt="" class="dp-cover" /> 
-                                         <img src='/images/media-others.png' alt="" class="dp-cover" /> 
+                                         {/*{/*if it's an image, display it directly*/}*/}
+                                         {type == "image" ? (
+                                            <img src='/images/boxes.jpg' alt="" class="dp-contain" />
+                                            ):
+                                        (
+                                    <>
+                                      <img src='/images/media-audio.png' alt="" class="dp-cover" /> 
+                                      <img src='/images/media-video.png' alt="" class="dp-cover" /> 
+                                      <img src='/images/media-others.png' alt="" class="dp-cover" />
+                                    </>
+                                      ) 
+                                     }
+
                                     </div>
                                     <div>
-                                        <div class="pull-right ml-5 pt-4">
+                                        <div class="pull-right ml-5 pt-4" style={{paddingTop:"4px", marginLeft:"5px"}}>
                                             <span class="text-fade text-small">(33kb)</span>
                                         </div>
                                         <div class="overflow-hidden ellipsis">
@@ -791,20 +817,20 @@ const OrderDetails = () =>{
 
 
 
-                         conversation 
+                         {/*conversation*/}
                         <div class="user-msg b-1-ddd">
                             <div class="overflow-hidden">
-                                <a href="/user/abcde12345" class="user-msg-img pull-left">
+                                <a to="/user/abcde12345" class="user-msg-img pull-left">
                                     <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                 </a>
-                                <div class="pull-right mt-10 text-fade d-none d-sm-block">
+                                <div class="pull-right mt-10 text-fade d-none d-sm-block" style={{marginTop:"10px"}}>
                                     Jan 12, 2019 at 9:05pm
                                 </div>
                                 <div class="overflow-hidden">
-                                    <a href="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline">
+                                    <a to="/user/abcde12345" class="font-bold mt-10 d-none d-sm-inline-block text-blue hover-underline">
                                         Firstname Lastname
                                     </a>
-                                    <a href="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
+                                    <a to="/user/abcde12345" class="font-bold d-inline-block d-sm-none text-blue hover-underline">
                                         Firstname Lastname
                                     </a>
                                     <div class="text-fade text-small d-block d-sm-none">
@@ -812,17 +838,17 @@ const OrderDetails = () =>{
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-10 font-normal text-justify">
+                            <div class="mt-10 font-normal text-justify" style={{marginTop:"10px"}}>
                                 I've worked with Kristen twice now. I have never worked with a graphic designer before and she's truly the best. Such a great lady and works really hard to make her customers satisfied. She is also really talented, open to ideas and works fast.
                             </div>
                         </div>
 
 
 
-                         for me (seller) to see 
-                         when status is after "requirement filled" but before "order completed"  
-                        <div class="text-center bg-eee pt-50 pb-50 b-1-ddd">
-                            <a href="/account/orders/deliver/123456789012" class="btn btn-blue icon-left">
+                         {/*for me (seller) to see 
+                            when status is after "requirement filled" but before "order completed"*/}  
+                        <div class="text-center bg-eee pt-50 pb-50 b-1-ddd" style={{paddingTop:"50px", paddingBottom:"50px"}}>
+                            <a to="/account/orders/deliver/123456789012" class="btn btn-blue icon-left">
                                 <span class="fa fa-box-open"></span>
                                 Deliver Work
                             </a>
@@ -830,10 +856,10 @@ const OrderDetails = () =>{
 
 
 
-                         order delivered 
-                         system generated 
-                         for both to see 
-                        <div class="order-mgmt pb-15 b-1-ddd">
+                         {/*order delivered 
+                            system generated 
+                            for both to see */}
+                        <div class="order-mgmt pb-15 b-1-ddd" style={{paddingBottom:"15px"}}>
                             <div>
                                 <span class="fa fa-truck icon-blue"></span>
                             </div>
@@ -846,12 +872,12 @@ const OrderDetails = () =>{
                                 If you do not perform any action,
                                 Your order will be marked as completed within 3 days.
                             </div>
-                            <div class="mt-10">
+                            <div class="mt-10" style={{marginTop:"10px"}}>
                                 <a data-toggle="modal" data-target="#modal-delivery-accept" class="btn btn-blue btn-sm mb-5 mr-5 ml-5">Accept Delivery</a>
                                 <a data-toggle="modal" data-target="#modal-delivery-revision" class="btn btn-orange btn-sm mb-5 mr-5 ml-5">Make Revision (2 remaining) </a>
-                                <a href="/account/resolution/orders/123456789012" class="btn btn-transparent-black btn-sm mb-5 mr-5 ml-5">Reject Delivery</a>
+                                <a to="/account/resolution/orders/123456789012" class="btn btn-transparent-black btn-sm mb-5 mr-5 ml-5">Reject Delivery</a>
                             </div>
-                            <div class="order-mgmt-date text-fade text-small mt-10">
+                            <div class="order-mgmt-date text-fade text-small mt-10" style={{marginTop:"10px"}}>
                                 December 15, 2020 at 9:54PM
                             </div>
                         </div>
@@ -864,10 +890,10 @@ const OrderDetails = () =>{
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="p-10">
+                                        <div class="p-10" style={{padding:"10px"}}>
 
-                                            <div class="b-1-ddd p-20-10">
-                                                <div class="pull-left mr-20">
+                                            <div class="b-1-ddd p-20-10" style={{padding:"20px 10px"}}>
+                                                <div class="pull-left mr-20" style={{marginRight:"20px"}}>
                                                     <span class="fa fa-certificate icon-blue icon-30"></span>
                                                 </div>
                                                 <div class="overflow-hidden">
@@ -885,7 +911,7 @@ const OrderDetails = () =>{
                                             <br/>
                                             please click <a data-toggle="modal" data-target="#modal-delivery-revision" class="underline hover-orange">I want to make a revision.</a>
                                             <div>
-                                                <div class="note mt-2 pt-3 pb-3 pl-10 pr-10 d-inline-block font-normal">
+                                                <div class="note mt-2 pt-3 pb-3 pl-10 pr-10 d-inline-block font-normal" style={{marginTop:"2px", paddingTop:"3px", paddingBottom:"3px", paddingRight:"10px", paddingLeft:"10px"}}>
                                                     Revisions Remaining: 2
                                                 </div>
                                             </div>
@@ -913,18 +939,18 @@ const OrderDetails = () =>{
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="p-10">
+                                        <div class="p-10" style={{padding:"10px"}}>
 
                                             <div class="note text-center">
                                                 Please make your revision as clear and concise as possible.
                                                 <div class="font-normal">
                                                     To give the seller more time to complete this revision,
                                                     <br/>
-                                                    please visit our <a href="/account/resolution/orders/123456789012" class="underline font-normal" target="_blank">order resolution center</a>
+                                                    please visit our <a to="/account/resolution/orders/123456789012" class="underline font-normal" target="_blank">order resolution center</a>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group mt-10">
+                                            <div class="form-group mt-10" style={{marginTop:"10px"}}>
                                                 <label>What to modify in the delivery:</label>
                                                 <textarea name="" id="" style={{height: "125px"}} class="form-control mt-5" placeholder="Enter message"></textarea>
                                             </div>
@@ -935,22 +961,22 @@ const OrderDetails = () =>{
                                                     Add attachment
                                                     <span class="fa fa-angle-down icon-333"></span>
                                                 </button>
-                                                <div class="overflow-hidden text-right font-bold text-red pt-5">
+                                                <div class="overflow-hidden text-right font-bold text-red pt-5" style={{paddingTop:"5px"}}>
                                                     Revisions remaining: 1
                                                 </div>
                                             </div>
-                                            <div id="add-attachment" class="collapse mt-20 b-1-ddd p-10 pt-0">
+                                            <div id="add-attachment" class="collapse mt-20 b-1-ddd p-10 pt-0" style={{paddingTop:"0", paddingTop:"0", marginTop:"20px"}}>
                                                 <div class="row">
-                                                    <div class="col-sm-6 mt-10">
+                                                    <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
                                                         <input type="file" class="form-control"/>
                                                     </div>
-                                                    <div class="col-sm-6 mt-10">
+                                                    <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
                                                         <input type="file" class="form-control"/>
                                                     </div>
-                                                    <div class="col-sm-6 mt-10">
+                                                    <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
                                                         <input type="file" class="form-control"/>
                                                     </div>
-                                                    <div class="col-sm-6 mt-10">
+                                                    <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
                                                         <input type="file" class="form-control"/>
                                                     </div>
                                                 </div>
@@ -976,10 +1002,10 @@ const OrderDetails = () =>{
 
 
 
-                         order revision 
-                         system generated 
-                         only if revision was submitted for this delivery 
-                        <div class="order-mgmt text-left b-1-ddd pt-0 pb-30">
+                         {/*order revision 
+                            system generated 
+                            only if revision was submitted for this delivery*/} 
+                        <div class="order-mgmt text-left b-1-ddd pt-0 pb-30" style={{paddingBottom:"30px", paddingTop:"0px"}}>
                             <div class="order-mgmt">
                                 <div>
                                     <span class="fa fa-edit icon-blue"></span>
@@ -990,25 +1016,25 @@ const OrderDetails = () =>{
                                 <div>
                                     Your requested for the following modifications to your order delivery.
                                 </div>
-                                <div class="b-1-ddd p-20-10 mt-10 text-left">
+                                <div class="b-1-ddd p-20-10 mt-10 text-left" style={{padding:"20px 10px", marginTop:"10px"}}>
                                     <div>
                                         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                                     </div>
-                                     if attachments were added, show the did below; else nothing 
-                                    <div class="floated-content text-center mt-20">
+                                     {/*if attachments were added, show the did below; else nothing*/} 
+                                    <div class="floated-content text-center mt-20" style={{marginTop:"20px"}}>
         
-                                         click to download 
-                                        <a href="" class="media media-sm">
+                                        {/*click to download*/}
+                                        <a href="" class="media media-sm" style={{width:"20rem"}}>
                                             <div class="text-center">
-                                                 if it's an image, display it directly 
+                                                {/*- {/*if it's an image, display it directly*/} --*/}
                                                 <img src='/images/boxes.jpg' alt="" class="dp-contain" />
-                                                 else, display the right stuff 
-                                                 <img src='/images/media-audio.png' alt="" class="dp-cover" /> 
-                                                 <img src='/images/media-video.png' alt="" class="dp-cover" /> 
-                                                 <img src='/images/media-others.png' alt="" class="dp-cover" /> 
+                                               {/*-- else, display the right stuff --
+                                                -- <img src='/images/media-audio.png' alt="" class="dp-cover" /> --
+                                                -- <img src='/images/media-video.png' alt="" class="dp-cover" /> --
+                                                -- <img src='/images/media-others.png' alt="" class="dp-cover" /> --*/}
                                             </div>
                                             <div>
-                                                <div class="pull-right ml-5 pt-4">
+                                                <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
                                                     <span class="text-fade text-small">(33kb)</span>
                                                 </div>
                                                 <div class="overflow-hidden ellipsis">
@@ -1018,18 +1044,18 @@ const OrderDetails = () =>{
                                             </div>
                                         </a>
         
-                                        -- click to download --
+                                        {/*click to download*/}
                                         <a href="" class="media media-sm">
                                             <div class="text-center">
-                                                - if it's an image, display it directly --
+                                                {/*- {/*if it's an image, display it directly*/} --*/}
                                                 <img src='/images/boxes.jpg' alt="" class="dp-contain" />
-                                                -- else, display the right stuff --
+                                               {/*-- else, display the right stuff --
                                                 -- <img src='/images/media-audio.png' alt="" class="dp-cover" /> --
                                                 -- <img src='/images/media-video.png' alt="" class="dp-cover" /> --
-                                                -- <img src='/images/media-others.png' alt="" class="dp-cover" /> --
+                                                -- <img src='/images/media-others.png' alt="" class="dp-cover" /> --*/}
                                             </div>
                                             <div>
-                                                <div class="pull-right ml-5 pt-4">
+                                                <div class="pull-right ml-5 pt-4" style={{marginLeft:"5px", paddingTop:"4px"}}>
                                                     <span class="text-fade text-small">(33kb)</span>
                                                 </div>
                                                 <div class="overflow-hidden ellipsis">
@@ -1041,7 +1067,7 @@ const OrderDetails = () =>{
         
                                     </div>
                                 </div>
-                                <div class="order-mgmt-date text-fade text-small mt-10">
+                                <div class="order-mgmt-date text-fade text-small mt-10" style={{marginTop:"10px"}}>
                                     December 15, 2020 at 9:54PM
                                 </div>
                             </div>
@@ -1053,10 +1079,10 @@ const OrderDetails = () =>{
 
 
 
-                        -- order review request --
+                        {/*-- order review request --
                         -- system generated --
-                        -- for customer (buyer) to see --
-                        <div class="order-mgmt pb-15 b-1-ddd">
+                        -- for customer (buyer) to see --*/}
+                        <div class="order-mgmt pb-15 b-1-ddd" style={{paddingBottom:"15px"}}>
                             <div>
                                 <span class="fa fa-star icon-orange"></span>
                             </div>
@@ -1067,22 +1093,22 @@ const OrderDetails = () =>{
                                 Please rate this seller based on the seller's performance and project delivery.
                             </div>
 
-                            <div class="mt-5">
-                                <a href="/account/orders/review/123456789012" class="btn btn-transparent-black btn-xs hover-bg-orange">
+                            <div class="mt-5" style={{marginTop:"5px"}}>
+                                <a to="/account/orders/review/123456789012" class="btn btn-transparent-black btn-xs hover-bg-orange">
                                     Rate Seller
                                 </a>
                             </div>
-                            <div class="order-mgmt-date text-fade text-small mt-10">
+                            <div class="order-mgmt-date text-fade text-small mt-10" style={{marginTop:"10px"}}>
                                 December 15, 2020 at 9:54PM
                             </div>
                         </div>
 
 
                         
-                        -- order review submitted --
-                        -- system generated --
-                        -- for me (seller) to see --
-                        <div class="order-mgmt text-left b-1-ddd pt-0 pb-30">
+                        {/*-- order review submitted --
+                            -- system generated --
+                            -- for me (seller) to see --*/}
+                        <div class="order-mgmt text-left b-1-ddd pt-0 pb-30" style={{paddingTop:"0", paddingBottom:"30px"}}>
                             <div class="order-mgmt">
                                 <div>
                                     <span class="fa fa-star icon-blue"></span>
@@ -1091,15 +1117,15 @@ const OrderDetails = () =>{
                                     Buyer's Review
                                 </div>
                                 <div>
-                                    -- for me (seller) --
+                                   {/* -- for me (seller) --
                                     -- Here's the review Alex submitted in respect to your performance & delivery of this project. --
 
-                                    -- for customer (buyer) --
+                                    -- for customer (buyer) --*/}
                                     Here's your review for Anthony, in respect to his/her ((check gender)) performance & delivery of the project.
                                 </div>
                             </div>
 
-                            <div class="pb-0">
+                            <div class="pb-0" style={{paddingBottom:"0"}}>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="reviews-summary">
@@ -1161,11 +1187,11 @@ const OrderDetails = () =>{
 
                             <div class="user-msg b-1-ddd">
                                 <div class="overflow-hidden">
-                                    <a href="/user/abcde12345" class="user-msg-img pull-left">
+                                    <a to="/user/abcde12345" class="user-msg-img pull-left">
                                         <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                     </a>
                                     <div class="pull-right d-none d-sm-block">
-                                        <div class="rating-box mt-5">
+                                        <div class="rating-box mt-5" style={{marginTop:"5px"}}>
                                             <div>
                                                 <div></div>
                                                 <div style={{width: "75%"}}></div> -- put product rating here (in percentage) --
@@ -1176,7 +1202,7 @@ const OrderDetails = () =>{
                                         </div>
                                     </div>
                                     <div class="overflow-hidden">
-                                        <a href="/user/abcde12345" class="font-bold hover-underline">
+                                        <a to="/user/abcde12345" class="font-bold hover-underline">
                                             Firstname Lastname
                                         </a>
                                         <div class="text-fade">
@@ -1193,7 +1219,7 @@ const OrderDetails = () =>{
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-10 font-normal text-justify">
+                                <div class="mt-10 font-normal text-justify" style={{marginTop:"10px"}}>
                                     I've worked with Kristen twice now. I have never worked with a graphic designer before and she's truly the best. Such a great lady and works really hard to make her customers satisfied. She is also really talented, open to ideas and works fast.
                                 </div>
                             </div>
@@ -1201,10 +1227,10 @@ const OrderDetails = () =>{
 
                         
 
-                        -- order completed --
-                        -- system generated --
-                        -- for both to see --
-                        <div class="order-mgmt pb-15 b-1-ddd">
+                        {/*-- order completed --
+                            -- system generated --
+                            -- for both to see --*/}
+                        <div class="order-mgmt pb-15 b-1-ddd" style={{paddingBottom:"15px"}}>
                             <div>
                                 <span class="fa fa-hourglass-end icon-blue"></span>
                             </div>
@@ -1214,25 +1240,25 @@ const OrderDetails = () =>{
                             <div>
                                 This order is now completed and all renumerations have been processed.
                             </div>
-                            <div class="order-mgmt-date text-fade text-small mt-10">
+                            <div class="order-mgmt-date text-fade text-small mt-10" style={{marginTop:"10px"}}>
                                 December 15, 2020 at 9:54PM
                             </div>
                         </div>
 
 
 
-                        -- new conversation --
+                        {/*-- new conversation --
                         -- for both to see --
-                        -- before order is completed --
+                        -- before order is completed --*/}
                         <form action="">
-                            <div class="order-mgmt-new-text p-15 b-1-ddd bg-eee">
+                            <div class="order-mgmt-new-text p-15 b-1-ddd bg-eee" style={{padding:"15px"}}>
                                 <div>
                                     <div class="form-group">
                                         <textarea class="form-control resize-none" style={{height: "85px"}} placeholder="Type a message..."></textarea>
                                     </div>
                                 </div>
                                 <div class="floated-content">
-                                    <button type="submit" class="btn btn-blue btn-md ml-10 pull-right">
+                                    <button type="submit" class="btn btn-blue btn-md ml-10 pull-right" style={{marginLeft:"10px"}}>
                                         <span class="fa fa-paper-plane"></span>
                                         Send
                                     </button>
@@ -1242,21 +1268,21 @@ const OrderDetails = () =>{
                                         <span class="fa fa-angle-down icon-333"></span>
                                     </button>
                                 </div>
-                                <div id="add-attachment" class="collapse mt-10 b-1-ddd p-20-10">
+                                <div id="add-attachment" class="collapse mt-10 b-1-ddd p-20-10" style={{marginTop:"10px", padding:"20px 10px"}}>
                                     <div>
                                         Upload Attachments
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-6 mt-10">
+                                        <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
                                             <input type="file" class="form-control"/>
                                         </div>
-                                        <div class="col-sm-6 mt-10">
+                                        <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
                                             <input type="file" class="form-control"/>
                                         </div>
-                                        <div class="col-sm-6 mt-10">
+                                        <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
                                             <input type="file" class="form-control"/>
                                         </div>
-                                        <div class="col-sm-6 mt-10">
+                                        <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
                                             <input type="file" class="form-control"/>
                                         </div>
                                     </div>
@@ -1277,7 +1303,7 @@ const OrderDetails = () =>{
                         Project Status
                     </div>
                     <div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Project Started
                             </div>
@@ -1285,7 +1311,7 @@ const OrderDetails = () =>{
                                 Jan 25, 2020 at 10:05pm
                             </div>
                         </div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Current Delivery Date
                             </div>
@@ -1293,7 +1319,7 @@ const OrderDetails = () =>{
                                 Jan 25, 2020 at 10:05pm
                             </div>
                         </div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Revisions Remaining
                             </div>
@@ -1301,7 +1327,7 @@ const OrderDetails = () =>{
                                 3 Revisions
                             </div>
                         </div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Delivery Format
                             </div>
@@ -1310,53 +1336,53 @@ const OrderDetails = () =>{
                             </div>
                         </div>
                         <div>
-                            <a href="/project/c1d00230-a423-4b84-a121-7105239ff8d8" class="btn btn-transparent-black btn-sm">
+                            <a to="/project/c1d00230-a423-4b84-a121-7105239ff8d8" class="btn btn-transparent-black btn-sm">
                                 View project details
                             </a>
                         </div>
                     </div>
 
 
-                     order tracking 
-                    <div class="bt-1-ddd mt-20">
-                        <div class="pt-15 pb-15 font-bold">
+                    {/* order tracking */}
+                    <div class="bt-1-ddd mt-20" style={{marginTop:"20px"}}>
+                        <div class="pt-15 pb-15 font-bold" style={{paddingTop:"15px", paddingBottom:"15px"}}>
                             Order Tracking
                         </div>
-                        <div class="floated-content mb-10">
-                            <div class="bg-green pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                <span class="fa fa-check mt-4 icon-fff"></span>
+                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                            <div class="bg-green pull-left text-center mr-10 br-50" style={{height:"20px", width:"20px", marginRight:"10px", marginBottom:"10px", borderRadius:"50%"}}>
+                                <span class="fa fa-check icon-fff"></span>
                             </div>
                             <div class="overflow-hidden">
                                 Order Placed
                             </div>
                         </div>
-                        <div class="floated-content mb-10">
-                            <div class="bg-green pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                <span class="fa fa-check mt-4 icon-fff"></span>
+                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                            <div class="bg-green pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px", marginRight:"10px", marginBottom:"10px", borderRadius:"50%"}}>
+                                <span class="fa fa-check icon-fff"></span>
                             </div>
                             <div class="overflow-hidden">
                                 Requirements Submitted
                             </div>
                         </div>
-                        <div class="floated-content mb-10">
-                            <div class="bg-orange pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                <span class="fa fa-spinner fa-spin mt-4 icon-fff"></span>
+                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                            <div class="bg-orange pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px", marginRight:"10px", marginBottom:"10px", borderRadius:"50%"}}>
+                                <span class="fa fa-spinner fa-spin icon-fff"></span>
                             </div>
                             <div class="overflow-hidden">
                                 Order In progress
                             </div>
                         </div>
-                        <div class="floated-content mb-10">
-                            <div class="bg-ccc pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                <span class="fa fa-ellipsis-h mt-4 icon-fff"></span>
+                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                            <div class="bg-ccc pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px", marginRight:"10px", marginBottom:"10px", borderRadius:"50%"}}>
+                                <span class="fa fa-ellipsis-h icon-fff"></span>
                             </div>
                             <div class="overflow-hidden">
                                 Order Delivery
                             </div>
                         </div>
-                        <div class="floated-content mb-10">
-                            <div class="bg-ccc pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px"}}>
-                                <span class="fa fa-ellipsis-h mt-4 icon-fff"></span>
+                        <div class="floated-content mb-10" style={{marginBottom:"10px"}}>
+                            <div class="bg-ccc pull-left text-center mr-10 br-50" style={{width: "20px", height: "20px", marginRight:"10px", marginBottom:"10px", borderRadius:"50%"}}>
+                                <span class="fa fa-ellipsis-h icon-fff"></span>
                             </div>
                             <div class="overflow-hidden">
                                 Order Completed
@@ -1365,8 +1391,8 @@ const OrderDetails = () =>{
                     </div>
 
 
-                    <div class="bt-1-ddd mt-20">
-                        <div class="pt-15 pb-15 font-bold">
+                    <div class="bt-1-ddd mt-20" style={{marginTop:"20px"}}>
+                        <div class="pt-15 pb-15 font-bold" style={{paddingTop:"15px", paddingBottom:"15px"}}>
                             Order Resolution
                         </div>
                         <div>
@@ -1374,7 +1400,7 @@ const OrderDetails = () =>{
                             <br/>
                             Visit the resoultion center.
                             <br/>
-                            <a href="/account/resolution/orders/123456789012" class="btn btn-transparent-black btn-sm mt-5">
+                            <a to="/account/resolution/orders/123456789012" class="btn btn-transparent-black btn-sm mt-5" style={{marginTop:"5px"}}>
                                 Resoultion Center
                             </a>
                         </div>
@@ -1388,7 +1414,7 @@ const OrderDetails = () =>{
                         Buyer Information
                     </div>
                     <div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Name
                             </div>
@@ -1396,7 +1422,7 @@ const OrderDetails = () =>{
                                 Olawale Lawal
                             </div>
                         </div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Country
                             </div>
@@ -1404,7 +1430,7 @@ const OrderDetails = () =>{
                                 Nigeria
                             </div>
                         </div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Gender
                             </div>
@@ -1413,7 +1439,7 @@ const OrderDetails = () =>{
                             </div>
                         </div>
                         <div>
-                            <a href="/user/abcde12345" class="btn btn-transparent-black btn-sm">
+                            <a to="/user/abcde12345" class="btn btn-transparent-black btn-sm">
                                 View buyer's profile
                             </a>
                         </div>
@@ -1425,7 +1451,7 @@ const OrderDetails = () =>{
                         Seller Information
                     </div>
                     <div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Name
                             </div>
@@ -1433,7 +1459,7 @@ const OrderDetails = () =>{
                                 Olawale Lawal
                             </div>
                         </div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Country
                             </div>
@@ -1441,7 +1467,7 @@ const OrderDetails = () =>{
                                 Nigeria
                             </div>
                         </div>
-                        <div class="mb-15">
+                        <div class="mb-15" style={{marginBottom:"15px"}}>
                             <div class="text-small text-color-fade">
                                 Gender
                             </div>
@@ -1450,7 +1476,7 @@ const OrderDetails = () =>{
                             </div>
                         </div>
                         <div>
-                            <a href="/user/abcde12345" class="btn btn-transparent-black btn-sm">
+                            <a to="/user/abcde12345" class="btn btn-transparent-black btn-sm">
                                 View seller's profile
                             </a>
                         </div>

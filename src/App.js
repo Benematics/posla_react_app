@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import {useSelector} from "react-redux";
 import {selectUser} from "./features/userSlice";
@@ -99,26 +99,104 @@ import AdminProjectList from "./pages/AdminProjectList";
 import HomeDeals from "./pages/HomeDeals";
 import DealDetails from "./pages/DealDetails";
 import DealsCat from "./pages/DealsCat";
+import Search from "./pages/Search";
+import AdminCatList from "./pages/AdminCatList";
+import AdminCatEdit from "./pages/AdminCatEdit";
+import AdminDealDetails from "./pages/AdminDealDetails";
+import AdminProjectDetails from "./pages/AdminProjectDetails";
+import SearchProjects from "./pages/SearchProjects";
+import SearchFreelancers from "./pages/SearchFreelancers";
 
 
 function App() {
   const user = useSelector(selectUser);
+  const [result, setResult] = useState("");
+  const [token, setToken] = useState("");
+  const [project, setProject] = useState("");
+
+    {/* Token */}
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+      console.log(token);
+    }
+  }, []);
+
+  {/* Deals Api*/}
+  useEffect(()=>{
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    fetch("https://posla-api.herokuapp.com/api/front/deals", requestOptions)
+      .then(response => response.json())
+      .then((res) => {
+        const deals = res.data;
+        setResult(deals);
+        console.log(deals);
+      })
+      .catch(error => console.log('error', error));
+
+    },[token]);
+
+    {/* Projects Api */}
+    useEffect(()=>{
+      var myHeaders = new Headers();
+      myHeaders.append("Accept", "application/json");
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      fetch("https://posla-api.herokuapp.com/api/front/projects", requestOptions)
+        .then(response => response.json())
+        .then((result) => 
+          {
+          const res = result.data; 
+          setProject(res)
+          console.log(res)
+                  })
+        .catch(error => console.log('error', error));
+  },[token])
+
   return (
+    <>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/admin" element={<AdminPage/>}/>
+        <Route path="/admin/dashboard" element={<AdminPage/>}/>
         <Route path="/account/deals/create" element={<DealsPage/>}/>
         <Route path="/account/deals/create/1234/info" element={<DealInfo/>}/>
         <Route path="/account/deals/create/1234/pricing" element={<DealPricing/>}/>
         <Route path="/account/deals/create/1234/requirement" element={<DealRequirement/>}/>
         <Route path="/account/deals/create/1234/publish" element={<DealPublish/>}/>
-        <Route path="/project/c1d00230-a423-4b84-a121-7105239ff8d8" element={<ProjectDetails/>}/>
-        <Route path="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" element={<DealDetails/>}/>
+         {project && project.data.map((item)=>(
+          <Route path={`/projects/${item.id}`} element={<ProjectDetails/>}/>
+        ))}
+        {project && project.data.map((item)=>(
+          <Route path={`/front/projects/${item.id}`} element={<AdminProjectDetails/>}/>
+        ))}
+         
+        {result && result.data.map((item)=>( 
+          <Route path={`/deals/${item.id}`} element={<DealDetails/>}/>
+        ))}
+        {result && result.data.map((item)=>( 
+          <Route path={`/front/deals/${item.id}`} element={<AdminDealDetails/>}/>
+        ))}
         <Route path="/account/dashboard" element={<Dashboard/>}/>
         <Route path="/category/business/projects" element={<CatBusiness/>}/>
         <Route path="/deals" element={<HomeDeals/>}/>
-        <Route path="/account" element={<Account/>}/>
+        <Route path="/account" element={<Dashboard/>}/>
         <Route path="/account/profile" element={<AccountProfile/>}/>
         <Route path="/account/orders" element={<AccountOrders/>}/>
         <Route path="/account/deals" element={<AccountDeals/>}/>
@@ -148,7 +226,9 @@ function App() {
         <Route path="/admin/sample/list" element={<AdminList/>}/>
         <Route path="/admin/sample/form" element={<AdminForm/>}/>
         <Route path="/admin/sample/details" element={<AdminDetails/>}/>
-        <Route path="/admin/list/category" element={<AdminListCat/>}/>
+        <Route path="/admin/categories/create" element={<AdminListCat/>}/>
+        <Route path="/admin/categories" element={<AdminCatList/>}/>
+        <Route path="/admin/categories/edit" element={<AdminCatEdit/>}/>
         <Route path="/email/sample" element={<EmailSample/>}/>
         <Route path="/404" element={<FrontErrors/>}/>
         <Route path="/terms" element={<TermsOfService/>}/>
@@ -204,16 +284,14 @@ function App() {
         <Route path="/admin/deals-list" element={<AdminDealsList/>}/>
         <Route path="/admin/project-list" element={<AdminProjectList/>}/>
         <Route path="/category/music-audio/deals" element={<DealsCat/>}/>
-
-
-         
-
-
-
-
+        <Route path="/search" element={<Search/>}/>
+        <Route path="/search/deals" element={<SearchDeals/>}/>
+        <Route path="/search/projects" element={<SearchProjects/>}/>
+        <Route path="/search/freelancers" element={<SearchFreelancers/>}/>
     
       </Routes>
     </BrowserRouter>
+    </>
   );
 }
 

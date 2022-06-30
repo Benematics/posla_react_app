@@ -5,11 +5,16 @@ import AdminSidebar from '../components/AdminSidebar';
 import AdminFooter from '../components/AdminFooter';
 
 
-
-const AdminProjectList = () =>{
-	const [project, setProject] = useState([]);
+const AdminDealDetails = () => {
+	const [result, setResult] = useState("");
 	const [token, setToken] = useState("");
-	const [projectId, setProjectId] = useState("");
+	const [Id, setId] = useState("");
+
+	useEffect(()=>{
+		const dealId = localStorage.getItem("Deal id");
+		setId(dealId);
+	},[])
+
 
 
     {/*Token*/}
@@ -21,32 +26,55 @@ const AdminProjectList = () =>{
         }
       }, []);
 
-    {/* All Projects */}
+   {/* Admin Single Deal List */}
 	useEffect(()=>{
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    fetch(`https://posla-api.herokuapp.com/api/front/deals/${Id}`, requestOptions)
+      .then(response => response.json())
+      .then((res) => {
+        const deals = res.data;
+        setResult(deals);
+        console.log(deals);
+      })
+      .catch(error => console.log('error', error));
+
+    },[token]);
+
+
+
+    {/*Admin Deal Status*/}
+	const handleSubmit = (e) => {
+		e.preventDefault()
 		var myHeaders = new Headers();
 		myHeaders.append("Authorization", `Bearer ${token}`);
+		myHeaders.append("Content-Type", "application/json");
 
 		var requestOptions = {
-		  method: 'GET',
+		  method: 'PUT',
 		  headers: myHeaders,
 		  redirect: 'follow'
 		};
 
-		fetch("https://posla-api.herokuapp.com/api/front/projects", requestOptions)
+		fetch(`https://posla-api.herokuapp.com/api/admin/deals/${Id}`, requestOptions)
 		  .then(response => response.json())
 		  .then((result) => {
-		  	const res = result.data;
-		  	setProject(res);
-		  	console.log(res);
+		  	const res=result.data[0];
+		  	setResult(res)
+		  	console.log(res)
 		  })
 		  .catch(error => console.log('error', error));
-	},[token])
-
-
-
+	}
 	return(
 		<>
-			<div class="wrapper">
+		<div class="wrapper">
 		<AdminSidebar style={{position: "fixed"}}/>
 			<header class="main-header" style={{zIndex:"1", position: "relative", width:"100%"}}>
 	            <Link to="" class="logo">
@@ -96,42 +124,45 @@ const AdminProjectList = () =>{
 	              </div>
 	            </nav>
 	        </header>
-			    <div class="content-wrapper">
+	       		 <div class="content-wrapper">
 			        <div class="body-wrapper">
 			            <table>
 			            	<thead>
 			            		<tr>
-			            			<th>Project Name</th>
-			            			<th>Buyer</th>
+			            			<th>Deal Name</th>
+			            			<th>Seller</th>
 			            			<th>Details</th>
 			            			<th>Date</th>
 			            			<th>Action</th>
 			            		</tr>
 			            	</thead>
 			            	<tbody>
-			            	{project && project.data.map((item)=>(
-				            		<tr>
-				            			<td>{item.category_name}</td>
-										<td>{item.user_name}</td>
-										<td>
-											<h6>{item.title}</h6>
-											<p>{item.description}</p>
-										</td>
-										<td>{item.created_at}</td>
-										<td>
-											<Link to={`/front/projects/${item.id}`}>
-												<button type="button" class="btn btn-blue btn-sm" onClick={()=>{localStorage.setItem("Project id", `${item.id}`)}}>View Project</button>
-											</Link>
-			                            </td>
-									</tr>
-			            		))}	
+			            		<td>{result.category_name}</td>
+			            		<td></td>
+			            		<td></td>
+			            		<td></td>
+			            		<td>
+	            					<div class="dropdown1">
+	                                    <button type="button" class="btn btn-dark btn-sm dropdown-toggle dropdown-btn1"  style={{marginLeft:"0.5rem"}}>
+	                                        Action
+	                                    </button>
+	                                    <div class="dropdown-menu dropdown-menu-right dropdown-content1">
+	                                        <Link to="" class="dropdown-item">
+	                                            Enable
+	                                        </Link>
+	                                        <Link to="" class="dropdown-item">
+	                                            Disable
+	                                        </Link>
+	                                    </div>
+	                                </div>
+			            		</td>
 			            	</tbody>
 			            </table>
 			        </div>
 			    </div>
-			        <AdminFooter/>
-			</div>
+	        <AdminFooter/>
+		</div>
 		</>
 		)
-}
-export default AdminProjectList;
+} 
+export default AdminDealDetails;

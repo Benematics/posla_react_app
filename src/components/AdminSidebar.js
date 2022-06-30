@@ -1,17 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {Link} from "react-router-dom";
 
 const AdminSidebar = () =>{
+    const [pageDisplay, setPageDisplay] = useState("none");
+    const [catDisplay, setCatDisplay] = useState("none");
     return(
         <>
-            <aside class="main-sidebar">
+            <aside class="main-sidebar" style={{position:"fixed"}}>
                 <section class="sidebar">
 
                     <div class="user-panel">
-                        <a href="#" target="_blank">
+                        <Link to="#" target="_blank">
                             <div class="image" style={{width: "60px", height: "60px", background: "#0073B1", border: "10px solid #0073B1", boxSizing: "content-box", overflow: "hidden"}}>
                                 <img src='/images/logo.png' class="img-circle dp-contain" alt="Posla" style={{marginTop: "-15px"}}/>
                             </div>
-                        </a>
+                        </Link>
                         <div class="info" style={{paddingLeft: "10px", paddingRight: "10px"}}>
 
                             <p>Fname Lname</p>
@@ -25,77 +28,77 @@ const AdminSidebar = () =>{
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="header">Welcome</li>
                         <li class="#">
-                            <a href="/admin/dashboard">
-                                <i class="fa fa-tachometer-alt"></i> <span>Dashboard</span>
-                            </a>
+                            <Link to="/admin/dashboard">
+                                <i class="fa fa-user"></i> <span>Dashboard</span>
+                            </Link>
                         </li>
 
                         <li class="header">Samples</li>
 
                         <li class="#">
-                            <a href="#">
+                            <Link to="#" onClick={()=>{setPageDisplay("block")}}>
                                 <i class="fa fa-list"></i>
                                 <span>Pages</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
-                            <ul class="treeview-menu">
+                            </Link>
+                            <ul class="treeview-menu" style={{display: pageDisplay}}>
                                 <li class="#">
-                                    <a href="/admin/sample/list">
+                                    <Link to="/admin/sample/list">
                                         <i class="fa fa-list"></i>
                                         List Page
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li class="#">
-                                    <a href="/admin/sample/form">
+                                    <Link to="/admin/sample/form">
                                         <i class="fa fa-list"></i>
                                         Form Page
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li class="#">
-                                    <a href="/admin/sample/details">
+                                    <Link to="/admin/sample/details">
                                         <i class="fa fa-list"></i>
                                         Details Page
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </li>
 
                         <li class="#">
-                            <a href="#">
+                            <Link to="#" onClick={()=>{setCatDisplay("block")}}>
                                 <i class="fa fa-list"></i>
                                 <span>Category</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
-                            <ul class="treeview-menu">
+                            </Link>
+                            <ul class="treeview-menu" style={{display:catDisplay}}>
                                 <li class="#">
-                                    <a href='/admin/categories/index.php'>
+                                    <Link to='/admin/categories'>
                                         <i class="fa fa-list"></i>
                                         List Category
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li class="#">
-                                    <a href='/admin/categories/create.php'>
+                                    <Link to='/admin/categories/create'>
                                         <i class="fa fa-list"></i>
                                         Create Category
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </li>
 
                         <li class="header">Others</li>
                         <li>
-                            <a href="#" target="_blank">
+                            <Link to="#" target="_blank">
                                 <i class="fa fa-desktop"></i> <span>Goto homepage</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="">
+                            <Link to="">
                                 <i class="fa fa-user"></i> <span>Logout</span>
-                            </a>
+                            </Link>
                         </li>
 
                     </ul>

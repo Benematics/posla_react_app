@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import AccountSidebar from '../components/AccountSidebar';
+import ProjectList from '../components/ProjectList';
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import {Link} from "react-router-dom";
 import NavTabProjectMgt from '../components/NavTabProjectMgt';
 
 
 const ProjectPublish = () =>{
 	return(
 		<>
-	<div class="container">
+    <Header/>
+	<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
         <div class="row">
             <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -18,8 +23,8 @@ const ProjectPublish = () =>{
                 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/projects">Projects</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+                        <li class="breadcrumb-item"><Link to="/account/projects">Projects</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit Project</li>
                     </ol>
                 </div>
@@ -117,10 +122,10 @@ const ProjectPublish = () =>{
                                         
                                         <div class="p-15 mt-15 bt-1-ddd floated-content">
                                             <div class="pull-right">
-                                                <a href="/account/projects/edit/1234/requirements" class="btn btn-transparent-black btn-sm icon-left">
+                                                <Link to="/account/projects/edit/1234/requirements" class="btn btn-transparent-black btn-sm icon-left">
                                                     <span class="fa fa-angle-left"></span>
                                                     Back
-                                                </a>
+                                                </Link>
                                                 <button type="submit" class="btn btn-blue btn-sm icon-right">
                                                     Publish
                                                     <span class="fa fa-check-circle"></span>
@@ -141,7 +146,7 @@ const ProjectPublish = () =>{
             </div>
         </div>
     </div>
-
+    <Footer/>
 		</>
 		)
 }

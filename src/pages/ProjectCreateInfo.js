@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import AccountSidebar from '../components/AccountSidebar';
 import NavTabProjectMgt from '../components/NavTabProjectMgt';
+import {Link} from "react-router-dom";
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const ProjectCreateInfo = () =>{
 	const [data, setData] = useState({
@@ -22,53 +25,58 @@ const ProjectCreateInfo = () =>{
 	});
 	const [display, setDisplay] = useState("None")
 	const [errors, setErrors] = useState("");
+    const [token, setToken] = useState("");
+
+
+    useEffect(() => {
+    const access = localStorage.getItem("token");
+    if (access) {
+      setToken(access);
+      console.log(access);
+    }
+  }, [token]);
 
 	const handleChange = (e) =>{
 		setData({...data, [e.target.name]:[e.target.value]});
 		console.log(data);
 	}
 
-	const handleSubmit =(e)=>{
-		e.preventDefault()
-		const sendData ={
-			title: data.title,
-			category: data.category,
-			subcategory: data.subcategory,
-			timeframe: data.timeframe,
-			budget: data.budget,
-			expdate: data.expdate,
-			picture_1: data.picture_1,
-			picture_2: data.picture_2,
-			picture_3: data.picture_3,
-			picture_4: data.picture_4,
-			picture_5: data.picture_5,
-			picture_6: data.picture_6,
-			description: data.description,
-			visibility: data.visibility,
-			tags: data.tags
-		}
 
-		fetch('https://posla-api.herokuapp.com/api/projects/create/stage-two-info',{
-	      method: 'POST',
-	      headers: {
-	        "Content-Type" : "application/json",
-	        "accept" : "application/json"},
-	         body: JSON.stringify(sendData)
-	       }).then(async response => {
-	         if (!response.ok) {
-	         const validation = await response.json();
-	         setErrors(validation.errors);
-	         console.log(validation.errors);
-	       }else{
-	        setDisplay('block')
-	       }
-	    })
+    const handleSubmit =(e)=>{
+            e.preventDefault()
+            var myHeaders = new Headers();
+            myHeaders.append("Accept", "application/json");
+            myHeaders.append("Authorization", `Bearer ${token}`);
 
-	}
+            var formdata = new FormData();
+            formdata.append("title", data.title);
+            formdata.append("category_id", "dee275a7-eab2-4fed-8f64-f50e59c8868c");
+            formdata.append("subcategory_id", "238df34a-b7df-467e-bca2-d887209a95bf");
+            formdata.append("timeframe", data.timeframe);
+            formdata.append("budget", data.budget);
+            formdata.append("active_until", data.expdate);
+            formdata.append("description", data.description);
+            formdata.append("status", "1");
+            formdata.append("tags", data.tags);
+            formdata.append("pictures[]", [data.picture_1, data.picture_2, data.picture_3, data.picture_4, data.picture_5, data.picture_6]);
+
+            var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: formdata,
+              redirect: 'follow'
+            };
+
+            fetch("https://posla-api.herokuapp.com/api/projects/create/stage-two-info", requestOptions)
+              .then(response => response.json())
+              .then(result => console.log(result))
+              .catch(error => console.log('error', error));
+    }
 
 	return(
-	<>
-	<div class="container">
+<>
+<Header/>
+	<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
         <div class="row">
             <div class="d-none d-md-block col-md-4 col-lg-3">
                 <AccountSidebar/>    
@@ -78,8 +86,8 @@ const ProjectCreateInfo = () =>{
                 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/projects">Projects</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+                        <li class="breadcrumb-item"><Link to="/account/projects">Projects</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit Project</li>
                     </ol>
                 </div>
@@ -95,10 +103,10 @@ const ProjectCreateInfo = () =>{
                         <div class="tab-content">
                             <div class="tab-pane active">
 
-                                <form action="/account/projects/edit/1234/publish">
+                                <form action="/account/projects/create/1234/publish">
                                     <div class="b-1-ddd">
 
-                                        <div class="p-20">
+                                        <div class="p-20" style={{padding:"20px"}}>
                                             
                                             <div class="row">
                                                 <div class="col-sm-6">
@@ -140,17 +148,17 @@ const ProjectCreateInfo = () =>{
                                                                 </label>
                                                                 <select name="timeframe" id="timeframe" onChange={handleChange} value={data.timeframe}>
                                                                     <option>- Select -</option>
-                                                                    <option >1 day</option>
-                                                                    <option >2 days</option>
-                                                                    <option>3 days</option>
-                                                                    <option >5 days</option>
-                                                                    <option>7 days</option>
-                                                                    <option>10 days</option>
-                                                                    <option>20 days</option>
-                                                                    <option>30 days</option>
-                                                                    <option>45 days</option>
-                                                                    <option>60 days</option>
-                                                                    <option>90 days</option>
+                                                                    <option >1</option>
+                                                                    <option >2</option>
+                                                                    <option>3 </option>
+                                                                    <option >5</option>
+                                                                    <option>7 </option>
+                                                                    <option>10</option>
+                                                                    <option>20</option>
+                                                                    <option>30</option>
+                                                                    <option>45</option>
+                                                                    <option>60</option>
+                                                                    <option>90</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -360,16 +368,18 @@ const ProjectCreateInfo = () =>{
                                             
                                         </div>
 
-                                        <div class="p-15 mt-15 bt-1-ddd floated-content">
+                                        <div class="p-15 mt-15 bt-1-ddd floated-content" style={{padding:"15px", marginTop:"15px"}}>
                                             <div class="pull-right">
-                                                <a href="/account/projects/edit/1234/rules" class="btn btn-transparent-black btn-sm icon-left">
+                                                <Link to="/account/projects/create" class="btn btn-transparent-black btn-sm icon-left" >
                                                     <span class="fa fa-angle-left"></span>
                                                     Back
-                                                </a>
-                                                <button type="submit" class="btn btn-blue btn-sm icon-right" onClick={handleSubmit}>
+                                                </Link>
+                                            
+                                                <button type="submit" class="btn btn-blue btn-sm icon-right" onClick={handleSubmit} style={{marginLeft:"10px"}}>
                                                     Proceed
                                                     <span class="fa fa-angle-right"></span>
                                                 </button>
+                                             
                                             </div>
                                         </div>
 
@@ -386,7 +396,7 @@ const ProjectCreateInfo = () =>{
             </div>
         </div>
     </div>
-
+<Footer/>
 		</>
 		)
 }

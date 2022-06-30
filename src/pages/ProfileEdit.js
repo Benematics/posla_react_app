@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import {Link} from "react-router-dom";
 import AccountSidebar from '../components/AccountSidebar';
+import { toast } from 'react-toastify';
 
 
 const ProfileEdit = () =>{
+    
     const [fullname,setFullname]= useState("");
     const [username,setUsername]= useState("");
     const [email,setEmail]= useState("");
@@ -18,42 +21,73 @@ const ProfileEdit = () =>{
     const [skillset1, setSkillset1]= useState("");
     const [skillset2,setSkillset2]= useState("");
     const [language,setLanguage]= useState("");
+    const [result, setResult] = useState("");
    
     const [display, setDisplay] = useState("None");
     const [errors, setErrors] = useState("");
+    const [token, setToken] = useState("");
+
+    const [file, setFile] = useState()
+
+    function handleChange(e) {
+        setFile(e.target.files[0])
+      }
 
 
+    useEffect(() => {
+    const access = localStorage.getItem("token");
+    if (access) {
+      setToken(access);
+      console.log(access);
+    }
+  }, [token]);
+
+
+
+    const handleSubmit = (e) => {
+    e.preventDefault()
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer ");
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
-    const handleSubmit =(e)=>{
-        e.preventDefault()
-            
-    var raw = JSON.stringify({
-  "phone": phone,
-  "dob": dob,
-  "gender": gender,
-  "languages":language,
-  "short_description": short_description,
-  "full_description": long_description,
-  "skillsets": [skillset1, skillset2]
+    var formdata = new FormData();
+    formdata.append("image", file);
+    formdata.append("name", fullname);
+    formdata.append("phone", phone);
+    formdata.append("gender", gender);
+    formdata.append("dob", dob);
+    formdata.append("languages", language);
+    formdata.append("skillsets[]", [skillset1, skillset2]);
+    formdata.append("short_description", short_description);
+    formdata.append("full_description", long_description);
 
-});
 
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
-};
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow'
+    };
 
-   fetch("https://jbuit.com/api/contact/", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
+   fetch("https://posla-api.herokuapp.com/api/auth/profile/update", requestOptions)
+  .then(response => response.json())
+  .then((result) => {
+    const res = result.data
+    if (result.status==true) {
+        localStorage.setItem("account detail", JSON.stringify(res));
+        localStorage.setItem("profile image", JSON.stringify(file));
+        toast("updated successfully");
+
+    }
+
+    console.log(result);
+})
   .catch(error => console.log('error', error));
 
     }
+
+
+
+
     return(
         <>
 <Header/>
@@ -67,50 +101,49 @@ var requestOptions = {
 
             <div class="col-12 col-md-8 col-lg-9">
 
-                <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
+                <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10" style={{marginBottom:"10px"}}>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/profile">Profile</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+                        <li class="breadcrumb-item"><Link to="/account/profile">Profile</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit</li>
                     </ol>
                 </div>
                 <div class="section">
                     <div class="section-title section-title-sm">
                         Edit Profile
-                        -- <a href="/account/profile/edit" class="btn btn-orange btn-sm pull-right hover-bg-orange">Save Profile</a> -
+                        <Link to="/account/profile/edit" class="btn btn-orange btn-sm pull-right hover-bg-orange">Save Profile</Link> 
                     </div>
                     <div>
 
                         <form action="/" method="POST" enctype="multipart/form-data">
                             
                             <div class="row">
-                                <div class="col-sm-6 mb-30">
+                                <div class="col-sm-6 mb-30" style={{marginBottom:"30px"}}>
 
-                                    <div class="p-10 pl-15 pr-15 font-bold bg-blue text-fff">
+                                    <div class="p-10 pl-15 pr-15 font-bold bg-blue text-fff" style={{padding:"10px", paddingLeft:"15px", paddingRight:"15px"}}>
                                         Basic Information
                                     </div>
-                                    <input/>
-                                    <div class="b-1-ddd bt-none p-20" style={{padding:"5px"}}>
+                                    <div class="b-1-ddd bt-none p-20" style={{padding:"20px"}}>
 
                                         <div class="form-group">
                                             <label for="name" class="control-label">
                                                 Full name:
                                             </label>
-                                            <input type="text" name="fullname" class="form-control" placeholder="tryyry" value={fullname} onChange= {(e)=>{setFullname(e.target.value)}}/>
+                                            <input type="text" name="fullname" class="form-control" value={fullname} onChange= {(e)=>{setFullname(e.target.value)}}/>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="username" class="control-label">
                                                 Username:
                                             </label>
-                                            <input type="text" name="username" class="form-control" value={username} onChange= {(e)=>{setUsername(e.target.value)}}/>
+                                            <input type="text" disabled name="username" class="form-control" value={username} onChange= {(e)=>{setUsername(e.target.value)}}/>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="email" class="control-label">
                                                 Email Address:
                                             </label>
-                                            <input type="email" name="email" class="form-control" value={email} onChange= {(e)=>{setEmail(e.target.value)}}/>
+                                            <input type="email" disabled name="email" class="form-control" value={email} onChange= {(e)=>{setEmail(e.target.value)}}/>
                                         </div>
 
                                         <div class="form-group">
@@ -150,50 +183,50 @@ var requestOptions = {
                                     </div>
 
                                 </div>
-                                <div class="col-sm-6 mb-30" style={{padding:"5px"}}>
+                                <div class="col-sm-6 mb-30" style={{marginBottom:"30px"}}>
 
-                                    <div class="p-10 pl-15 pr-15 font-bold bg-blue text-fff">
+                                    <div class="p-10 pl-15 pr-15 font-bold bg-blue text-fff" style={{padding:"10px", paddingLeft:"15px", paddingRight:"15px"}}>
                                         Profile Picture
                                     </div>
-                                    <div class="b-1-ddd bt-none p-20" style={{padding:"5px"}}>
+                                    <div class="b-1-ddd bt-none p-20" style={{padding:"20px"}}>
 
                                                                                 
-                                        <div class="note p-10">
+                                        <div class="note p-10" style={{padding:"10px"}}>
                                             Please upload a professionally-acceptable photo
                                         </div>
                                        
 
-                                        <div class="form-group mt-10">
+                                        <div class="form-group mt-10" style={{marginTop:"10px", marginBottom:"10px"}}>
                                             <label class="control-label">
                                                 Upload Picture:
                                             </label>
-                                            <input type="file" name="profile" class="form-control" value={profile} onChange= {(e)=>{setProfile(e.target.value)}}/>
+                                            <input type="file" name="file" class="form-control" onChange= {handleChange}/>
                                         </div>
 
-                                        -- if profile picture exist --
-                                            <div class="">
-                                                <div class="pull-left mr-10">
-                                                    <label class="control-label mt-15">
-                                                        Current Photo:
-                                                    </label>
-                                                </div>
-                                                <div class="overflow-hidden">
-                                                    <div class="">
-                                                        <div Style={{"width": "50px", "height": "50px", "border-radius": "50%", "overflow": "hidden", "background": "#000"}}>
-                                                            <img src='img/app/bgs/posla-admin.jpg' alt="Firstname lastname" class="dp-cover" />
-                                                        </div>
+                                        {/*-- if profile picture exist --*/}
+                                        <div class="">
+                                            <div class="pull-left mr-10" style={{marginRight:"10px"}}>
+                                                <label class="control-label mt-15" style={{marginTop:"15px"}}>
+                                                    Current Photo:
+                                                </label>
+                                            </div>
+                                            <div class="overflow-hidden">
+                                                <div class="">
+                                                    <div style={{width: "50px", height: "50px", borderRadius: "50%", overflow: "hidden", background: "#000"}}>
+                                                        <img src='/images/posla-admin.jpg' alt="Firstname lastname" class="dp-cover" />
                                                     </div>
                                                 </div>
                                             </div>
-                                        -- end if --
+                                        </div>
+                                        {/*-- end if --*/}
 
                                     </div>
 
 
-                                    <div class="p-10 pl-15 pr-15 mt-30 font-bold bg-blue text-fff">
+                                    <div class="p-10 pl-15 pr-15 mt-30 font-bold bg-blue text-fff" style={{padding:"10px", paddingLeft:"15px", marginTop:"30px"}}>
                                         Description
                                     </div>
-                                    <div class="b-1-ddd bt-none p-20">
+                                    <div class="b-1-ddd bt-none p-20" style={{padding:"20px"}}>
                                         
                                         <div class="form-group">
                                             <label for="short_description" class="control-label">
@@ -206,18 +239,18 @@ var requestOptions = {
                                             <label for="long_description" class="control-label">
                                                 Full Description:
                                             </label>
-                                            <textarea name="long_description" id="long_description" class="form-control resize-none" Style={{"height": "200px"}} value={long_description} onChange= {(e)=>{setLong_description(e.target.value)}}></textarea>
+                                            <textarea name="long_description" id="long_description" class="form-control resize-none" style={{height: "200px"}} value={long_description} onChange= {(e)=>{setLong_description(e.target.value)}}></textarea>
                                         </div>
 
                                     </div>
 
                                 </div>
-                                <div class="col-sm-6 mb-30" style={{padding:"5px"}}>
+                                <div class="col-sm-6 mb-30" style={{marginBottom:"30px"}}>
 
-                                    <div class="p-10 pl-15 pr-15 font-bold bg-blue text-fff">
+                                    <div class="p-10 pl-15 pr-15 font-bold bg-blue text-fff" style={{padding:"10px", paddingLeft:"15px", paddingRight:"15px"}}>
                                         Skillset
                                     </div>
-                                    <div class="b-1-ddd bt-none p-20">
+                                    <div class="b-1-ddd bt-none p-20" style={{padding:"20px"}}>
                                         
                                         <div class="input-group input-group-attach-right">
                                             <input type="text" class="form-control item-labels-tags-input" placeholder="Enter tags..."/>
@@ -228,7 +261,7 @@ var requestOptions = {
                                             </div>
                                         </div>
 
-                                        <div class="item-labels item-labels-md item-labels-tags-all mt-5">
+                                        <div class="item-labels item-labels-md item-labels-tags-all mt-5" style={{marginTop:"5px"}}>
                                             <div class="item-labels-tags">
                                                 Graphics Design
                                                 <input type="hidden" name="skillset1" readonly value={skillset1} onChange= {(e)=>{setSkillset1(e.target.value)}}/>
@@ -244,14 +277,14 @@ var requestOptions = {
                                     </div>
 
                                 </div>
-                                <div class="col-sm-6 mb-30" style={{padding:"5px"}}>
+                                <div class="col-sm-6 mb-30" style={{marginBottom:"30px"}}>
 
-                                    <div class="p-10 pl-15 pr-15 font-bold bg-blue text-fff" >
+                                    <div class="p-10 pl-15 pr-15 font-bold bg-blue text-fff" style={{padding:"10px", paddingLeft:"15px", paddingRight:"15px"}}>
                                         Languages
                                     </div>
-                                    <div class="b-1-ddd bt-none p-20">
+                                    <div class="b-1-ddd bt-none p-20" style={{padding:"20px"}}>
                                         
-                                        <div class="input-group input-group-attach-right "style={{padding: "5px"}}>
+                                        <div class="input-group input-group-attach-right" style={{padding: "5px"}}>
                                             <input type="text" class="form-control language-row-input" placeholder="Enter language..." style={{height: "35px"}}/>
                                             <select name="language" id="language" class="form-control language-row-select" style={{height: "35px"}} value={language} onChange= {(e)=>{setLanguage(e.target.value)}}>
                                                 <option value="">- Select -</option>
@@ -266,7 +299,7 @@ var requestOptions = {
                                             </div>
                                         </div>
 
-                                        <div class="table-responsive b-1-ddd mt-10" style={{padding:"5px"}}>
+                                        <div class="table-responsive b-1-ddd mt-10" style={{marginTop:"10px"}}>
                                             <table class="table table-tr-lines">
                                                 <tbody class="language-row-all" style={{padding:"5px"}}>
                                                     <tr>
@@ -332,22 +365,22 @@ var requestOptions = {
                                 </div>
                             </div>
 
-                            <div class="pt-20 bt-1-ddd">
+                            <div class="pt-20 bt-1-ddd" style={{paddingTop:"20px"}}>
 
                                 <div class="floated-content">
-                                    <button type="submit" class="btn btn-blue btn-sm pull-right ml-10" onClick={handleSubmit}>
+                                    <button type="submit" class="btn btn-blue btn-sm pull-right ml-10" onClick={handleSubmit} style={{marginLeft:"10px"}}>
                                         Save Changes       
                                     </button>
-                                    <a href="/account/profile" class="btn btn-transparent-black btn-sm pull-right">
+                                    <Link to="/account/profile" class="btn btn-transparent-black btn-sm pull-right">
                                         Cancel
-                                    </a>
+                                    </Link>
                                      
                                 </div>
 
                             </div>
 
                         </form>
-                        <p Style={{display:display}}>category created successfully</p>
+
 
                     </div>
                 </div>

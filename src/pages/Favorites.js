@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import {Link} from "react-router-dom";
 import AccountSidebar from '../components/AccountSidebar';
 import Deal from '../components/Deal.js';
 
@@ -9,16 +10,40 @@ import Deal from '../components/Deal.js';
 const Favorites = () =>{
     const [result, setResult] = useState("");
     const [error, setError] = useState("");
+    const [token, setToken] = useState("");
 
-    useEffect (()=>{
-        fetch("https://dummyjson.com/products")
-  .then(response => response.json())
-  .then(response=>{
-    setResult(response)
-  })
-  .catch(error => console.log(error));
 
-    })
+    useEffect(() => {
+    const access = localStorage.getItem("token");
+    if (access) {
+      setToken(access);
+      console.log(access);
+    }
+  }, [token]);
+
+    useEffect(()=>{
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        {/*var formdata = new FormData();*/}
+
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+         
+          redirect: 'follow'
+        };
+
+        fetch("https://posla-api.herokuapp.com/api/account/favourites", requestOptions)
+          .then(response => response.json())
+            .then((response)=>{
+                const res = response.data
+                
+                console.log(res.deal_favourites)
+              })
+          .catch(error => console.log('error', error));
+    },[token])
     return(
 <>
 <Header/>
@@ -33,7 +58,7 @@ const Favorites = () =>{
 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Favourites</li>
                     </ol>
                 </div>
@@ -46,18 +71,18 @@ const Favorites = () =>{
 
                         <ul class="nav nav-tabs posla-tabs posla-tabs-2">
                             <li class="nav-item">
-                                <a href="/account/favourites/deals" class="nav-link active">
+                                <Link to="/account/favourites/deals" class="nav-link active">
                                     <div class="text-center">
                                         Deals (10)
                                     </div>
-                                </a>
+                                </Link>
                             </li>
                             <li class="nav-item">
-                                <a href="/account/favourites/projects" class="nav-link">
+                                <Link to="/account/favourites/projects" class="nav-link">
                                     <div class="text-center">
                                         Projects (3)
                                     </div>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     
@@ -66,7 +91,7 @@ const Favorites = () =>{
                          {result && result.products.map((item)=>(
                             
                             <div class="col-sm-6 col-lg-4 deal-mgmt">
-                                    <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"auto"}}> 
+                                    <Link to="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"auto"}}> 
                                         <div class="deal-info-top">
                                             <div>
                                                 <img src='/images/deal-1.png' alt="Olawale Lawal" class="dp-cover" />
@@ -122,7 +147,7 @@ const Favorites = () =>{
                                             </div>
                                         </div>
                                         
-                                    </a>
+                                    </Link>
                             </div>
 
 

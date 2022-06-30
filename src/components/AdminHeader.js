@@ -1,17 +1,18 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const AdminHeader = ()=>{
 	return(
 		<>
-<header class="main-header">
-    <a href="" class="logo">
+<header class="main-header" >
+    <Link to="" class="logo">
       <span class="logo-mini"><b>Posla</b></span>
       <span class="logo-lg"><b>Posla</b></span>
-    </a>
+    </Link>
     <nav class="navbar navbar-static-top">
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+      <Link to="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
-      </a>
+      </Link>
 
       <div class="layout-mobile-title d-block d-md-none">
         Admin Panel
@@ -20,12 +21,12 @@ const AdminHeader = ()=>{
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu" style={{minHeight: "50px"}}>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style={{height: "50px"}}>
+            <Link to="#" class="dropdown-toggle" data-toggle="dropdown" style={{height: "50px"}}>
               <img src='/images/user.png' class="user-image" alt="User Image"/>
               
               <span class="hidden-xs" style={{position: "relative", top: "2px"}}>Fname Lname</span>
               <span class="fa fa-angle-down" style={{position:"relative", top: "3px", marginLeft: "5px"}}></span>
-            </a>
+            </Link>
             <ul class="dropdown-menu">
               
               <li class="user-header" style={{textAlign: "center !important", paddingTop: "15px !important"}}>
@@ -40,10 +41,10 @@ const AdminHeader = ()=>{
               
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="" class="btn btn-blue">Profile</a>
+                  <Link to="" class="btn btn-blue">Profile</Link>
                 </div>
                 <div class="pull-right">
-                  <a href="" class="btn btn-danger">Logout</a>
+                  <Link to="" class="btn btn-danger">Logout</Link>
                 </div>
               </li>
               

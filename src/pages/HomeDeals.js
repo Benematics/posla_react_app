@@ -13,11 +13,22 @@ const HomeDeals = () =>{
 
 	const [result, setResult] = useState("");
 	const [category, setCategory] = useState([]);
+	const [token, setToken] = useState("");
 	const user = useSelector(selectUser);
 
+		{/* Token LocalStorage*/}
+	useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+      console.log(token);
+    }
+  }, []);
+
+	{/* All Deals */}
 	useEffect(()=>{
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer 41|1rEpfWLienwJOQmLxPuDmRUP5DgtMt5GzThDTKpb");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
       method: 'GET',
@@ -27,20 +38,20 @@ const HomeDeals = () =>{
 
     fetch("https://posla-api.herokuapp.com/api/front/deals", requestOptions)
       .then(response => response.json())
-      .then(res => {
+      .then((res) => {
         const deals = res.data;
         setResult(deals);
         console.log(deals);
       })
       .catch(error => console.log('error', error));
 
-    },[]);
+    },[token]);
 
-
+		{/* Main Categories */}
 		useEffect(()=>{
-		        var myHeaders = new Headers();
+		    var myHeaders = new Headers();
 				myHeaders.append("Accept", "application/json");
-				myHeaders.append("Authorization", "Bearer 41|1rEpfWLienwJOQmLxPuDmRUP5DgtMt5GzThDTKpb");
+				myHeaders.append("Authorization", `Bearer ${token}`);
 
 				var requestOptions = {
 				  method: 'GET',
@@ -50,13 +61,13 @@ const HomeDeals = () =>{
 
 				fetch("https://posla-api.herokuapp.com/api/category/main-categories", requestOptions)
 				  .then(response => response.json())
-				  .then(result => {
+				  .then((result) => {
 				  	const res = result.data;
 				  	setCategory(res);
 				  	console.log(res);
 				  })
 				  .catch(error => console.log('error', error));
-	}, []);
+	}, [token]);
 
 
 	return(
@@ -194,124 +205,116 @@ const HomeDeals = () =>{
 		                        Featured Deals
 		                    </div>
 		                    <div class="deal-list deal-list-double">
-		                    {result && result["Programming & Tech 3"].map((item)=>(
-									<a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"270px"}}>
-									    
-									    <div class="deal-info-top">
-									        <div>
-									            <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
-									        </div>
-									        <div class="">
-									            <div>
-									                <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
-									            </div>
-									            <div class="text-fade font-13 ellipsis">
-									                Olawale Lawal
-									            </div>
-									        </div>
-									        <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px"}}>
-									            I can abc build a beautiful bespoke logo for your company using the style and color combination you prefer.
-									        </div>
-									    </div>
 
-									    <div class="mt-10 mr-10 ml-10 ellipsis">
-									        <div class="project-price">
-									            <span class="font-size-10 text-fade">Starting At</span>
-									            $400
-									        </div>
-									        <div class="item-labels">
-									            <div class="item-labels-new">
-									                New
-									            </div>
-									            <div class="item-labels-featured">
-									                Featured
-									            </div>
-									        </div>
-									    </div>
+															<a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"auto"}}>
+															    
+															    <div class="deal-info-top">
+															        <div>
+															            <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
+															        </div>
+															        <div class="">
+															            <div>
+															                <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
+															            </div>
+															            <div class="text-fade font-13 ellipsis">
+															                Olawale Lawal
+															            </div>
+															        </div>
+															        <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px"}}>
+															            I can abc build a beautiful bespoke logo for your company using the style and color combination you prefer.
+															        </div>
+															    </div>
 
-									    <div class="pt-5 bt-1-ddd" style={{marginTop: "-3px"}}>
-									        <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
-									            <div class="item-labels-prefix">
-									                Tags & Skills:
-									            </div>
-		                                      {item.tags.map((item)=>(
-		                                        <div class="item-labels-tags">
-		                                        {item}
-		                                         </div>
-		                                        ))}
-									        </div>
-									    </div>
-									</a>
-									 ))}
+															    <div class="mt-10 mr-10 ml-10 ellipsis">
+															        <div class="project-price">
+															            <span class="font-size-10 text-fade">Starting At</span>
+															            $400
+															        </div>
+															        <div class="item-labels">
+															            <div class="item-labels-new">
+															                New
+															            </div>
+															            <div class="item-labels-featured">
+															                Featured
+															            </div>
+															        </div>
+															    </div>
+
+															    <div class="pt-3 bt-1-ddd" style={{marginTop: "-3px"}}>
+															        <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
+															            <div class="item-labels-prefix">
+															                Tags & Skills:
+															            </div>
+															            <div className="item-labels-tags">UI</div>
+
+															        </div>
+															    </div>
+															</a>
+								
 		                    </div>
 		                </div>
 
-		                {category.map((item)=>(
+		                
 		                <div class="section">
 		                    <div class="section-title">
-		                        {item.name}
+		                        Programming & Tech. 3
 		                        <a href="/category/music-audio/deals" class="btn btn-transparent-black btn-xs pull-right hover-bg-orange">View All</a>
 		                    </div>
-		                    <div class="deal-list deal-list-double">
-		                    {result && result["Programming & Tech 3"].map((item)=>(
-									<a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"270px"}}>
-									    
-									    <div class="deal-info-top">
-									        <div>
-									            <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
-									        </div>
-									        <div class="">
-									            <div>
-									                <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
-									            </div>
-									            <div class="text-fade font-13 ellipsis">
-									                Olawale Lawal
-									            </div>
-									        </div>
-									        <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px"}}>
-									            I can abc build a beautiful bespoke logo for your company using the style and color combination you prefer.
-									        </div>
-									    </div>
-
-									    <div class="mt-10 mr-10 ml-10 ellipsis">
-									        <div class="project-price">
-									            <span class="font-size-10 text-fade">Starting At</span>
-									            $400
-									        </div>
-									        <div class="item-labels">
-									            <div class="item-labels-new">
-									                New
-									            </div>
-									            <div class="item-labels-featured">
-									                Featured
-									            </div>
-									        </div>
-									    </div>
-
-									    <div class="pt-5 bt-1-ddd" style={{marginTop: "-3px"}}>
-									        <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
-									            <div class="item-labels-prefix">
-									                Tags & Skills:
-									            </div>
-		                                      {item.tags.map((item)=>(
-		                                        <div class="item-labels-tags">
-		                                        {item}
-		                                         </div>
-		                                        ))}
-									        </div>
-									    </div>
-									    
-									</a>
-									 ))}
-		                    </div>
 		                    
-		                    <a href="/category/music-audio/deals" class="d-block text-center pt-10 pb-10 b-1-ddd bg-eee hover-bg-orange">
-		                        View All {item.name} Deals
+		                    <div class="deal-list deal-list-double">   
+		                    {result && result.data.map((item)=>(  
+														<a href={`/deals/${item.id}`} class="deal" style={{height:"auto"}}>
+														    
+														    <div class="deal-info-top">
+														        <div>
+														            <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
+														        </div>
+														        <div class="">
+														            <div>
+														                <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
+														            </div>
+														            <div class="text-fade font-13 ellipsis">
+														                {item.user_name}
+														            </div>
+														        </div>
+														        <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px", marginTop:"5px", paddingRight:"10px", paddingLeft:"10px"}}>
+														            {item.description}
+														        </div>
+														    </div>
+
+														    <div class="mt-10 mr-10 ml-10 ellipsis" style={{marginTop:"10px", marginRight:"10px", marginLeft:"10px"}}>
+														        <div class="project-price">
+														            <span class="font-size-10 text-fade">Starting At</span>
+														            $400
+														        </div>
+														        <div class="item-labels">
+														            <div class="item-labels-new">
+														                New
+														            </div>
+														            <div class="item-labels-featured">
+														                Featured
+														            </div>
+														        </div>
+														    </div>
+
+														    <div class="pt-3 bt-1-ddd">
+														        <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis" style={{paddingLeft:"10px", marginTop:"0"}}>
+														            <div class="item-labels-prefix">
+														                Tags & Skills:
+														            </div>
+														            <div className="item-labels-tags">{item.tags}</div>
+														        </div>
+														    </div>   
+														</a>
+													))}
+		                    </div>
+		                    	  
+		                    <a href="/category/music-audio/deals" class="d-block text-center pt-10 pb-10 b-1-ddd bg-eee hover-bg-orange" style={{paddingTop:"10px", paddingBottom:"10px"}}>
+		                        View All Programming & Tech. 3 Deals
 		                        <span class="fa fa-angle-right"></span>
 		                    </a>
 		                </div>
-
-		                ))}
+		                /pagination/
 		            </div>
 		            
 		            <div class="col-lg-3 d-none d-lg-block">
@@ -324,7 +327,7 @@ const HomeDeals = () =>{
 		                        </a>
 		                        <div>
 		                            <a href="/account" class="font-bold d-block hover-underline">
-		                                {user.name}
+		                                
 		                            </a>
 		                            <div class="text-fade">
 		                                Frontend Developer, UIUX Designer, Graphics Designer
@@ -342,58 +345,54 @@ const HomeDeals = () =>{
 		                    <div class="section-title">
 		                        Latest Deals
 		                    </div>
-		                    {result && result["Programming & Tech 3"].map((item)=>(
+		                   
 		                    <div class="deal-list deal-list-single">
-								<a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"270px"}}>
-								    
-								    <div class="deal-info-top">
-								        <div>
-								            <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
-								        </div>
-								        <div class="">
-								            <div>
-								                <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
-								            </div>
-								            <div class="text-fade font-13 ellipsis">
-								                Olawale Lawal
-								            </div>
-								        </div>
-								        <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px"}}>
-								            I can abc build a beautiful bespoke logo for your company using the style and color combination you prefer.
-								        </div>
-								    </div>
+															<a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"auto"}}>
+															    
+															    <div class="deal-info-top">
+															        <div>
+															            <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
+															        </div>
+															        <div class="">
+															            <div>
+															                <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
+															            </div>
+															            <div class="text-fade font-13 ellipsis">
+															                Olawale Lawal
+															            </div>
+															        </div>
+															        <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px"}}>
+															            I can abc build a beautiful bespoke logo for your company using the style and color combination you prefer.
+															        </div>
+															    </div>
 
-								    <div class="mt-10 mr-10 ml-10 ellipsis">
-								        <div class="project-price">
-								            <span class="font-size-10 text-fade">Starting At</span>
-								            $400
-								        </div>
-								        <div class="item-labels">
-								            <div class="item-labels-new">
-								                New
-								            </div>
-								            <div class="item-labels-featured">
-								                Featured
-								            </div>
-								        </div>
-								    </div>
+															    <div class="mt-10 mr-10 ml-10 ellipsis">
+															        <div class="project-price">
+															            <span class="font-size-10 text-fade">Starting At</span>
+															            $400
+															        </div>
+															        <div class="item-labels">
+															            <div class="item-labels-new">
+															                New
+															            </div>
+															            <div class="item-labels-featured">
+															                Featured
+															            </div>
+															        </div>
+															    </div>
 
-								    <div class="pt-5 bt-1-ddd" style={{marginTop: "-3px"}}>
-								        <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
-								            <div class="item-labels-prefix">
-								                Tags & Skills:
-								            </div>
-	                                      {item.tags.map((item)=>(
-	                                        <div class="item-labels-tags">
-	                                        {item}
-	                                         </div>
-	                                        ))}
-									        </div>
-								    </div>
-								    
-								</a>
+															    <div class="pt-3 bt-1-ddd" style={{marginTop: "-3px"}}>
+															        <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
+															            <div class="item-labels-prefix">
+															                Tags & Skills:
+															            </div>
+															            <div className="item-labels-tags">UI</div>
+																        </div>
+															    </div>
+															    
+															</a>
 		                    </div>
-		                        ))}
+		                      
 		                </div>
 
 		            </div>

@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import AccountSidebar from '../components/AccountSidebar';
 import ProjectList from '../components/ProjectList';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import {Link} from "react-router-dom";
+
 
 const ProjectListPaused = () =>{
 	return(
 		<>
 	<Header/>
-	<div class="container">
+	<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
         <div class="row">
             <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -20,8 +22,8 @@ const ProjectListPaused = () =>{
 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/projects">Projects</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+                        <li class="breadcrumb-item"><Link to="/account/projects">Projects</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Paused</li>
                     </ol>
                 </div>
@@ -29,24 +31,24 @@ const ProjectListPaused = () =>{
                 <div class="section">
                     <div class="section-title section-title-sm">
                         Paused Projects (3)
-                        <a href="/account/projects/create" class="btn btn-orange btn-sm pull-right hover-bg-orange">Create New Project</a>
+                        <Link to="/account/projects/create" class="btn btn-orange btn-sm pull-right hover-bg-orange">Create New Project</Link>
                     </div>
                     <div>
 
                         <ul class="nav nav-tabs posla-tabs posla-tabs-2">
                             <li class="nav-item">
-                                <a href="/account/projects/" class="nav-link">
+                                <Link to="/account/projects/" class="nav-link">
                                     <div class="text-center">
                                         Active Projects (6)
                                     </div>
-                                </a>
+                                </Link>
                             </li>
                             <li class="nav-item">
-                                <a href="/account/projects/paused" class="nav-link active">
+                                <Link to="/account/projects/paused" class="nav-link active">
                                     <div class="text-center">
                                         Paused Projects (3)
                                     </div>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     
@@ -64,21 +66,21 @@ const ProjectListPaused = () =>{
                                         Manage
                                     </div>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style={{marginTop: "-20px"}}>
-                                        <a class="dropdown-item" href="/project/c1d00230-a423-4b84-a121-7105239ff8d8678">
+                                        <Link class="dropdown-item" to="/project/c1d00230-a423-4b84-a121-7105239ff8d8678">
                                             Preview
-                                        </a>
-                                        <a class="dropdown-item cursor-pointer" onClick="event.preventDefault(); document.getElementById('resume-form').submit();">
+                                        </Link>
+                                        <Link class="dropdown-item cursor-pointer" onClick="event.preventDefault(); document.getElementById('resume-form').submit();">
                                             Resume
-                                        </a>
+                                        </Link>
                                         <form id="resume-form" action="" method="POST" class="d-none">
                                             -- hidden input with project id --
                                         </form>
-                                        <a class="dropdown-item" href="/account/projects/edit/1234">
+                                        <Link class="dropdown-item" to="/account/projects/edit/1234">
                                             Edit
-                                        </a>
-                                        <a class="dropdown-item" href="/account/projects/delete/1234">
+                                        </Link>
+                                        <Link class="dropdown-item" to="/account/projects/delete/1234">
                                             Delete
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -94,22 +96,22 @@ const ProjectListPaused = () =>{
                                         Manage
                                     </div>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style={{marginTop: "-20px"}}>
-                                        <a class="dropdown-item" href="/project/c1d00230-a423-4b84-a121-7105239ff8d8678">
+                                        <Link class="dropdown-item" to="/project/c1d00230-a423-4b84-a121-7105239ff8d8678">
                                             Preview
-                                        </a>
-                                        <a class="dropdown-item cursor-pointer" onClick="event.preventDefault(); document.getElementById('resume-form').submit();">
+                                        </Link>
+                                        <Link class="dropdown-item cursor-pointer" onClick="event.preventDefault(); document.getElementById('resume-form').submit();">
                                             Resume
-                                        </a>
+                                        </Link>
                                         <form id="resume-form" action="" method="POST" class="d-none">
                                           
                                             -- hidden input with project id --
                                         </form>
-                                        <a class="dropdown-item" href="/account/projects/edit/1234">
+                                        <Link class="dropdown-item" to="/account/projects/edit/1234">
                                             Edit
-                                        </a>
-                                        <a class="dropdown-item" href="/account/projects/delete/1234">
+                                        </Link>
+                                        <Link class="dropdown-item" to="/account/projects/delete/1234">
                                             Delete
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

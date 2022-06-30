@@ -44,7 +44,7 @@ fetch("https://jbuit.com/api/contact/", requestOptions)
             setCart(res);
     })
     .catch((error) => console.log(error));
-  });
+  },[]);
 
     useEffect(()=>{
     fetch("https://jsonplaceholder.typicode.com/posts")
@@ -53,7 +53,7 @@ fetch("https://jbuit.com/api/contact/", requestOptions)
             setDeal(res);
     })
     .catch((error) => console.log(error));
-  });
+  }, []);
     return(
         <>
     <Header/>

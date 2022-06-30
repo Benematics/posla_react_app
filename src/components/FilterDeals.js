@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 
 const FilterDeals = () => {
 	return(
+<>
 <form action="" method="get">
     <div class="filter-section">
         <div class="filter-title">
@@ -108,7 +109,7 @@ const FilterDeals = () => {
         </div>
         <div class="filter-body">
         
-            <div class="posla-price-slider p-10 pt-20 pb-20">
+            <div class="posla-price-slider p-10 pt-20 pb-20" style={{padding:"10px", paddingTop:"20px", paddingBottom:"20px"}}>
                 <div class="posla-price-slider-slide">
                     <div id="slider-range" class="price-filter-range posla-slider-range" name="rangeInput"></div>
                 </div>
@@ -123,6 +124,8 @@ const FilterDeals = () => {
         </div>
     </div>
 
+
+
     <div class="filter-section">
         <div class="filter-title">
             Ratings
@@ -130,43 +133,43 @@ const FilterDeals = () => {
         <div class="filter-body pt-10 pb-10">
             <label class="checkbox-inline">
                 <input type="checkbox" name="" id=""/>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
             </label>
             <label class="checkbox-inline">
                 <input type="checkbox" name="" id=""/>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
-                <span class="far fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star-o"></span>
             </label>
             <label class="checkbox-inline">
                 <input type="checkbox" name="" id=""/>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
-                <span class="far fa-star"></span>
-                <span class="far fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star-o"></span>
+                <span class="fa fa-star-o"></span>
             </label>
             <label class="checkbox-inline">
                 <input type="checkbox" name="" id=""/>
-                <span class="fas fa-star"></span>
-                <span class="fas fa-star"></span>
-                <span class="far fa-star"></span>
-                <span class="far fa-star"></span>
-                <span class="far fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star-o"></span>
+                <span class="fa fa-star-o"></span>
+                <span class="fa fa-star-o"></span>
             </label>
             <label class="checkbox-inline">
                 <input type="checkbox" name="" id=""/>
-                <span class="fas fa-star"></span>
-                <span class="far fa-star"></span>
-                <span class="far fa-star"></span>
-                <span class="far fa-star"></span>
-                <span class="far fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star-o"></span>
+                <span class="fa fa-star-o"></span>
+                <span class="fa fa-star-o"></span>
+                <span class="fa fa-star-o"></span>
             </label>
         </div>
     </div>
@@ -180,6 +183,7 @@ const FilterDeals = () => {
         </button>
     </div>
 </form>
+</>
 		)
 }
 export default FilterDeals;

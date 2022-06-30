@@ -1,5 +1,5 @@
-import React from 'react';
-import {useNavigate} from "react-router-dom";
+import React, { useState, useEffect} from 'react';
+import {useNavigate, Link} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import {register,selectUser} from "../features/userSlice";
 
@@ -10,12 +10,32 @@ const AccountSidebar = () => {
     const handleLogout = (e) => {
         e.preventDefault();
         navigate("/");
-        localStorage.clear();
     }
-    const rating = 4.5;
+    
+
+
+
+    const [info, setInfo] = useState("");
+
+    useEffect(() => {
+    const acce = localStorage.getItem("account detail");
+    if (acce) {
+      setInfo(JSON.parse(acce));
+      console.log(acce);
+    }
+}, []);
+
+
+
+
+
+
+
+
+
    
-	return(
-<div class="section mb-0 account-sidebar" Style={{borderBottomLeftRadius: '0', borderBottomRightRadius: '0', marginTop:"20px"}}> 
+return(
+<div class="section mb-0 account-sidebar" style={{borderBottomLeftRadius: '0', borderBottomRightRadius: '0', marginTop:"20px"}}> 
     <div class="section mb-0 account-sidebar">
 
     <div class="account-sidebar-info text-center">
@@ -23,23 +43,29 @@ const AccountSidebar = () => {
             <img src="/images/user.png"alt="User name" class="dp-cover" />
         </div>
         <div class="font-bold">
-            {user.name}
+            {info.name}
         </div>
         <div class="text-fade">
-            short description short description short description short description
+            {info.short_description}
         </div>
         <div>
             <div class="rating-box mt-5">
                 <div style={{background:"white"}}>
-                    <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
-                    <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
-                    <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
-                    <i class="fa fa-star fa-1x" style={{color:"blue"}}></i>
-                    <i class="fa fa-star-o fa-1x" style={{color:"blue"}}></i>
+
+                {info.rating < 1 && (
+                    <>
+                        <i class="fa fa-star-half-o fa-1x" style={{color:"orange"}}></i>
+                        <i class="fa fa-star-o fa-1x" style={{color:"orange"}}></i>
+                        <i class="fa fa-star-o fa-1x" style={{color:"orange"}}></i>
+                        <i class="fa fa-star-o fa-1x" style={{color:"orange"}}></i>
+                        <i class="fa fa-star-o fa-1x" style={{color:"orange"}}></i>
+                    </>
+                    )}
+
                 </div>
                 <div>
                     <span class="font-bold text-orange">
-                        {rating}
+                        {info.rating}
                     </span>
                     <span class="text-fade">
                         (1809 reviews)
@@ -47,92 +73,89 @@ const AccountSidebar = () => {
                 </div>
             </div>
         </div>
-        <div class="text-center mt-5">
-            <a href="/account/profile/edit" class="btn btn-transparent-grey btn-sm mt-5">
+        <div class="text-center mt-5" style={{marginTop:"5px"}}>
+            <Link to="/account/profile/edit" class="btn btn-transparent-grey btn-sm mt-5" style={{marginTop:"5px"}}>
                 Edit Profile
-            </a>
-            <a href="" class="btn btn-transparent-grey btn-sm mt-5">
+            </Link>
+            <Link to="" class="btn btn-transparent-grey btn-sm mt-5" style={{marginTop:"5px"}}>
                 View As Guest
-            </a>
+            </Link>
         </div>
     </div>
 </div>
 
-if mode is on
-
-<div class="section p-0 mt-0 mb-0 bg-red overflow-hidden" Style={{'border-top-left-radius': '0', 'border-top-right-radius': '0'}}>
-    <a href="/account/settings/vacation-mode" class="pt-5 pb-5 pl-10 pr-10 d-block text-fff text-center">
+<div class="section p-0 mt-0 mb-0 bg-red overflow-hidden" style={{borderTopLeftRadius: '0', borderTopRightRadius: '0', height:"auto"}}>
+    <Link to="/account/settings/vacation-mode" class="pt-3 pb-3 pl-10 pr-10 d-block text-fff text-center">
         Vacation Mode [On]
-    </a>
+    </Link>
 </div>
+ 
 
-end if 
-
-<div class="section p-0 mt-5 account-sidebar-links overflow-hidden">
+<div class="section p-0 mt-5 account-sidebar-links overflow-hidden" style={{marginTop:"20px"}}>
     <div>
-        <a href="/account/dashboard" class="account-sidebar-dashboard">
+        <Link to="/account/dashboard" class="account-sidebar-dashboard">
             Dashboard
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/profile" class="account-sidebar-profile">
+        <Link to="/account/profile" class="account-sidebar-profile">
             Profile
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/orders" class="account-sidebar-orders">
+        <Link to="/account/orders" class="account-sidebar-orders">
             My Orders
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/deals" class="account-sidebar-deals">
+        <Link to="/account/deals" class="account-sidebar-deals">
             My Deals
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/projects" class="account-sidebar-projects">
+        <Link to="/account/projects" class="account-sidebar-projects">
             My Projects
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/project-bids" class="account-sidebar-project-bids">
+        <Link to="/account/project-bids" class="account-sidebar-project-bids">
             My Project Bids
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/favourites" class="account-sidebar-favourites">
+        <Link to="/account/favourites" class="account-sidebar-favourites">
             Favourites
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/messages" class="account-sidebar-msg">
+        <Link to="/messages" class="account-sidebar-msg">
             Messages
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/earnings-withdrawals" class="account-sidebar-earnings-withdrawals">
+        <Link to="/account/earnings-withdrawals" class="account-sidebar-earnings-withdrawals">
             Earnings & Withdrawals
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/wallet" class="account-sidebar-wallet">
+        <Link to="/account/wallet" class="account-sidebar-wallet">
             My Wallet
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/reviews" class="account-sidebar-reviews">
+        <Link to="/account/reviews" class="account-sidebar-reviews">
             My Reviews
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/account/settings" class="account-sidebar-settings">
+        <Link to="/account/settings" class="account-sidebar-settings">
             Account Settings
-        </a>
+        </Link>
     </div>
     <div>
-        <a href="/" onClick={handleLogout}>
+        <Link to="/" onClick={handleLogout}>
             Logout
-        </a>
+        </Link>
     </div>
 </div>
 </div>

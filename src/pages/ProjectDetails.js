@@ -12,7 +12,23 @@ const ProjectDetails = () => {
     const [project, setProject] = useState([]);
     const [pro,setPro] = useState("");
     const [buyer, setBuyer] = useState("");
+    const [token, setToken] = useState("");
+    const [display, setDisplay] = useState("none");
+    const [viewProposal, setViewProposal] = useState("none");
+    const [shareView, setShareView] = useState("none");
+    const [amount, setAmount] = useState("");
+    const [deposit, setDeposit] = useState("");
+    const [comment, setComment] = useState("");
+    const [id, setId] = useState("");
+    const [all, setAll] = useState("block");
+    const [active, setActive] = useState("none");
+    const [shortlisted, setShortlisted] = useState("none");
+    const [rejected, setRejected] = useState("none");
+    const [proposalList, setProposalList] = useState("");
+    const [shortlistedList, setShortlistedList] = useState("");
     const user = useSelector(selectUser);
+    const path = window.location.pathname;
+
     useEffect(()=>{
     fetch("https://jsonplaceholder.typicode.com/users")
         .then(res => res.json())
@@ -22,7 +38,7 @@ const ProjectDetails = () => {
         .catch((error) => {
             console.log(error);
         })
-    });
+    },[]);
 
     useEffect(()=>{
         fetch('https://dummyjson.com/products')
@@ -33,21 +49,213 @@ const ProjectDetails = () => {
         })
     },[]);
 
+    {/* id */}
+    useEffect(() => {
+    const access = JSON.parse(localStorage.getItem("seller"));
+    if (access) {
+      setId(access.id);
+      console.log(access.id);
+        }
+      }, []);
 
+    {/*Token*/}
+    useEffect(() => {
+    const access = localStorage.getItem("token");
+    if (access) {
+      setToken(access);
+      console.log(access);
+        }
+      }, []);
+
+
+    {/* Submit proposal*/}
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var formdata = new FormData();
+        formdata.append("project_id", id);
+        formdata.append("amount", amount);
+        formdata.append("deposit", deposit);
+        formdata.append("comment", comment);
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: formdata,
+          redirect: 'follow'
+        };
+
+        fetch("https://posla-api.herokuapp.com/api/proposals/bid", requestOptions)
+          .then(response => response.json())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+            }
+
+    {/*favorite*/}
+    const favorite = (e) => {
+        e.preventDefault();
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+
+        fetch("https://posla-api.herokuapp.com/api/favourites/add-remove-project", requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+            }
+    {/*Single Project Api*/}
     useEffect(()=>{
-        fetch('https://dummyjson.com/users/1')
-        .then(res => res.json())
-        .then((res)=>{
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+
+        fetch(`https://posla-api.herokuapp.com/api/front${path}`, requestOptions)
+          .then(response => response.json())
+          .then((result) => {
+            const res = result.data[0];
+            localStorage.setItem("seller", JSON.stringify(res))
             setBuyer(res);
-            console.log(res);
-        });
-    },[])
+            console.log(res)
+            console.log(path)
+          })
+          .catch(error => console.log('error', error));
+    }, [token,path])
+
+    {/*proposal list Api*/}
+    useEffect(()=>{
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+
+        fetch(`https://posla-api.herokuapp.com/api/proposals/${id}`, requestOptions)
+          .then(response => response.json())
+          .then((result) => {
+            setProposalList(result)
+            console.log(result)
+        })
+          .catch(error => console.log('error', error));
+      },[token, id])
+
+    {/*shortlisted api*/}
+    useEffect(()=>{
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+
+        fetch(`https://posla-api.herokuapp.com/api/proposals/${id}/shortlisted`, requestOptions)
+          .then(response => response.text())
+          .then((result) => {
+            setShortlistedList(result)
+            console.log(result)
+        })
+          .catch(error => console.log('error', error));
+    },[token, id])
 
 
 	return(
 		<>
 		<Header/>
-		<ShareModal/>
+
+		  <div class="modal" id="shareModal" style={{display:shareView}}>
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title">Share</h4>
+                        <button type="button" class="close" data-dismiss="modal" onClick={()=>{setShareView("none")}}>&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        
+                        <div class="connection-modal">
+                            
+                            <div class="connection-modal-single">
+
+                                <div class="form-group mx-auto mt-20" Style={{"max-width": "350px"}}>
+                                    <label>Direct Link</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control readonly" id="direct-share-link"  readonly
+                                        value="share_link" />
+                                        <button type="button" class="btn btn-blue btn-sm"  Style={{"border-radius":"0", "height": "35px;"}}>
+                                            <i class="fa fa-copy"></i>
+                                            Copy
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>    
+
+                            <div class="text-center bt-1-ddd bb-1-ddd pt-10 pb-10 mt-20 mb-20 mr-65 ml-65" style={{paddingTop:"10px",marginBottom:"10px",marginTop:"20px", marginBottom:"20px", marginRight:"65px", marginLeft:"65px"}}>
+                                Share on Social Media
+                            </div>
+
+                            <div class="connection-modal-social">
+
+
+                                <Link to="https://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="fb_color_bg">
+                                    <span class="fa fa-facebook-f"></span>
+                                </Link>
+
+                                <Link to="https://twitter.com/home?status=" class="twitter_color_bg" target="_blank">
+                                    <span class="fa fa-twitter"></span>
+                                </Link>
+
+                                <Link to="whatsapp://send?text=" target="_blank" class="whatsapp_color_bg">
+                                    <span class="fa fa-whatsapp"></span>
+                                </Link>
+
+                                <Link to="mailto:?subject=share_text&body=" target="_blank" Style={{"background": "#f66"}}>
+                                    <span class="fa fa-envelope"></span>
+                                </Link>
+
+                                <Link to="https://www.linkedin.com/shareArticle?mini=true&url=" target="_blank" class="linkedin_color_bg">
+                                    <span class="fa fa-linkedin"></span>
+                                </Link>
+
+                                <Link to="http://pinterest.com/pin/create/button/?url=" target="_blank" class="pinterest_color_bg">
+                                    <span class="fa fa-pinterest"></span>
+                                </Link>
+
+                            </div>
+
+                        </div>    
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 		<div class="container" style={{marginTop: "20px"}}>
 	        
 	        <div class="section d-none d-sm-block p-5">
@@ -80,13 +288,13 @@ const ProjectDetails = () => {
 	                    <form action="">
 	                        <ul class="ul-inline pull-right mt-1">
 	                            <li>
-	                                <button type="submit" class="btn btn-transparent-black btn-xs hover-bg-orange" title="Favourite" data-widget="collapse" data-toggle="tooltip">
+	                                <button type="submit" class="btn btn-transparent-black btn-xs hover-bg-orange" title="Favourite" data-widget="collapse" data-toggle="tooltip" onClick={favorite}>
 	                                    <span class="fa fa-heart" style={{position: "relative", top: "1px"}}></span>
 	                                </button>
 	                            </li>
 	                            <li>
 	                                <a class="p-0" title="Share Project" data-widget="collapse" data-toggle="tooltip">
-	                                    <button type="button" class="btn btn-transparent-black btn-xs hover-bg-orange" data-toggle="modal" data-target="#shareModal">
+	                                    <button type="button" class="btn btn-transparent-black btn-xs hover-bg-orange" data-toggle="modal" data-target="#shareModal" onClick={()=>{setShareView("block")}}>
 	                                        <span class="fa fa-share-alt"></span>
 	                                    </button>
 	                                </a>
@@ -109,16 +317,16 @@ const ProjectDetails = () => {
 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><Link to="/category/projects/category1">Category</Link></li>
-                        <li class="breadcrumb-item"><Link to="/category/projects/category1">SubCategory</Link></li>
-                        <li class="breadcrumb-item active" aria-current="page">12345678</li>
+                        <li class="breadcrumb-item"><Link to="/category/projects/category1">{buyer.category_name}</Link></li>
+                        <li class="breadcrumb-item"><Link to="/category/projects/category1">{buyer.subcategory_name}</Link></li>
+                        <li class="breadcrumb-item active" aria-current="page">{buyer.id}</li>
                     </ol>
                 </div>
 
                 <div id="overview">
                     <div>
                         <h4 class="font-bold">
-                            I Need An Accountant For My New Logistics Busine
+                            {buyer.title}
                         </h4>
                     </div>
                     <div class="details-title-sub floated-content mt-10">
@@ -128,7 +336,7 @@ const ProjectDetails = () => {
                                     <img src="/images/user.png" alt="Firstname lastname" class="dp-contain" />
                                 </div>
                                 <div class="hover-underline">
-                                    {user.name}
+                                    {buyer.user_name}
                                 </div>
                             </Link>
                         </div>
@@ -143,7 +351,7 @@ const ProjectDetails = () => {
                     <div class="row">
                         <div class="col-6 col-sm-3 col-md-6 col-lg-3 text-center br-2-ddd pt-10 pb-10">
                             <div class="font-20 font-bold">
-                                $1500
+                                ${buyer.budget}
                             </div>
                             <div class="text-fade">
                                 Budget
@@ -151,7 +359,7 @@ const ProjectDetails = () => {
                         </div>
                         <div class="col-6 col-sm-3 col-md-6 col-lg-3 text-center br-2-ddd pt-10 pb-10 b-none b-md-none">
                             <div class="font-20 font-bold">
-                                23
+                                {buyer.proposal_count}
                             </div>
                             <div class="text-fade">
                                 Proposals
@@ -168,7 +376,7 @@ const ProjectDetails = () => {
                         <div class="col-6 col-sm-3 col-md-6 col-lg-3 text-center pt-10 pb-10">
                            
                             <div class="font-20 font-bold status-open">
-                                Open
+                                {buyer.status_display}
                             </div>
                             <div class="text-fade">
                                 Status
@@ -182,38 +390,21 @@ const ProjectDetails = () => {
                         Description
                     </div>
                     <div class="line-height-25">
-                        Application Type: iOS (Native) <br/>
-                        Brief: App Based Security and Community management System. <br/>
-                        Some Similar Apps/Websites: Mygate<br/>
-                        Features: 3 Modules, Guard Resident and tenant Admin/Super Admin  <br/>
-                        Designs: Need to be developed<br/>
-                        APIs Status: Need to be developed<br/>
-                        Backend Technology (APIs): APIs need to be developed in NodeJS<br/>
-                        Send a Proposal if you can do it and I will send a detailed Requirement Documents for further discussion if I shortlist your Proposal.
+                        {buyer.description}
                     </div>
-                    <div class="mt-10">
-                        <div class="pt-10 bt-1-ddd item-labels item-labels-tags-all d-block">
+                    <div class="mt-10" style={{marginTop:"10px"}}>
+                        <div class="pt-10 bt-1-ddd item-labels item-labels-tags-all d-block" style={{paddingTop:"10px"}}>
                             <div class="item-labels-prefix">
                                 Tags & Skills:
                             </div>
-                            <div class="item-labels-tags">
-                                tag1
-                            </div>
-                            <div class="item-labels-tags">
-                                tag1
-                            </div>
-                            <div class="item-labels-tags">
-                                tag1
-                            </div>
-                            <div class="item-labels-tags">
-                                tag1
-                            </div>
-                            <div class="item-labels-tags">
-                                tag1
-                            </div>
-                            <div class="item-labels-tags">
-                                tag1
-                            </div>
+                            {buyer && buyer.tags.map((me)=>(
+                           <>
+                               <div class="item-labels-tags">
+                                   {me}
+                               </div>
+                           </>
+                               ))}
+            
                         </div>
                     </div>
                 </div>
@@ -221,11 +412,11 @@ const ProjectDetails = () => {
                 <div class="d-block d-md-none">
                     <div class="section">
                         <div>
-                            <button type="button" class="btn btn-blue btn-block" data-toggle="modal" data-target="#send_proposal">
+                            <button type="button" class="btn btn-blue btn-block" data-toggle="modal" data-target="#send_proposal" onClick={()=>{setDisplay("block")}}>
                                 Send Proposal
                             </button>
                         </div>
-                        <div class="mt-15 mb-10">
+                        <div class="mt-15 mb-10" style={{marginTop:"15px", marginBottom:"10px"}}>
                             Posted By:
                         </div>
                         <div class="text-left-right text-left-right-60-40">
@@ -237,7 +428,7 @@ const ProjectDetails = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    {buyer.firstName} {buyer.lastName}
+                                    {buyer.user_name}
                                 </div>
                             </div>
                             <div>
@@ -296,7 +487,7 @@ const ProjectDetails = () => {
                                 This is a private project. Copy the link below to share.
                             </div>
                             <div>
-                                <div class="copy-link mt-5">
+                                <div class="copy-link mt-5" style={{marginTop:"5px"}}>
                                     <div class="input-group">
                                         <input type="search" name="q" class="form-control"  id="direct-share-link-1" value="$share_link" readonly />
                                         <div class="input-group-btn" >
@@ -307,8 +498,8 @@ const ProjectDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-center mt-10" >
-                                    <button type="button" class="btn btn-transparent-black btn-sm" data-toggle="modal" data-target="#shareModal" style={{marginTop:"5px"}}>
+                                <div class="text-center mt-10" style={{marginTop:"10px"}}>
+                                    <button type="button" class="btn btn-transparent-black btn-sm" data-toggle="modal" data-target="#shareModal" style={{marginTop:"5px"}} onClick={()=>{setShareView("block")}}>
                                         <span class="fa fa-share-alt"></span>
                                         Share this Deal
                                     </button>
@@ -329,7 +520,7 @@ const ProjectDetails = () => {
                                 <img src={buyer.image} alt="Firstname lastname" class="dp-contain" />
                             </div>
                             <div class="pt-5 underline-none">
-                                {buyer.firstName} {buyer.lastName}
+                                {buyer.user_name}
                                 <div class="pt-1">
                                     <button class="btn btn-transparent-black btn-xs hover-bg-black">
                                         View buyer's profile
@@ -361,7 +552,7 @@ const ProjectDetails = () => {
                                     Member Since
                                 </div>
                                 <div>
-                                    project-owner created_at
+                                    {buyer.created_at}
                                 </div>
                             </div>
                             <div class="col-sm-6 mb-20">
@@ -389,7 +580,7 @@ const ProjectDetails = () => {
                     <div>
                         <ul class="nav nav-tabs posla-tabs posla-tabs-4">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#proposals_all">
+                                <a class="nav-link active" data-toggle="tab" href="#proposals_all" onClick={()=>{setAll("block"); setActive("none"); setShortlisted("none"); setActive("block"); setShortlisted("none"); setRejected("none")}}>
                                     <div class="font-20 font-bold">
                                         17
                                     </div>
@@ -399,7 +590,7 @@ const ProjectDetails = () => {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#proposals_active">
+                                <a class="nav-link" data-toggle="tab" href="#proposals_active" onClick={()=>{setAll("none"); setActive("block"); setShortlisted("none"); setRejected("none")}}>
                                     <div class="font-20 font-bold">
                                         10
                                     </div>
@@ -409,7 +600,7 @@ const ProjectDetails = () => {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#proposals_shortlisted">
+                                <a class="nav-link" data-toggle="tab" href="#proposals_shortlisted" onClick={()=>{setAll("none"); setActive("none"); setShortlisted("block"); setRejected("none")}}>
                                     <div class="font-20 font-bold">
                                         3
                                     </div>
@@ -419,7 +610,7 @@ const ProjectDetails = () => {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#proposals_rejected">
+                                <a class="nav-link" data-toggle="tab" href="#proposals_rejected" onClick={()=>{setAll("none"); setActive("none"); setShortlisted("none"); setRejected("block")}}>
                                     <div class="font-20 font-bold">
                                         7
                                     </div>
@@ -438,7 +629,7 @@ const ProjectDetails = () => {
 
                           
                         <div class="tab-content">
-                            <div class="tab-pane container active p-0" id="proposals_all">
+                            <div class="tab-pane container active p-0" id="proposals_all" style={{display:all}}>
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
@@ -446,16 +637,13 @@ const ProjectDetails = () => {
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -480,19 +668,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="submit" class="btn btn-transparent-black btn-xs hover-bg-red" title="Remove shortlist" data-widget="collapse" data-toggle="tooltip">Shortlisted</button>
                                             </div>
                                         </div>
@@ -505,16 +692,13 @@ const ProjectDetails = () => {
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -539,19 +723,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
+                                                <div class="rating-box rating-box-eee mt-2">
+                                                        <div>
+                                                            <div></div>
+                                                            <div style={{width: "75%"}}></div>
+                                                        </div>
+                                                        <div>
+                                                            3.75 (233)
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="submit" class="btn btn-orange btn-xs">Shortlist</button>
                                                 <button type="submit" class="btn btn-transparent-black hover-bg-red btn-xs">Reject</button>
                                             </div>
@@ -561,24 +744,21 @@ const ProjectDetails = () => {
 
                             </div>
 
-                            <div class="tab-pane container p-0 fade" id="proposals_active">
+                            <div class="tab-pane container p-0" id="proposals_active" style={{display:active}}>
                                 
-                                <form action="">
+                                <form action="" style={{display:active}}>
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
                                         <Link to="" class="pull-left">
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -603,19 +783,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="submit" class="btn btn-orange btn-xs">Shortlist</button>
                                                 <button type="submit" class="btn btn-transparent-black hover-bg-red btn-xs">Reject</button>
                                             </div>
@@ -629,16 +808,13 @@ const ProjectDetails = () => {
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -663,19 +839,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                 <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                         <span class="fa fa-star"></span> 
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="submit" class="btn btn-orange btn-xs">Shortlist</button>
                                                 <button type="submit" class="btn btn-transparent-black hover-bg-red btn-xs">Reject</button>
                                             </div>
@@ -689,16 +864,13 @@ const ProjectDetails = () => {
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -723,19 +895,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage)
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                         <span class="fa fa-star"></span>
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="submit" class="btn btn-orange btn-xs">Shortlist</button>
                                                 <button type="submit" class="btn btn-transparent-black hover-bg-red btn-xs">Reject</button>
                                             </div>
@@ -745,7 +916,7 @@ const ProjectDetails = () => {
 
                             </div>
 
-                            <div class="tab-pane container p-0 fade" id="proposals_shortlisted">
+                            <div class="tab-pane container p-0 " id="proposals_shortlisted" style={{display:shortlisted}}>
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
@@ -754,14 +925,13 @@ const ProjectDetails = () => {
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
                                             <div>
-                                                <div class="rating-box">
+                                                <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                         <span class="fa fa-star"></span> 
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
@@ -787,19 +957,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                 <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_2">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_2" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="button" class="btn btn-orange btn-xs" data-toggle="modal" data-target="#view_proposal_2">Assign Project</button>
                                                 <button type="submit" class="btn btn-transparent-black btn-xs hover-bg-red" title="Remove shortlist" data-widget="collapse" data-toggle="tooltip">Shortlisted</button>
                                             </div>
@@ -813,16 +982,13 @@ const ProjectDetails = () => {
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage)
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -847,19 +1013,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_2">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_2" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="button" class="btn btn-orange btn-xs" data-toggle="modal" data-target="#view_proposal_2">Assign Project</button>
                                                 <button type="submit" class="btn btn-transparent-black btn-xs hover-bg-red" title="Remove shortlist" data-widget="collapse" data-toggle="tooltip">Shortlisted</button>
                                             </div>
@@ -873,16 +1038,13 @@ const ProjectDetails = () => {
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -907,19 +1069,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage)
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="button" class="btn btn-orange btn-xs" data-toggle="modal" data-target="#view_proposal_2">Assign Project</button>
                                                 <button type="submit" class="btn btn-transparent-black btn-xs hover-bg-red" title="Remove shortlist" data-widget="collapse" data-toggle="tooltip">Shortlisted</button>
                                             </div>
@@ -929,7 +1090,7 @@ const ProjectDetails = () => {
 
                             </div>
 
-                            <div class="tab-pane container p-0 fade" id="proposals_rejected">
+                            <div class="tab-pane container p-0" id="proposals_rejected" style={{display:rejected}}>
 
                                 <form action="">
                                     <div class="user-img-text user-img-text-md bb-1-ddd proposal-list-each">
@@ -937,16 +1098,13 @@ const ProjectDetails = () => {
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div> put product rating here (in percentage) 
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -971,19 +1129,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                 <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="submit" class="btn btn-orange btn-xs">Shortlist</button>
                                                 <button type="submit" class="btn btn-transparent-black hover-bg-red btn-xs">Reject</button>
                                             </div>
@@ -997,16 +1154,13 @@ const ProjectDetails = () => {
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -1031,19 +1185,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                        <span class="fa fa-star"></span>
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="submit" class="btn btn-orange btn-xs">Shortlist</button>
                                                 <button type="submit" class="btn btn-transparent-black hover-bg-red btn-xs">Reject</button>
                                             </div>
@@ -1057,16 +1210,13 @@ const ProjectDetails = () => {
                                             <img src='/images/user.png' alt="Firstname lastname" class="dp-contain" />
                                         </Link>
                                         <div class="pull-right d-none d-sm-block d-md-none d-lg-block ml-15">
-                                            <div>
-                                                <div class="rating-box">
-                                                    <div>
-                                                        <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage) 
-                                                    </div>
-                                                    <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
-                                                    </div>
+                                            <div class="rating-box rating-box-eee mt-2">
+                                                <div>
+                                                    <div></div>
+                                                    <div style={{width: "75%"}}></div>
+                                                </div>
+                                                <div>
+                                                    3.75 (233)
                                                 </div>
                                             </div>
                                             <div class="text-fade">
@@ -1091,19 +1241,18 @@ const ProjectDetails = () => {
                                                 Swift, Objective C, Python, Machine Learning, AI
                                             </div>
                                             <div class="d-block d-sm-none d-md-block d-lg-none">
-                                                <div class="rating-box">
+                                                <div class="rating-box rating-box-eee mt-2">
                                                     <div>
                                                         <div></div>
-                                                        <div style={{width:"75%"}}></div>  put product rating here (in percentage)
+                                                        <div style={{width: "75%"}}></div>
                                                     </div>
                                                     <div>
-                                                        <span class="fa fa-star"></span> 
-                                                        3.75
+                                                        3.75 (233)
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-2">
-                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1">View Proposal</button>
+                                                <button type="button" class="btn btn-blue btn-xs" data-toggle="modal" data-target="#view_proposal_1" onClick={()=>{setViewProposal("block")}}>View Proposal</button>
                                                 <button type="submit" class="btn btn-orange btn-xs">Shortlist</button>
                                                 <button type="submit" class="btn btn-transparent-black hover-bg-red btn-xs">Reject</button>
                                             </div>
@@ -1118,15 +1267,15 @@ const ProjectDetails = () => {
             </div>
 
 
-            <form action="" class="modal" id="send_proposal">
+            <form action="#" onSubmit={handleSubmit} class="modal" id="send_proposal" style={{display:display}}>
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Send Proposal</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" data-dismiss="modal" onClick={()=>{setDisplay("none")}}>&times;</button>
                         </div>
                         <div class="modal-body">
-                            <div class="p-20-10">
+                            <div class="p-20-10" style={{padding:"20px 10px"}}>
 
                                 <div class="row">
                                     <div class="col-lg-8">
@@ -1137,25 +1286,25 @@ const ProjectDetails = () => {
                                                     My Proposal:
                                                     <span class="required">*</span>
                                                 </label>
-                                                <textarea class="form-control resize-none" style={{height:"85px"}} placeholder="Type a message or use a template..."></textarea>
+                                                <textarea class="form-control resize-none" style={{height:"85px"}} placeholder="Type a message or use a template..." onChange={(e)=>{setComment(e.target.value)}}></textarea>
                                             </div>
                                         </div>
 
-                                        <div class="mt-30 b-1-ddd p-10">
+                                        <div class="mt-30 b-1-ddd p-10" style={{marginTop:"30px", padding:"10px"}}>
                                             <div>
                                                 Upload Attachments (optional)
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-6 mt-10">
-                                                    <input type="file" class="form-control"/>
+                                                <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
+                                                    <input type="file" class="form-control" />
                                                 </div>
-                                                <div class="col-sm-6 mt-10">
+                                                <div class="col-sm-6 mt-10" style={{marginTop:"10px"}}>
                                                     <input type="file" class="form-control"/>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="row mt-20">
+                                        <div class="row mt-20" style={{marginTop:"20px"}}>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="control-label">
@@ -1167,7 +1316,7 @@ const ProjectDetails = () => {
                                                                 <span class="font-18">$</span>
                                                             </button>
                                                         </div>
-                                                        <input type="number" class="form-control"/>
+                                                        <input type="number" class="form-control" onChange={(e)=>{setAmount(e.target.value)}}/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1182,7 +1331,7 @@ const ProjectDetails = () => {
                                                                 <span class="font-18">$</span>
                                                             </button>
                                                         </div>
-                                                        <input type="number" class="form-control"/>
+                                                        <input type="number" class="form-control" onChange={(e)=>{setDeposit(e.target.value)}}/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1190,18 +1339,18 @@ const ProjectDetails = () => {
 
                                     </div>
                                     <div class="col-lg-4">
-                                        <hr class="hr-orange d-block d-lg-none hr-2 mt-10 mb-10"/>
+                                        <hr class="hr-orange d-block d-lg-none hr-2 mt-10 mb-10" style={{marginTop:"10px", marginBottom:"10px"}}/>
                                         <div class="font-bold">
                                             Proposal Templates:
                                         </div>
                                         <div class="">
-                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" style={{height:"90px"}}>
+                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" style={{height:"90px", padding:"5px", marginBottom:"10px"}}>
                                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                                             </div>
-                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" style={{height:"90px"}}>
+                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" style={{height:"90px", padding:"5px", marginBottom:"10px"}}>
                                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                                             </div>
-                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" style={{height:"90px"}}>
+                                            <div class="b-1-ddd mb-10 p-5 overflow-auto" style={{height:"90px" , padding:"5px", marginBottom:"10px"}}>
                                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                                             </div>
                                         </div>
@@ -1211,11 +1360,11 @@ const ProjectDetails = () => {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="close btn btn-transparent-black btn-sm icon-left" data-dismiss="modal">
+                            <button type="button" class="close btn btn-transparent-black btn-sm icon-left" data-dismiss="modal" onClick={()=>{setDisplay("none")}}>
                                 <span class="fa fa-times"></span>
                                 Cancel  
                             </button>
-                            <button type="submit" class="btn btn-blue btn-sm add-question-btn icon-left">
+                            <button type="submit" class="btn btn-blue btn-sm add-question-btn icon-left" >
                                 <span class="fa fa-paper-plane"></span>
                                 Submit Proposal  
                             </button>
@@ -1230,11 +1379,11 @@ const ProjectDetails = () => {
                 <div class="sticky-top d-none d-lg-block">
                     <div class="section">
                         <div>
-                            <button type="button" class="btn btn-blue btn-block" data-toggle="modal" data-target="#send_proposal">
+                            <button type="button" class="btn btn-blue btn-block" data-toggle="modal" data-target="#send_proposal" onClick={()=>{setDisplay("block")}}>
                                 Send Proposal
                             </button>
                         </div>
-                        <div class="mt-15 mb-10">
+                        <div class="mt-15 mb-10" style={{marginTop:"15px", marginBottom:"10px"}}>
                             Posted By:
                         </div>
                         <div class="text-left-right text-left-right-60-40">
@@ -1246,7 +1395,7 @@ const ProjectDetails = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    {buyer.firstName} {buyer.lastName}
+                                    {buyer.user_name}
                                 </div>
                             </div>
                             <div>
@@ -1315,8 +1464,8 @@ const ProjectDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-center mt-10">
-                                    <button type="button" class="btn btn-transparent-black btn-sm" data-toggle="modal" data-target="#shareModal">
+                                <div class="text-center mt-10" style={{marginTop:"10px"}}>
+                                    <button type="button" class="btn btn-transparent-black btn-sm" data-toggle="modal" data-target="#shareModal" onClick={()=>{setShareView("block")}}>
                                         <span class="fa fa-share-alt"></span>
                                         Share this Deal
                                     </button>
@@ -1337,7 +1486,7 @@ const ProjectDetails = () => {
                             </li>
                             <li>
                                 <a class="p-0" title="Share Project" data-widget="collapse" data-toggle="tooltip">
-                                    <button type="button" class="btn btn-transparent-black btn-xs hover-bg-orange" data-toggle="modal" data-target="#share">
+                                    <button type="button" class="btn btn-transparent-black btn-xs hover-bg-orange" data-toggle="modal" data-target="#share" onClick={()=>{setShareView("block")}}>
                                         <span class="fas fa-share-alt"></span>
                                     </button>
                                 </a>
@@ -1355,11 +1504,11 @@ const ProjectDetails = () => {
 
                     <div class="section">
                         <div>
-                            <button type="button" class="btn btn-blue btn-block" data-toggle="modal" data-target="#send_proposal">
+                            <button type="button" class="btn btn-blue btn-block" data-toggle="modal" data-target="#send_proposal" onClick={()=>{setDisplay("block")}}>
                                 Send Proposal
                             </button>
                         </div>
-                        <div class="mt-15 mb-10">
+                        <div class="mt-15 mb-10" style={{marginTop:"15px", marginBottom:"10px"}}>
                             Posted By:
                         </div>
                         <div class="text-left-right text-left-right-60-40">
@@ -1371,7 +1520,7 @@ const ProjectDetails = () => {
                                     </div>
                                 </div>
                                 <div class="pl-10 pr-10">
-                                    Firstname lastname
+                                    {buyer.user_name}
                                 </div>
                             </div>
                             <div>
@@ -1381,7 +1530,7 @@ const ProjectDetails = () => {
                                         Country:
                                     </div>
                                 </div>
-                                <div class="pl-10 pr-10">
+                                <div class="pl-10 pr-10" style={{paddingLeft:"10px", paddingRight:"10px"}}>
                                     Nigeria
                                 </div>
                             </div>
@@ -1392,7 +1541,7 @@ const ProjectDetails = () => {
                                         Projects Posted:
                                     </div>
                                 </div>
-                                <div class="pl-10 pr-10">
+                                <div class="pl-10 pr-10" style={{paddingLeft:"10px", paddingRight:"10px"}}>
                                     10
                                 </div>
                             </div>
@@ -1403,7 +1552,7 @@ const ProjectDetails = () => {
                                         Projects Issuance:
                                     </div>
                                 </div>
-                                <div class="pl-10 pr-10">
+                                <div class="pl-10 pr-10" style={{paddingLeft:"10px", paddingRight:"10px"}}>
                                     90%
                                 </div>
                             </div>
@@ -1414,7 +1563,7 @@ const ProjectDetails = () => {
                                         Projects Completed:
                                     </div>
                                 </div>
-                                <div class="pl-10 pr-10">
+                                <div class="pl-10 pr-10" style={{paddingLeft:"10px", paddingRight:"10px"}}>
                                     70%
                                 </div>
                             </div>
@@ -1430,7 +1579,7 @@ const ProjectDetails = () => {
                                 This is a private project. Copy the link below to share.
                             </div>
                             <div>
-                                <div class="copy-link mt-5">
+                                <div class="copy-link mt-5" style={{marginTop:"5px"}}>
                                     <div class="input-group">
                                         <input type="search" name="q" class="form-control"  id="direct-share-link-3" value="share_link" readonly />
                                         <div class="input-group-btn">
@@ -1441,8 +1590,8 @@ const ProjectDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-center mt-10">
-                                    <button type="button" class="btn btn-transparent-black btn-sm" data-toggle="modal" data-target="#shareModal">
+                                <div class="text-center mt-10" style={{marginTop:"10px"}}>
+                                    <button type="button" class="btn btn-transparent-black btn-sm" data-toggle="modal" data-target="#shareModal" onClick={()=>{setShareView("block")}}>
                                         <span class="fa fa-share-alt"></span>
                                         Share this Deal
                                     </button>

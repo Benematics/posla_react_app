@@ -9,16 +9,40 @@ import {Link} from 'react-router-dom';
 const FavoritesAccepted = () =>{
     const [result, setResult] = useState("");
     const [error, setError] = useState("");
+    const [token, setToken] = useState("");
 
-    useEffect (()=>{
-        fetch("https://dummyjson.com/posts")
-  .then(response => response.json())
-  .then(response=>{
-    setResult(response)
-  })
-  .catch(error => console.log(error));
 
-    })
+    useEffect(() => {
+    const access = localStorage.getItem("token");
+    if (access) {
+      setToken(access);
+      console.log(access);
+    }
+  }, [token]);
+
+    useEffect(()=>{
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        {/*var formdata = new FormData();*/}
+
+        var requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+         
+          redirect: 'follow'
+        };
+
+        fetch("https://posla-api.herokuapp.com/api/account/favourites", requestOptions)
+          .then(response => response.json())
+            .then((response)=>{
+                const res = response.data
+                
+                console.log(res.project_favorites)
+              })
+          .catch(error => console.log('error', error));
+    },[token])
     return(
         <>
             <Header/>
@@ -33,7 +57,7 @@ const FavoritesAccepted = () =>{
 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Favourites</li>
                     </ol>
                 </div>
@@ -46,18 +70,18 @@ const FavoritesAccepted = () =>{
 
                         <ul class="nav nav-tabs posla-tabs posla-tabs-2">
                             <li class="nav-item">
-                                <a href="/account/favourites/deals" class="nav-link">
+                                <Link to="/account/favourites/" class="nav-link">
                                     <div class="text-center">
                                         Deals 11
                                     </div>
-                                </a>
+                                </Link>
                             </li>
                             <li class="nav-item">
-                                <a href="/account/favourites/projects" class="nav-link active">
+                                <Link to="/account/favourites/projects" class="nav-link active">
                                     <div class="text-center">
                                         Projects (3)
                                     </div>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     

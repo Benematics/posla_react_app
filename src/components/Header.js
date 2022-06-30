@@ -19,6 +19,8 @@ const Header = () => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [account, setAccount] = useState("");
+    const [q, setQ] = useState("");
 
 
     {/*handle logout*/}
@@ -30,6 +32,14 @@ const Header = () => {
         localStorage.clear();
 
     }
+
+    useEffect(() => {
+        const acc2 = localStorage.getItem("account detail");
+        if (acc2) {
+          setAccount(JSON.parse(acc2));
+          console.log(acc2);
+        }
+    }, []);
     
      useEffect(() => {
     const loggedInUser = localStorage.getItem("profile");
@@ -112,7 +122,6 @@ const Header = () => {
                     username: username1,
                     phone: phone1,
                     email: email1,
-                    password: password,
                     loggedIn: true,
                 }));
         var myHeaders = new Headers();
@@ -393,7 +402,7 @@ const Header = () => {
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> 
                <span class="fa fa-navicon icon-25"></span> 
             </button>
-            <a href="/account" class="navbar-toggler mr-5">
+            <Link to="/account" class="navbar-toggler mr-5">
                 <span class="fa fa-user-circle icon-25"></span>
             </a>
         **/}
@@ -406,10 +415,10 @@ const Header = () => {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             
             <div class="navbar-nav mr-auto ml-auto layout-search">
-                <form action="/search" method="get" class="input-group">
-                    <input type="search" name="q" class="form-control" placeholder="Search projects, deals, and freelancers..." />
+                <form action="/search" method="get" class="input-group" >
+                    <input type="search" name="q" class="form-control" placeholder="Search projects, deals, and freelancers..." value={q} onChange={(e)=>{setQ(e.target.value)}}/>
                     <div class="input-group-btn">
-                        <button type="submit" class="btn btn-default btn-md">
+                        <button type="submit" class="btn btn-default btn-md" onClick={()=>{localStorage.setItem("Search", `${q}`)}}>
                             <span class="fa fa-search"></span>
                         </button>
                     </div>
@@ -455,7 +464,7 @@ const Header = () => {
                     <li class="nav-item dropdown1" style={{visibility:test}}>
                         <a id="navbarDropdown" class="nav-link dropdown-toggle no-after nowrap floated-content dropdown-btn1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style={{display:test}}>
                             <span class="fa fa-caret-down icon-16 pull-right ml-5"></span>
-                            {user.name}
+                            {account.name}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-content1" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/account/dashboard">

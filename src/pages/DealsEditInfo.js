@@ -1,6 +1,7 @@
 import React from 'react';
 import AccountSidebar from '../components/AccountSidebar';
 import NavTabDealsMgt from '../components/NavTabDealsMgt';
+import {Link} from "react-router-dom";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -20,8 +21,8 @@ const DealsEditInfo = ()=>{
                 
                 <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-                        <li class="breadcrumb-item"><a href="/account/deals">Deals</a></li>
+                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+                        <li class="breadcrumb-item"><Link to="/account/deals">Deals</Link></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit Deal</li>
                     </ol>
                 </div>
@@ -40,7 +41,7 @@ const DealsEditInfo = ()=>{
 
                                 <form action="/account/deals/edit/1234/pricing" enctype="multipart/form-data">
                                     
-                                    <div class="b-1-ddd">
+                                    <div class="b-1-ddd" style={{padding:"20px"}}>
 
                                         <div class="p-20">
                                             
@@ -198,10 +199,10 @@ const DealsEditInfo = ()=>{
 
                                         <div class="p-15 mt-15 bt-1-ddd floated-content">
                                             <div class="pull-right">
-                                                <a href="/account/deals/edit/1234/rules" class="btn btn-transparent-black btn-sm icon-left">
+                                                <Link to="/account/deals/edit/1234/rules" class="btn btn-transparent-black btn-sm icon-left">
                                                     <span class="fa fa-angle-left"></span>
                                                     Back
-                                                </a>
+                                                </Link>
                                                 <button type="submit" class="btn btn-blue btn-sm icon-right">
                                                     Proceed
                                                     <span class="fa fa-angle-right"></span>

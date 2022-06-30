@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import AccountSidebar from '../components/AccountSidebar';
 import NavTabProjectMgt from '../components/NavTabProjectMgt';
 import CreateProjectRules from '../components/CreateProjectRules';
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import {Link} from "react-router-dom";
 
 
 const ProjectEdit = () =>{
 	return(
 		<>
-		<div class="container">
+		<Header/>
+		<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
 	        <div class="row">
 	            <div class="d-none d-md-block col-md-4 col-lg-3">
 
@@ -19,8 +23,8 @@ const ProjectEdit = () =>{
 	                
 	                <div aria-label="breadcrumb" class="details-page-breadcrumb mb-10">
 	                    <ol class="breadcrumb">
-	                        <li class="breadcrumb-item"><a href="/account">Account</a></li>
-	                        <li class="breadcrumb-item"><a href="/account/projects">Projects</a></li>
+	                        <li class="breadcrumb-item"><Link to="/account">Account</Link></li>
+	                        <li class="breadcrumb-item"><Link to="/account/projects">Projects</Link></li>
 	                        <li class="breadcrumb-item active" aria-current="page">Edit Project</li>
 	                    </ol>
 	                </div>
@@ -79,6 +83,7 @@ const ProjectEdit = () =>{
 	            </div>
 	        </div>
 	    </div>
+	    <Footer/>
 		</>
 		)
 }

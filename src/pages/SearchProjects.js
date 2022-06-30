@@ -2,11 +2,11 @@ import React, {useState, useEffect} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FilterSearch from '../components/FilterSearch';
-import FilterDeals from '../components/FilterDeals';
-import Deal from '../components/Deal';
+import CommonFilter from '../components/CommonFilter';
+import ProjectList from '../components/ProjectList';
 import {Link} from "react-router-dom";
 
-const SearchDeals = () => {
+const SearchProjects = () => {
 
     const [result, setResult] = useState("");
     const [q, setQ] = useState("");
@@ -134,17 +134,18 @@ const SearchDeals = () => {
     const load_more = (event) => {
         setpaginate((prevValue) => prevValue + 8);
     };
+
     return(
 <>
 <Header/>
-<div class="container" style={{marginTop:"20px", marginBottom:"20px"}}>
+    <div class="container" style={{marginTop:"10px", marginBottom:"10px"}}>
         <div class="row">
             
             <div class="col-md-4 col-lg-3 d-none d-md-block">
 
                 <div class="section sticky-top">
                     <FilterSearch/>
-                    <FilterDeals/>
+                    <CommonFilter/>
                 </div>
 
             </div>
@@ -162,7 +163,7 @@ const SearchDeals = () => {
                             <div class="modal-body">
                                 <div class="p-10">
                                     <FilterSearch/>
-                                    <FilterDeals/>
+                                    <ProjectList/>
                                 </div>
                             </div>
                         </div>
@@ -173,15 +174,15 @@ const SearchDeals = () => {
                 <div class="mb-20">
                     <div class="text-center">
                         <div class="font-20 font-bold">
-                            Search Result (Deals)
+                            Search Result (Projects)
                         </div>
                         <div class="font-12 text-fade">
-                            (10 active deals)
+                            (10 active projects)
                         </div>
                     </div>
                 </div>
 
-                <div class="section mb-5 pb-5">
+                <div class="section mb-5">
                     <div class="section-title floated-content">
 
                         <button class="btn btn-transparent-black d-block d-md-none pull-left btn-sm" data-toggle="modal" data-target="#filter">
@@ -190,46 +191,43 @@ const SearchDeals = () => {
                         </button>
                         
                         <div class="font-bold d-none d-md-inline mt-10 pull-left">
-                            Showing 1 - 20 of 65
+                            Showing 1 - 10 of 10
                         </div>
 
                         <form method="get" action="" class="pull-right">
-                            <select class="form-control-md"  style={{width: "100px", padding: "0px"}}>
+                            <select class="form-control-md" onchange="this.form.submit()" style={{width: "100px", padding: "0px !important"}}>
                                 <option value="new" selected>Newest First</option>
                                 <option value="old">Oldest First</option>
                                 <option value="budget_high_low">Budget - High to Low</option>
                                 <option value="budget_low_high">Budget - Low to High</option>
-                                <option value="ratings_high_low">Ratings - High to Low</option>
-                                <option value="ratings_low_high">Ratings - Low to High</option>
+                                <option value="proposals_high_low">Proposals - High to Low</option>
+                                <option value="proposals_low_high">Proposals - Low to High</option>
                             </select>
                         </form>
 
                     </div>
 
-                    <div class="deal-list deal-list-double">
-                        {search(data).slice(0, paginate).map((item)=>(
-                            <a href="/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" class="deal" style={{height:"auto"}} key={item.id}>   
-                                <div class="deal-info-top">
+                    <div class="project-list project-list-wide">
+                    {search_project(proData).map((item)=>(
+                            <a href="/project/c1d00230-a423-4b84-a121-7105239ff8d8" class="project">        
+                                <div>
                                     <div>
-                                        <img src="/images/deal-1.png" alt="Olawale Lawal" class="dp-cover" />
+                                        <span class="fa fa-angle-right icon-50"></span>
                                     </div>
                                     <div class="">
-                                        <div>
-                                            <img src="/images/user.png" alt="Olawale Lawal" class="dp-contain" />
+                                        <div class="font-bold">
+                                            {item.title}
                                         </div>
-                                        <div class="text-fade font-13 ellipsis">
-                                            {item.user_id}
+
+                                        <div class="text-fade ellipsis-2-lines mt-5">
+                                            {item.description}
                                         </div>
-                                    </div>
-                                    <div class="font-bold ellipsis-2-lines mt-5 pr-10 pl-10" style={{minHeight: "38px", paddingRight:"10px", paddingLeft:"10px", marginTop:"5px"}}>
-                                        {item.description}
                                     </div>
                                 </div>
 
-                                <div class="mt-10 mr-10 ml-10 ellipsis">
+                                <div class="mt-5 ellipsis">
                                     <div class="project-price">
-                                        <span class="font-size-10 text-fade">Starting At</span>
-                                        $400
+                                        ${item.budget}
                                     </div>
                                     <div class="item-labels">
                                         <div class="item-labels-new">
@@ -238,44 +236,45 @@ const SearchDeals = () => {
                                         <div class="item-labels-featured">
                                             Featured
                                         </div>
+                                        <div class="item-labels-proposals">
+                                            18 proposals
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="pt-5 bt-1-ddd" style={{marginTop: "-3px"}}>
-                                    <div class="mt-0 pl-10 item-labels item-labels-tags-all ellipsis">
-                                        <div class="item-labels-prefix">
-                                            Tags & Skills:
-                                        </div>
-                                        <div class="item-labels-tags">
-                                            Mobile App
-                                        </div>
+                                <div class="item-labels item-labels-tags-all ellipsis">
+                                    <div class="item-labels-prefix">
+                                        Tags & Skills:
                                     </div>
+                                    {item.tags.map((me)=>(
+                                    <div class="item-labels-tags">
+                                        {me}
+                                    </div>
+                                        ))}
                                 </div>
-                                
                             </a>
-                        ))}
-
+                    ))}
                     </div>
                 </div>
 
                 <div class="section">
-                   //pagination here
+                    //pagination here
                 </div>
 
             </div>
             
-            <div class="col-lg-3 d-none d-lg-block" style={{zIndex:-1}}>
+            <div class="col-lg-3 d-none d-lg-block">
                 
-                <Link to="" class="posla-ad-space">
+                <a href="" class="posla-ad-space">
                     <img src='/images/ad-400-200-1.jpg' class="dp-contain" alt="Ad"/>
-                </Link>
+                </a>
 
                 <div class="section pl-10 pr-10 sticky-top">
                     <div class="section-title">
-                        Featured Deals
+                        Featured Projects
                     </div>
-                    <div class="deal-list deal-list-single">
-                        <Deal/>
+                    <div class="project-list project-list-mini">
+                        <ProjectList/>
                     </div>
                 </div>
 
@@ -288,4 +287,4 @@ const SearchDeals = () => {
     )
 }
 
-export default SearchDeals;
+export default SearchProjects;
