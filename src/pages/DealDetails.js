@@ -23,6 +23,7 @@ const DealDetails = () =>{
     const [active, setActive] = useState("");
     const [stanActive, setStanActive] = useState("");
     const [preActive, setPreActive] = useState("");
+    const [index, setIndex] = useState("-1");
 
     const user = useSelector(selectUser);
     const path = window.location.pathname;
@@ -391,7 +392,7 @@ const DealDetails = () =>{
 			                            </li>
 			                        </ul>
 			                          
-			                        <form action="/cart">
+			                        <form action="/cart" style={{zIndex:index}} onMouseOver={()=>{setIndex("1")}} onMouseOut={()=>{setIndex("-1")}}>
 			                            <div class="tab-content">
 			                                
 			                                <div class="tab-pane container" id="price_1_basic" style={{display: basicDisplay}}>
@@ -600,7 +601,7 @@ const DealDetails = () =>{
 			                        <div>
 			                            <div class="copy-link mt-5" style={{marginTop:"5px"}}>
 			                                <div class="input-group">
-			                                    <input type="search" name="q" class="form-control" onfocus="highlightShareLink('direct-share-link-3')" id="direct-share-link-3" value="http://localhost:8001/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" readonly />
+			                                    <input type="search" name="q" class="form-control" onfocus="highlightShareLink('direct-share-link-3')" id="direct-share-link-3" value={window.pathname} readonly />
 			                                    <div class="input-group-btn">
 			                                        <button type="submit" class="btn btn-blue btn-md" onclick="copyShareLink('direct-share-link-3')" style={{borderRadius: "0 !important", height: "35px"}}>
 			                                            <span class="fa fa-copy"></span>
@@ -820,7 +821,7 @@ const DealDetails = () =>{
 			                            </li>
 			                        </ul>
 			                              
-			                            <form action="/cart">
+			                            <form action="/cart" style={{zIndex: index}} onMouseOver={()=>{setIndex("1")}} onMouseOut={()=>{setIndex("-1")}}>
 			                                <div class="tab-content">
 			                                    
 			                                    <div class="tab-pane container active" id="price_2_basic" style={{display:basicDisplay}}>
@@ -1028,7 +1029,7 @@ const DealDetails = () =>{
 			                            <div>
 			                                <div class="copy-link mt-5" style={{marginTop:"5px"}}>
 			                                    <div class="input-group">
-			                                        <input type="search" name="q" class="form-control" onfocus="highlightShareLink('direct-share-link-2')" id="direct-share-link-2" value="http://localhost:8001/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" readonly />
+			                                        <input type="search" name="q" class="form-control" onfocus="highlightShareLink('direct-share-link-2')" id="direct-share-link-2" value={window.pathname} readonly />
 			                                        <div class="input-group-btn">
 			                                            <button type="submit" class="btn btn-blue btn-md" onclick="copyShareLink('direct-share-link-2')" style={{borderRadius: "0 !important", height: "35px"}}>
 			                                                <span class="fa fa-copy"></span>
@@ -1095,7 +1096,7 @@ const DealDetails = () =>{
 			                                </li>
 			                            </ul>
 			                            
-			                            <form action="/cart">
+			                            <form action="/cart" style={{zIndex: index}} onMouseOver={()=>{setIndex("1")}} onMouseOut={()=>{setIndex("-1")}}>
 			                                <div class="tab-content">
 			                                    
 			                                    <div class="tab-pane container active p-0" id="price_3_basic">
@@ -1179,7 +1180,7 @@ const DealDetails = () =>{
 			                            <div>
 			                                <div class="copy-link mt-5" style={{marginTop:"5px"}}>
 			                                    <div class="input-group">
-			                                        <input type="search" name="q" class="form-control" onfocus="highlightShareLink('direct-share-link-3')" id="direct-share-link-3" value="http://localhost:8001/deal/0d8aa710-c3b7-4d4d-b7f0-61da7b23af9f" readonly />
+			                                        <input type="search" name="q" class="form-control" onfocus="highlightShareLink('direct-share-link-3')" id="direct-share-link-3" value={window.pathname} readonly />
 			                                        <div class="input-group-btn">
 			                                            <button type="submit" class="btn btn-blue btn-md" onclick="copyShareLink('direct-share-link-3')" style={{borderRadius: "0 !important", height: "35px"}}>
 			                                                <span class="fa fa-copy"></span>

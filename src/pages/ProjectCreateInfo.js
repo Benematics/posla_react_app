@@ -73,6 +73,22 @@ const ProjectCreateInfo = () =>{
               .catch(error => console.log('error', error));
     }
 
+    const [images, setImages] = useState([]);
+    const [imageURLs, setImageURLs] = useState([]);
+
+    useEffect(()=>{
+        if (images.length < 1) return;
+        const newImageUrls = [];
+        images.forEach(image => newImageUrls.push(URL.createObjectURL(image)));
+        setImageURLs(newImageUrls);  
+        const i = setImageURLs(newImageUrls); 
+        localStorage.setItem("image", JSON.stringify(i));
+    },[images])
+
+    function onImageChange(e) {
+        setImages([...e.target.files]);
+    }
+
 	return(
 <>
 <Header/>
@@ -191,7 +207,8 @@ const ProjectCreateInfo = () =>{
                                             
                                             <div class="row">
                                                 <div class="col-sm-12 file-upload-box-container">
-                                                
+                                                    <input type="file" multiple accept="image/*" onChange={onImageChange}/>
+                                                    {imageURLs.map(imageSrc => <img src={imageSrc}/>)}
                                                     <div class="file-upload-box">
                                                         <label class="" for="picture_1">
                                                             <div>

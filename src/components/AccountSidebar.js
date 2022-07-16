@@ -16,6 +16,7 @@ const AccountSidebar = () => {
 
 
     const [info, setInfo] = useState("");
+    const [image, setImage] = useState("");
 
     useEffect(() => {
     const acce = localStorage.getItem("account detail");
@@ -24,6 +25,11 @@ const AccountSidebar = () => {
       console.log(acce);
     }
 }, []);
+
+    useEffect(()=>{
+        const a = localStorage.getItem("image");
+        setImage(a);
+    },[])
 
 
 

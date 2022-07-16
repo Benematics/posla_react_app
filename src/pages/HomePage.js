@@ -564,13 +564,13 @@ const renderUser = (
                 </li>    
             </ul>
 
-            <ul class="navbar-nav navbar-nav-links-auth ml-auto" onMouseOver={()=>{setInd("-1")}}>
+            <ul class="navbar-nav navbar-nav-links-auth ml-auto" onMouseOver={()=>{setInd("-1")}} onMouseOut={()=>{setInd("1")}}>
                 { user ?
                 <>
                     <li class="nav-item dropdown1" style={{zIndex:"1"}}>
                         <a id="navbarDropdown" class="nav-link dropdown-toggle no-after nowrap floated-content dropdown-btn1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style={{display:test}}>
                             <span class="fa fa-caret-down icon-16 pull-right ml-5"></span>
-                            {user.name}
+                            {me.name}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-content1" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/account/dashboard">
@@ -617,12 +617,12 @@ const renderUser = (
                   </>
                 :
                   <>
-                    <li class="nav-item" onClick={()=>{setDisplay("flex"); setIndex("-1");}} >
+                    <li class="nav-item" onClick={()=>{setDisplay("flex"); setIndex("-1");}} onMouseOver={()=>{setInd("-1")}} onMouseOut={()=>{setInd("1")}}>
                         <a class="nav-link btn-login cursor-pointer" href="#">
                             Login
                         </a>
                     </li>
-                    <li class="nav-item" onClick={()=>{setDisplay1("flex"); setIndex("-1");}} >
+                    <li class="nav-item" onClick={()=>{setDisplay1("flex"); setIndex("-1");}} onMouseOver={()=>{setInd("-1")}} onMouseOut={()=>{setInd("1")}}>
                         <a class="nav-link btn-register cursor-pointer" href="#">
                             Register
                         </a>
@@ -1128,7 +1128,7 @@ const renderUser = (
 			</div>
 
 
-				<div class="col-lg-3 d-none d-lg-block" style={{zIndex:ind}} onMouseOver={()=>{setInd("1")}}>
+				<div class="col-lg-3 d-none d-lg-block" style={{zIndex:ind}} onMouseOut={()=>{setInd("1")}}>
 	                
 	                <div class="home-section-user bg-fff shadow-sm mb-30 br-4">
 	                    <div></div>
@@ -1138,7 +1138,7 @@ const renderUser = (
 	                        </a>
 	                        <div>
 	                            <a href="/account" class="font-bold d-block hover-underline">
-	                                {user.name}
+	                                {me.name}
 	                            </a>
 	                            <div class="text-fade">
 	                                {me.short_description}
